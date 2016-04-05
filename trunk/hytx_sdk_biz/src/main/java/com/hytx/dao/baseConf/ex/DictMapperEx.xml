@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.baseConf.ex.DictMapperEx" >
+   <resultMap id="baseResultMap" type="com.hytx.model.baseConf.Dict" extends="com.hytx.dao.baseConf.ori.DictMapper.BaseResultMap" ></resultMap>
+   <select id="selectDictListByPage" resultMap="baseResultMap">
+        select * from (
+         select rownum rm,tb.* from(
+			select  u.* from T_DICT u where 1=1
+			<if test="findDict.status!=null">
+			   and status=#{findDict.status,jdbcType=INTEGER}
+			</if> 
+			<if test="findDict.key!=null">
+				and  key like '%${findDict.key}%'
+			</if>
+			 order by  id desc
+			)tb
+		)t
+		where t.rm between #{page.pageStartIndex} and #{page.pageEndIndex}
+		 order by  t.id desc
+  </select>
+  
+  <select id="countDict" resultType="java.lang.Integer">
+		select count(1) from T_DICT  where 1=1
+		<if test="findDict.status!=null">
+		   and status=#{findDict.status,jdbcType=INTEGER}
+		</if> 
+		<if test="findDict.key!=null">
+			and  key like '%${findDict.key}%'
+		</if>
+  </select>
+  
+  
+</mapper>

@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hytx.dao.sync.ori.SyncTykjMapper">
+  <resultMap id="BaseResultMap" type="com.hytx.model.sync.SyncTykj">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="RESULT" jdbcType="VARCHAR" property="result" />
+    <result column="APPID" jdbcType="VARCHAR" property="appid" />
+    <result column="EXDATA" jdbcType="VARCHAR" property="exdata" />
+    <result column="PRICE" jdbcType="VARCHAR" property="price" />
+    <result column="PAYTIME" jdbcType="VARCHAR" property="paytime" />
+    <result column="OPERATOR" jdbcType="VARCHAR" property="operator" />
+    <result column="ORDERID" jdbcType="VARCHAR" property="orderid" />
+    <result column="CREATETIME" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="SYNC_ALL_ID" jdbcType="VARCHAR" property="syncAllId" />
+    <result column="PROVINCENAME" jdbcType="VARCHAR" property="provincename" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, RESULT, APPID, EXDATA, PRICE, PAYTIME, OPERATOR, ORDERID, CREATETIME, SYNC_ALL_ID, 
+    PROVINCENAME
+  </sql>
+  <select id="selectByExample" parameterType="com.hytx.model.sync.SyncTykjExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_SYNC_TYKJ
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYNC_TYKJ
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from T_SYNC_TYKJ
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.sync.SyncTykjExample">
+    delete from T_SYNC_TYKJ
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.sync.SyncTykj">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Long">
+      select SEQ_SYNC_TYKJ_ID.nextval from dual
+    </selectKey>
+    insert into T_SYNC_TYKJ (ID, RESULT, APPID, 
+      EXDATA, PRICE, PAYTIME, 
+      OPERATOR, ORDERID, CREATETIME, 
+      SYNC_ALL_ID, PROVINCENAME)
+    values (#{id,jdbcType=DECIMAL}, #{result,jdbcType=VARCHAR}, #{appid,jdbcType=VARCHAR}, 
+      #{exdata,jdbcType=VARCHAR}, #{price,jdbcType=VARCHAR}, #{paytime,jdbcType=VARCHAR}, 
+      #{operator,jdbcType=VARCHAR}, #{orderid,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{syncAllId,jdbcType=VARCHAR}, #{provincename,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.sync.SyncTykj">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Long">
+      select SEQ_SYNC_TYKJ_ID.nextval from dual
+    </selectKey>
+    insert into T_SYNC_TYKJ
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      ID,
+      <if test="result != null">
+        RESULT,
+      </if>
+      <if test="appid != null">
+        APPID,
+      </if>
+      <if test="exdata != null">
+        EXDATA,
+      </if>
+      <if test="price != null">
+        PRICE,
+      </if>
+      <if test="paytime != null">
+        PAYTIME,
+      </if>
+      <if test="operator != null">
+        OPERATOR,
+      </if>
+      <if test="orderid != null">
+        ORDERID,
+      </if>
+      <if test="createtime != null">
+        CREATETIME,
+      </if>
+      <if test="syncAllId != null">
+        SYNC_ALL_ID,
+      </if>
+      <if test="provincename != null">
+        PROVINCENAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{id,jdbcType=DECIMAL},
+      <if test="result != null">
+        #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="appid != null">
+        #{appid,jdbcType=VARCHAR},
+      </if>
+      <if test="exdata != null">
+        #{exdata,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=VARCHAR},
+      </if>
+      <if test="paytime != null">
+        #{paytime,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null">
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="orderid != null">
+        #{orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="syncAllId != null">
+        #{syncAllId,jdbcType=VARCHAR},
+      </if>
+      <if test="provincename != null">
+        #{provincename,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.sync.SyncTykjExample" resultType="java.lang.Integer">
+    select count(*) from T_SYNC_TYKJ
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update T_SYNC_TYKJ
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.result != null">
+        RESULT = #{record.result,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appid != null">
+        APPID = #{record.appid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.exdata != null">
+        EXDATA = #{record.exdata,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null">
+        PRICE = #{record.price,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paytime != null">
+        PAYTIME = #{record.paytime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operator != null">
+        OPERATOR = #{record.operator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderid != null">
+        ORDERID = #{record.orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null">
+        CREATETIME = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.syncAllId != null">
+        SYNC_ALL_ID = #{record.syncAllId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provincename != null">
+        PROVINCENAME = #{record.provincename,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update T_SYNC_TYKJ
+    set ID = #{record.id,jdbcType=DECIMAL},
+      RESULT = #{record.result,jdbcType=VARCHAR},
+      APPID = #{record.appid,jdbcType=VARCHAR},
+      EXDATA = #{record.exdata,jdbcType=VARCHAR},
+      PRICE = #{record.price,jdbcType=VARCHAR},
+      PAYTIME = #{record.paytime,jdbcType=VARCHAR},
+      OPERATOR = #{record.operator,jdbcType=VARCHAR},
+      ORDERID = #{record.orderid,jdbcType=VARCHAR},
+      CREATETIME = #{record.createtime,jdbcType=TIMESTAMP},
+      SYNC_ALL_ID = #{record.syncAllId,jdbcType=VARCHAR},
+      PROVINCENAME = #{record.provincename,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.sync.SyncTykj">
+    update T_SYNC_TYKJ
+    <set>
+      <if test="result != null">
+        RESULT = #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="appid != null">
+        APPID = #{appid,jdbcType=VARCHAR},
+      </if>
+      <if test="exdata != null">
+        EXDATA = #{exdata,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        PRICE = #{price,jdbcType=VARCHAR},
+      </if>
+      <if test="paytime != null">
+        PAYTIME = #{paytime,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null">
+        OPERATOR = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="orderid != null">
+        ORDERID = #{orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="syncAllId != null">
+        SYNC_ALL_ID = #{syncAllId,jdbcType=VARCHAR},
+      </if>
+      <if test="provincename != null">
+        PROVINCENAME = #{provincename,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.sync.SyncTykj">
+    update T_SYNC_TYKJ
+    set RESULT = #{result,jdbcType=VARCHAR},
+      APPID = #{appid,jdbcType=VARCHAR},
+      EXDATA = #{exdata,jdbcType=VARCHAR},
+      PRICE = #{price,jdbcType=VARCHAR},
+      PAYTIME = #{paytime,jdbcType=VARCHAR},
+      OPERATOR = #{operator,jdbcType=VARCHAR},
+      ORDERID = #{orderid,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      SYNC_ALL_ID = #{syncAllId,jdbcType=VARCHAR},
+      PROVINCENAME = #{provincename,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+ 
+</mapper>

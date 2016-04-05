@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.syncXzf.ori.XzfSyncDxMapper" >
+  <resultMap id="BaseResultMap" type="com.hytx.model.syncXzf.XzfSyncDx" >
+    <id column="UUID" property="uuid" jdbcType="VARCHAR" />
+    <result column="CPFEE" property="cpfee" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="CPPARAM" property="cpparam" jdbcType="VARCHAR" />
+    <result column="CHANNEL_ID" property="channelId" jdbcType="DECIMAL" />
+    <result column="CREATEDATE" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="SYNC_STATUS" property="syncStatus" jdbcType="DECIMAL" />
+    <result column="REDUCE_STATUS" property="reduceStatus" jdbcType="DECIMAL" />
+    <result column="CHANNEL_APP_ID" property="channelAppId" jdbcType="DECIMAL" />
+    <result column="FEE" property="fee" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    UUID, CPFEE, STATUS, CPPARAM, CHANNEL_ID, CREATEDATE, SYNC_STATUS, REDUCE_STATUS, 
+    CHANNEL_APP_ID, FEE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hytx.model.syncXzf.XzfSyncDxExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_XZF_SYNC_DX
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_XZF_SYNC_DX
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_XZF_SYNC_DX
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.syncXzf.XzfSyncDxExample" >
+    delete from T_XZF_SYNC_DX
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.syncXzf.XzfSyncDx" >
+    insert into T_XZF_SYNC_DX (UUID, CPFEE, STATUS, 
+      CPPARAM, CHANNEL_ID, CREATEDATE, 
+      SYNC_STATUS, REDUCE_STATUS, CHANNEL_APP_ID, 
+      FEE)
+    values (#{uuid,jdbcType=VARCHAR}, #{cpfee,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{cpparam,jdbcType=VARCHAR}, #{channelId,jdbcType=DECIMAL}, #{createdate,jdbcType=TIMESTAMP}, 
+      #{syncStatus,jdbcType=DECIMAL}, #{reduceStatus,jdbcType=DECIMAL}, #{channelAppId,jdbcType=DECIMAL}, 
+      #{fee,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.syncXzf.XzfSyncDx" >
+    insert into T_XZF_SYNC_DX
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        UUID,
+      </if>
+      <if test="cpfee != null" >
+        CPFEE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="cpparam != null" >
+        CPPARAM,
+      </if>
+      <if test="channelId != null" >
+        CHANNEL_ID,
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE,
+      </if>
+      <if test="syncStatus != null" >
+        SYNC_STATUS,
+      </if>
+      <if test="reduceStatus != null" >
+        REDUCE_STATUS,
+      </if>
+      <if test="channelAppId != null" >
+        CHANNEL_APP_ID,
+      </if>
+      <if test="fee != null" >
+        FEE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="cpfee != null" >
+        #{cpfee,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="cpparam != null" >
+        #{cpparam,jdbcType=VARCHAR},
+      </if>
+      <if test="channelId != null" >
+        #{channelId,jdbcType=DECIMAL},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="syncStatus != null" >
+        #{syncStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="reduceStatus != null" >
+        #{reduceStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="channelAppId != null" >
+        #{channelAppId,jdbcType=DECIMAL},
+      </if>
+      <if test="fee != null" >
+        #{fee,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.syncXzf.XzfSyncDxExample" resultType="java.lang.Integer" >
+    select count(*) from T_XZF_SYNC_DX
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_XZF_SYNC_DX
+    <set >
+      <if test="record.uuid != null" >
+        UUID = #{record.uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cpfee != null" >
+        CPFEE = #{record.cpfee,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cpparam != null" >
+        CPPARAM = #{record.cpparam,jdbcType=VARCHAR},
+      </if>
+      <if test="record.channelId != null" >
+        CHANNEL_ID = #{record.channelId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createdate != null" >
+        CREATEDATE = #{record.createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.syncStatus != null" >
+        SYNC_STATUS = #{record.syncStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.reduceStatus != null" >
+        REDUCE_STATUS = #{record.reduceStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.channelAppId != null" >
+        CHANNEL_APP_ID = #{record.channelAppId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.fee != null" >
+        FEE = #{record.fee,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_XZF_SYNC_DX
+    set UUID = #{record.uuid,jdbcType=VARCHAR},
+      CPFEE = #{record.cpfee,jdbcType=VARCHAR},
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      CPPARAM = #{record.cpparam,jdbcType=VARCHAR},
+      CHANNEL_ID = #{record.channelId,jdbcType=DECIMAL},
+      CREATEDATE = #{record.createdate,jdbcType=TIMESTAMP},
+      SYNC_STATUS = #{record.syncStatus,jdbcType=DECIMAL},
+      REDUCE_STATUS = #{record.reduceStatus,jdbcType=DECIMAL},
+      CHANNEL_APP_ID = #{record.channelAppId,jdbcType=DECIMAL},
+      FEE = #{record.fee,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.syncXzf.XzfSyncDx" >
+    update T_XZF_SYNC_DX
+    <set >
+      <if test="cpfee != null" >
+        CPFEE = #{cpfee,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="cpparam != null" >
+        CPPARAM = #{cpparam,jdbcType=VARCHAR},
+      </if>
+      <if test="channelId != null" >
+        CHANNEL_ID = #{channelId,jdbcType=DECIMAL},
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="syncStatus != null" >
+        SYNC_STATUS = #{syncStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="reduceStatus != null" >
+        REDUCE_STATUS = #{reduceStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="channelAppId != null" >
+        CHANNEL_APP_ID = #{channelAppId,jdbcType=DECIMAL},
+      </if>
+      <if test="fee != null" >
+        FEE = #{fee,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.syncXzf.XzfSyncDx" >
+    update T_XZF_SYNC_DX
+    set CPFEE = #{cpfee,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      CPPARAM = #{cpparam,jdbcType=VARCHAR},
+      CHANNEL_ID = #{channelId,jdbcType=DECIMAL},
+      CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      SYNC_STATUS = #{syncStatus,jdbcType=DECIMAL},
+      REDUCE_STATUS = #{reduceStatus,jdbcType=DECIMAL},
+      CHANNEL_APP_ID = #{channelAppId,jdbcType=DECIMAL},
+      FEE = #{fee,jdbcType=DECIMAL}
+    where UUID = #{uuid,jdbcType=VARCHAR}
+  </update>
+</mapper>

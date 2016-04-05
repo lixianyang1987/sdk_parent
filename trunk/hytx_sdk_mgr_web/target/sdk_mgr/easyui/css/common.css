@@ -1,0 +1,214 @@
+*{
+	font-size:13px;
+}
+body {
+    font-family:verdana,helvetica,arial,sans-serif;
+    padding:2px;
+    font-size:12px;
+    margin:0;
+}
+.link_a {
+	text-decoration: none;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+
+.top-fieldset{
+	width:fixWidth(0.9);
+	height:150;
+	border:3 inherit #F7F7F7;
+	top:0;padding:10;
+	background:#f5f5f5;
+	margin:0;
+	font-size: 14px;
+}
+.top-fieldset legend{
+  border:0px;
+}
+
+.top-fieldset input{
+	/* border:1px solid #41ABF1; */
+	height:20px;
+	padding-bottom: 3px;
+}
+
+.top-fieldset .findBtn{
+	display: inline-block;
+    font-size: 12px;
+    line-height: 26px;
+    margin: 0 4px;
+    padding: 0 5px;
+    vertical-align: top;
+    width: auto;
+    height:26px;
+}
+
+.top-fieldset .btn{
+	height:30px;
+	font-weight: bold;
+}
+.div_level_center{
+	margin-left:auto;
+	margin-right:auto;
+}
+.add_outer_div{
+	padding:30px 10px;
+	background:#fafafa;
+	text-align:center;
+	text-decoration:none;
+	line-height:30px;
+}
+.add_inner_div{
+	margin-left:auto;
+	margin-right:auto;
+	padding:20px 5px;
+	text-align:center;
+	text-decoration:none;
+	line-height:30px;
+	width:200px;
+	height:100px;
+	border:1px solid #41ABF1;
+}
+
+.add_outer_div  table{
+	  margin:0;
+	  padding:0;
+	  width:100%;
+	  text-align: center;
+	}
+.add_outer_div	table th{
+	  font-weight: normal;
+	  text-align: right;
+	}
+.add_outer_div table td{
+	  font-weight: normal;
+	  text-align: left;
+	}
+
+h2 {
+    font-size:18px;
+    font-weight:bold;
+    margin:0;
+    margin-bottom:15px;
+}
+
+h2 font{
+	font-size: 14px;
+	color: red;
+}
+
+.logoDiv {
+	background-color:#C9E9F1;
+	height:25px;
+	padding:2px;
+	vertical-align: middle;
+	line-height:25px;
+	font-size:14px;
+	
+}
+.logoDiv a {
+	margin:0 10px;
+	font-size:14;
+	font-color:#41ABF1;
+	text-decoration: none;
+}
+.demo-info{
+	padding:0 0 12px 0;
+}
+.demo-tip{
+	display:none;
+}
+
+.add_border1d{
+	border:1px dashed
+}
+
+.tree_node_icon_none{
+	background: url("images/tree_icons.png") no-repeat scroll -240px 0 rgba(0, 0, 0, 0);
+	display:none;
+}
+.tree_icon_hide{
+	display: none;
+}
+.tree_file2{
+	background: url("images/tree_icons.png") no-repeat scroll -160px 0 rgba(0, 0, 0, 0);
+}
+
+.tipClass{
+	width:150px;height:30px;position:absolute;display:none;top:9px;left:330px;vertical-align:middle;z-index=1000;background-color:#67766B;line-height:26px;color:#F6F7F6;padding:3px 5px;font-size:16px;text-align:center;font-weight:bold;
+}
+
+.selectBtn{
+	width:50px;
+	border: 1px solid #BBBBBB;
+	border-radius:5px;
+	display:inline-block;
+	text-align:center;
+	text-decoration:none;
+	vertical-align:middle;
+	padding:0;
+	cursor:pointer;
+	background-color:#1E90FF ;
+	color: #ffffff;
+	font-size: 13px;
+	line-height: 20px;
+	word-wrap:normal;
+	white-space:nowrap; 
+	padding-bottom: 2px;
+}
+
+.selectBtn:hover{
+	background-color: #1C86EE;
+	font-weight: bold;
+}
+
+.form_tip{
+	color:#585858;
+	margin-top:-10px;
+	font-size:12px;
+	max-width: 200px;
+}
+
+.form_tip2{
+	color:#585858;
+	margin-top:-10px;
+	font-size:12px;
+	max-width: 500px;
+}
+
+#tb{
+	padding:5px 5px 5px 0;
+	height:auto;
+	margin-left: -5px;
+}
+#findForm {}
+#findForm label{
+	font-size:13px;
+	margin-right: 5px;
+	margin-left: 5px;
+}
+table th label{
+	background-color: #bbbbbb;
+	width: 120px;
+	display: inline-block;
+	line-height: 22px;
+	margin-right: 5px;
+}
+
+table tr h3{
+	line-height:5px;
+}
+
+#findTable{
+	width: 100%;
+}
+#findTable tr{
+	height: 30px;
+}
+#findTable th{
+	text-align: right;
+}
+#findTable td{
+	text-align: left;
+}

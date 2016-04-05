@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.baseConf.ex.ProvinceCityMapperEx" >
+   <resultMap id="baseResultMap" type="com.hytx.model.baseConf.ProvinceCity" extends="com.hytx.dao.baseConf.ori.ProvinceCityMapper.BaseResultMap" ></resultMap>
+   <select id="selectProvinceCityListByPage" resultMap="baseResultMap">
+        select * from (
+         select rownum rm,tb.* from(
+			SELECT u.* FROM T_PROVINCE_CITY u WHERE 1=1 
+			<if test="findProvinceCity.cityName!=null">
+				and city_name like '%${findProvinceCity.cityName}%'
+			</if>
+			<if test="findProvinceCity.provinceId!=null and findProvinceCity.provinceId &gt; -1">
+				and province_id = #{findProvinceCity.provinceId,jdbcType=INTEGER}
+			</if>
+			ORDER BY city_code asc
+		  )tb
+		)t
+		where t.rm between #{page.pageStartIndex} and #{page.pageEndIndex}
+		ORDER BY t.city_code asc
+  </select>
+  
+  <select id="countProvinceCity" resultType="java.lang.Integer">
+		SELECT count(1) FROM T_PROVINCE_CITY  WHERE 1=1  
+		<if test="findProvinceCity.cityName!=null">
+			and city_name like '%${findProvinceCity.cityName}%'
+		</if>
+		<if test="findProvinceCity.provinceId!=null and findProvinceCity.provinceId &gt; -1">
+			and province_id = #{findProvinceCity.provinceId,jdbcType=INTEGER}
+		</if>
+  </select>
+  
+  
+</mapper>

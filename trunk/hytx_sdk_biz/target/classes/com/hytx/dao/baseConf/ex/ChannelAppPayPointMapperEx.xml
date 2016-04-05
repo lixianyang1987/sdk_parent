@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.baseConf.ex.ChannelAppPayPointMapperEx" >
+   <resultMap id="baseResultMap" type="com.hytx.model.baseConf.PayPoint" extends="com.hytx.dao.baseConf.ori.PayPointMapper.BaseResultMap" >
+   </resultMap>
+   <select id="selectPayPointListByPage" resultMap="baseResultMap">
+       select t.* from(
+        select rownum rm,p.* from T_PAY_POINT p where 1=1 			
+        and exists(
+          select pay_point_id from T_CHANNEL_APP_PAY_POINT a where 
+          a.pay_point_id=p.id
+            <if test="channelAppPayPoint.channelId!=null and channelAppPayPoint.channelId &gt;0">
+				and a.channel_id = #{channelAppPayPoint.channelId,jdbcType=INTEGER}
+			</if>		
+			<if test="channelAppPayPoint.channelAppId!=null and channelAppPayPoint.channelAppId &gt;0">
+				and a.channel_app_id = #{channelAppPayPoint.channelAppId,jdbcType=INTEGER}
+			</if> 		
+        )
+        )t 
+        where t.rm between #{page.pageStartIndex} and #{page.pageEndIndex}
+		ORDER BY t.CREATE_DT DESC
+  </select>
+  
+  <select id="countPayPoint" resultType="java.lang.Integer">
+		select count(*) from T_PAY_POINT p where 1=1 
+			
+        and  exists(
+          select pay_point_id from T_CHANNEL_APP_PAY_POINT a where 
+          a.pay_point_id=p.id
+            <if test="channelAppPayPoint.channelId!=null and channelAppPayPoint.channelId &gt;0">
+				and a.channel_id = #{channelAppPayPoint.channelId,jdbcType=INTEGER}
+			</if>
+			
+			<if test="channelAppPayPoint.channelAppId!=null and channelAppPayPoint.channelAppId &gt;0">
+				and a.channel_app_id = #{channelAppPayPoint.channelAppId,jdbcType=INTEGER}
+			</if>  	
+        )
+  </select>
+  
+  
+  <select id="selectNotAddedPayPointList" resultMap="baseResultMap">
+     select t.* from(
+        select rownum rm,p.* from T_PAY_POINT p where 1=1 
+			
+        and not exists(
+           select pay_point_id from T_CHANNEL_APP_PAY_POINT a where 
+          a.pay_point_id=p.id
+            <if test="channelAppPayPoint.channelId!=null and channelAppPayPoint.channelId &gt;0">
+				and a.channel_id = #{channelAppPayPoint.channelId,jdbcType=INTEGER}
+			</if>			
+			<if test="channelAppPayPoint.channelAppId!=null and channelAppPayPoint.channelAppId &gt;0">
+				and a.channel_app_id = #{channelAppPayPoint.channelAppId,jdbcType=INTEGER}
+			</if>  	 	
+        )
+        )t 
+        where t.rm between #{page.pageStartIndex} and #{page.pageEndIndex}
+		ORDER BY t.CREATE_DT DESC
+  </select>
+  
+  <select id="countNotAddedPayPoint" resultType="java.lang.Integer">
+	   select count(*) from T_PAY_POINT p where 1=1 
+			
+        and not exists(
+           select pay_point_id from T_CHANNEL_APP_PAY_POINT a where 
+          a.pay_point_id=p.id
+            <if test="channelAppPayPoint.channelId!=null and channelAppPayPoint.channelId &gt;0">
+				and a.channel_id = #{channelAppPayPoint.channelId,jdbcType=INTEGER}
+			</if>		
+			<if test="channelAppPayPoint.channelAppId!=null and channelAppPayPoint.channelAppId &gt;0">
+				and a.channel_app_id = #{channelAppPayPoint.channelAppId,jdbcType=INTEGER}
+			</if>  		
+        )
+  </select>
+  
+</mapper>

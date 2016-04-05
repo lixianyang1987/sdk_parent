@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.xzf.ori.XzfYijieResultMapper" >
+  <resultMap id="BaseResultMap" type="com.hytx.model.xzf.XzfYijieResult" >
+    <id column="TCD" property="tcd" jdbcType="VARCHAR" />
+    <result column="ORDER_ID" property="orderId" jdbcType="VARCHAR" />
+    <result column="APP" property="app" jdbcType="VARCHAR" />
+    <result column="COMPLETE_TIME" property="completeTime" jdbcType="DECIMAL" />
+    <result column="FEE" property="fee" jdbcType="DECIMAL" />
+    <result column="PAY_TIME" property="payTime" jdbcType="DECIMAL" />
+    <result column="SDK" property="sdk" jdbcType="VARCHAR" />
+    <result column="SSID" property="ssid" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="UIN" property="uin" jdbcType="VARCHAR" />
+    <result column="VERSION_NUM" property="versionNum" jdbcType="VARCHAR" />
+    <result column="CREATE_DT" property="createDt" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    TCD, ORDER_ID, APP, COMPLETE_TIME, FEE, PAY_TIME, SDK, SSID, STATUS, UIN, VERSION_NUM, 
+    CREATE_DT
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hytx.model.xzf.XzfYijieResultExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_XZF_YIJIE_RESULT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_XZF_YIJIE_RESULT
+    where TCD = #{tcd,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_XZF_YIJIE_RESULT
+    where TCD = #{tcd,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.xzf.XzfYijieResultExample" >
+    delete from T_XZF_YIJIE_RESULT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.xzf.XzfYijieResult" >
+    insert into T_XZF_YIJIE_RESULT (TCD, ORDER_ID, APP, 
+      COMPLETE_TIME, FEE, PAY_TIME, 
+      SDK, SSID, STATUS, 
+      UIN, VERSION_NUM, CREATE_DT
+      )
+    values (#{tcd,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{app,jdbcType=VARCHAR}, 
+      #{completeTime,jdbcType=DECIMAL}, #{fee,jdbcType=DECIMAL}, #{payTime,jdbcType=DECIMAL}, 
+      #{sdk,jdbcType=VARCHAR}, #{ssid,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, 
+      #{uin,jdbcType=VARCHAR}, #{versionNum,jdbcType=VARCHAR}, #{createDt,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.xzf.XzfYijieResult" >
+    insert into T_XZF_YIJIE_RESULT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tcd != null" >
+        TCD,
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="app != null" >
+        APP,
+      </if>
+      <if test="completeTime != null" >
+        COMPLETE_TIME,
+      </if>
+      <if test="fee != null" >
+        FEE,
+      </if>
+      <if test="payTime != null" >
+        PAY_TIME,
+      </if>
+      <if test="sdk != null" >
+        SDK,
+      </if>
+      <if test="ssid != null" >
+        SSID,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="uin != null" >
+        UIN,
+      </if>
+      <if test="versionNum != null" >
+        VERSION_NUM,
+      </if>
+      <if test="createDt != null" >
+        CREATE_DT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tcd != null" >
+        #{tcd,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="app != null" >
+        #{app,jdbcType=VARCHAR},
+      </if>
+      <if test="completeTime != null" >
+        #{completeTime,jdbcType=DECIMAL},
+      </if>
+      <if test="fee != null" >
+        #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="payTime != null" >
+        #{payTime,jdbcType=DECIMAL},
+      </if>
+      <if test="sdk != null" >
+        #{sdk,jdbcType=VARCHAR},
+      </if>
+      <if test="ssid != null" >
+        #{ssid,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="uin != null" >
+        #{uin,jdbcType=VARCHAR},
+      </if>
+      <if test="versionNum != null" >
+        #{versionNum,jdbcType=VARCHAR},
+      </if>
+      <if test="createDt != null" >
+        #{createDt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.xzf.XzfYijieResultExample" resultType="java.lang.Integer" >
+    select count(*) from T_XZF_YIJIE_RESULT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_XZF_YIJIE_RESULT
+    <set >
+      <if test="record.tcd != null" >
+        TCD = #{record.tcd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderId != null" >
+        ORDER_ID = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.app != null" >
+        APP = #{record.app,jdbcType=VARCHAR},
+      </if>
+      <if test="record.completeTime != null" >
+        COMPLETE_TIME = #{record.completeTime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.fee != null" >
+        FEE = #{record.fee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.payTime != null" >
+        PAY_TIME = #{record.payTime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sdk != null" >
+        SDK = #{record.sdk,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ssid != null" >
+        SSID = #{record.ssid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=DECIMAL},
+      </if>
+      <if test="record.uin != null" >
+        UIN = #{record.uin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.versionNum != null" >
+        VERSION_NUM = #{record.versionNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDt != null" >
+        CREATE_DT = #{record.createDt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_XZF_YIJIE_RESULT
+    set TCD = #{record.tcd,jdbcType=VARCHAR},
+      ORDER_ID = #{record.orderId,jdbcType=VARCHAR},
+      APP = #{record.app,jdbcType=VARCHAR},
+      COMPLETE_TIME = #{record.completeTime,jdbcType=DECIMAL},
+      FEE = #{record.fee,jdbcType=DECIMAL},
+      PAY_TIME = #{record.payTime,jdbcType=DECIMAL},
+      SDK = #{record.sdk,jdbcType=VARCHAR},
+      SSID = #{record.ssid,jdbcType=VARCHAR},
+      STATUS = #{record.status,jdbcType=DECIMAL},
+      UIN = #{record.uin,jdbcType=VARCHAR},
+      VERSION_NUM = #{record.versionNum,jdbcType=VARCHAR},
+      CREATE_DT = #{record.createDt,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.xzf.XzfYijieResult" >
+    update T_XZF_YIJIE_RESULT
+    <set >
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="app != null" >
+        APP = #{app,jdbcType=VARCHAR},
+      </if>
+      <if test="completeTime != null" >
+        COMPLETE_TIME = #{completeTime,jdbcType=DECIMAL},
+      </if>
+      <if test="fee != null" >
+        FEE = #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="payTime != null" >
+        PAY_TIME = #{payTime,jdbcType=DECIMAL},
+      </if>
+      <if test="sdk != null" >
+        SDK = #{sdk,jdbcType=VARCHAR},
+      </if>
+      <if test="ssid != null" >
+        SSID = #{ssid,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="uin != null" >
+        UIN = #{uin,jdbcType=VARCHAR},
+      </if>
+      <if test="versionNum != null" >
+        VERSION_NUM = #{versionNum,jdbcType=VARCHAR},
+      </if>
+      <if test="createDt != null" >
+        CREATE_DT = #{createDt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where TCD = #{tcd,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.xzf.XzfYijieResult" >
+    update T_XZF_YIJIE_RESULT
+    set ORDER_ID = #{orderId,jdbcType=VARCHAR},
+      APP = #{app,jdbcType=VARCHAR},
+      COMPLETE_TIME = #{completeTime,jdbcType=DECIMAL},
+      FEE = #{fee,jdbcType=DECIMAL},
+      PAY_TIME = #{payTime,jdbcType=DECIMAL},
+      SDK = #{sdk,jdbcType=VARCHAR},
+      SSID = #{ssid,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=DECIMAL},
+      UIN = #{uin,jdbcType=VARCHAR},
+      VERSION_NUM = #{versionNum,jdbcType=VARCHAR},
+      CREATE_DT = #{createDt,jdbcType=TIMESTAMP}
+    where TCD = #{tcd,jdbcType=VARCHAR}
+  </update>
+</mapper>

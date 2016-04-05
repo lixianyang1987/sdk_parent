@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.xzf.ori.XzfUserMapper" >
+  <resultMap id="BaseResultMap" type="com.hytx.model.xzf.XzfUser" >
+    <id column="IMEI" property="imei" jdbcType="VARCHAR" />
+    <result column="IMSI" property="imsi" jdbcType="VARCHAR" />
+    <result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="ID_CARD" property="idCard" jdbcType="VARCHAR" />
+    <result column="GRADE" property="grade" jdbcType="DECIMAL" />
+    <result column="INTEGRAL" property="integral" jdbcType="DECIMAL" />
+    <result column="HAS_CARED" property="hasCared" jdbcType="DECIMAL" />
+    <result column="DEBT" property="debt" jdbcType="DECIMAL" />
+    <result column="CREDIT_LEVEL" property="creditLevel" jdbcType="DECIMAL" />
+    <result column="CREATE_DT" property="createDt" jdbcType="TIMESTAMP" />
+    <result column="CHANNEL_APP_ID" property="channelAppId" jdbcType="DECIMAL" />
+    <result column="DEBT_DT" property="debtDt" jdbcType="TIMESTAMP" />
+    <result column="PAY_DT" property="payDt" jdbcType="TIMESTAMP" />
+    <result column="SHOULD_PAY_DT" property="shouldPayDt" jdbcType="TIMESTAMP" />
+    <result column="MAX_ALLOW_DEBT" property="maxAllowDebt" jdbcType="DECIMAL" />
+    <result column="EXPIRE_DT" property="expireDt" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    IMEI, IMSI, MOBILE, NAME, ID_CARD, GRADE, INTEGRAL, HAS_CARED, DEBT, CREDIT_LEVEL, 
+    CREATE_DT, CHANNEL_APP_ID, DEBT_DT, PAY_DT, SHOULD_PAY_DT, MAX_ALLOW_DEBT, EXPIRE_DT
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hytx.model.xzf.XzfUserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_XZF_USER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_XZF_USER
+    where IMEI = #{imei,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_XZF_USER
+    where IMEI = #{imei,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.xzf.XzfUserExample" >
+    delete from T_XZF_USER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.xzf.XzfUser" >
+    insert into T_XZF_USER (IMEI, IMSI, MOBILE, 
+      NAME, ID_CARD, GRADE, 
+      INTEGRAL, HAS_CARED, DEBT, 
+      CREDIT_LEVEL, CREATE_DT, CHANNEL_APP_ID, 
+      DEBT_DT, PAY_DT, SHOULD_PAY_DT, 
+      MAX_ALLOW_DEBT, EXPIRE_DT)
+    values (#{imei,jdbcType=VARCHAR}, #{imsi,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR}, #{grade,jdbcType=DECIMAL}, 
+      #{integral,jdbcType=DECIMAL}, #{hasCared,jdbcType=DECIMAL}, #{debt,jdbcType=DECIMAL}, 
+      #{creditLevel,jdbcType=DECIMAL}, #{createDt,jdbcType=TIMESTAMP}, #{channelAppId,jdbcType=DECIMAL}, 
+      #{debtDt,jdbcType=TIMESTAMP}, #{payDt,jdbcType=TIMESTAMP}, #{shouldPayDt,jdbcType=TIMESTAMP}, 
+      #{maxAllowDebt,jdbcType=DECIMAL}, #{expireDt,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.xzf.XzfUser" >
+    insert into T_XZF_USER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="imei != null" >
+        IMEI,
+      </if>
+      <if test="imsi != null" >
+        IMSI,
+      </if>
+      <if test="mobile != null" >
+        MOBILE,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="idCard != null" >
+        ID_CARD,
+      </if>
+      <if test="grade != null" >
+        GRADE,
+      </if>
+      <if test="integral != null" >
+        INTEGRAL,
+      </if>
+      <if test="hasCared != null" >
+        HAS_CARED,
+      </if>
+      <if test="debt != null" >
+        DEBT,
+      </if>
+      <if test="creditLevel != null" >
+        CREDIT_LEVEL,
+      </if>
+      <if test="createDt != null" >
+        CREATE_DT,
+      </if>
+      <if test="channelAppId != null" >
+        CHANNEL_APP_ID,
+      </if>
+      <if test="debtDt != null" >
+        DEBT_DT,
+      </if>
+      <if test="payDt != null" >
+        PAY_DT,
+      </if>
+      <if test="shouldPayDt != null" >
+        SHOULD_PAY_DT,
+      </if>
+      <if test="maxAllowDebt != null" >
+        MAX_ALLOW_DEBT,
+      </if>
+      <if test="expireDt != null" >
+        EXPIRE_DT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="imei != null" >
+        #{imei,jdbcType=VARCHAR},
+      </if>
+      <if test="imsi != null" >
+        #{imsi,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null" >
+        #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=DECIMAL},
+      </if>
+      <if test="integral != null" >
+        #{integral,jdbcType=DECIMAL},
+      </if>
+      <if test="hasCared != null" >
+        #{hasCared,jdbcType=DECIMAL},
+      </if>
+      <if test="debt != null" >
+        #{debt,jdbcType=DECIMAL},
+      </if>
+      <if test="creditLevel != null" >
+        #{creditLevel,jdbcType=DECIMAL},
+      </if>
+      <if test="createDt != null" >
+        #{createDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="channelAppId != null" >
+        #{channelAppId,jdbcType=DECIMAL},
+      </if>
+      <if test="debtDt != null" >
+        #{debtDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payDt != null" >
+        #{payDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shouldPayDt != null" >
+        #{shouldPayDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="maxAllowDebt != null" >
+        #{maxAllowDebt,jdbcType=DECIMAL},
+      </if>
+      <if test="expireDt != null" >
+        #{expireDt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.xzf.XzfUserExample" resultType="java.lang.Integer" >
+    select count(*) from T_XZF_USER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_XZF_USER
+    <set >
+      <if test="record.imei != null" >
+        IMEI = #{record.imei,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imsi != null" >
+        IMSI = #{record.imsi,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null" >
+        MOBILE = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        NAME = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idCard != null" >
+        ID_CARD = #{record.idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.grade != null" >
+        GRADE = #{record.grade,jdbcType=DECIMAL},
+      </if>
+      <if test="record.integral != null" >
+        INTEGRAL = #{record.integral,jdbcType=DECIMAL},
+      </if>
+      <if test="record.hasCared != null" >
+        HAS_CARED = #{record.hasCared,jdbcType=DECIMAL},
+      </if>
+      <if test="record.debt != null" >
+        DEBT = #{record.debt,jdbcType=DECIMAL},
+      </if>
+      <if test="record.creditLevel != null" >
+        CREDIT_LEVEL = #{record.creditLevel,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createDt != null" >
+        CREATE_DT = #{record.createDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.channelAppId != null" >
+        CHANNEL_APP_ID = #{record.channelAppId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.debtDt != null" >
+        DEBT_DT = #{record.debtDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.payDt != null" >
+        PAY_DT = #{record.payDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.shouldPayDt != null" >
+        SHOULD_PAY_DT = #{record.shouldPayDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.maxAllowDebt != null" >
+        MAX_ALLOW_DEBT = #{record.maxAllowDebt,jdbcType=DECIMAL},
+      </if>
+      <if test="record.expireDt != null" >
+        EXPIRE_DT = #{record.expireDt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_XZF_USER
+    set IMEI = #{record.imei,jdbcType=VARCHAR},
+      IMSI = #{record.imsi,jdbcType=VARCHAR},
+      MOBILE = #{record.mobile,jdbcType=VARCHAR},
+      NAME = #{record.name,jdbcType=VARCHAR},
+      ID_CARD = #{record.idCard,jdbcType=VARCHAR},
+      GRADE = #{record.grade,jdbcType=DECIMAL},
+      INTEGRAL = #{record.integral,jdbcType=DECIMAL},
+      HAS_CARED = #{record.hasCared,jdbcType=DECIMAL},
+      DEBT = #{record.debt,jdbcType=DECIMAL},
+      CREDIT_LEVEL = #{record.creditLevel,jdbcType=DECIMAL},
+      CREATE_DT = #{record.createDt,jdbcType=TIMESTAMP},
+      CHANNEL_APP_ID = #{record.channelAppId,jdbcType=DECIMAL},
+      DEBT_DT = #{record.debtDt,jdbcType=TIMESTAMP},
+      PAY_DT = #{record.payDt,jdbcType=TIMESTAMP},
+      SHOULD_PAY_DT = #{record.shouldPayDt,jdbcType=TIMESTAMP},
+      MAX_ALLOW_DEBT = #{record.maxAllowDebt,jdbcType=DECIMAL},
+      EXPIRE_DT = #{record.expireDt,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.xzf.XzfUser" >
+    update T_XZF_USER
+    <set >
+      <if test="imsi != null" >
+        IMSI = #{imsi,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        MOBILE = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null" >
+        ID_CARD = #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        GRADE = #{grade,jdbcType=DECIMAL},
+      </if>
+      <if test="integral != null" >
+        INTEGRAL = #{integral,jdbcType=DECIMAL},
+      </if>
+      <if test="hasCared != null" >
+        HAS_CARED = #{hasCared,jdbcType=DECIMAL},
+      </if>
+      <if test="debt != null" >
+        DEBT = #{debt,jdbcType=DECIMAL},
+      </if>
+      <if test="creditLevel != null" >
+        CREDIT_LEVEL = #{creditLevel,jdbcType=DECIMAL},
+      </if>
+      <if test="createDt != null" >
+        CREATE_DT = #{createDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="channelAppId != null" >
+        CHANNEL_APP_ID = #{channelAppId,jdbcType=DECIMAL},
+      </if>
+      <if test="debtDt != null" >
+        DEBT_DT = #{debtDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payDt != null" >
+        PAY_DT = #{payDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shouldPayDt != null" >
+        SHOULD_PAY_DT = #{shouldPayDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="maxAllowDebt != null" >
+        MAX_ALLOW_DEBT = #{maxAllowDebt,jdbcType=DECIMAL},
+      </if>
+      <if test="expireDt != null" >
+        EXPIRE_DT = #{expireDt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where IMEI = #{imei,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.xzf.XzfUser" >
+    update T_XZF_USER
+    set IMSI = #{imsi,jdbcType=VARCHAR},
+      MOBILE = #{mobile,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      ID_CARD = #{idCard,jdbcType=VARCHAR},
+      GRADE = #{grade,jdbcType=DECIMAL},
+      INTEGRAL = #{integral,jdbcType=DECIMAL},
+      HAS_CARED = #{hasCared,jdbcType=DECIMAL},
+      DEBT = #{debt,jdbcType=DECIMAL},
+      CREDIT_LEVEL = #{creditLevel,jdbcType=DECIMAL},
+      CREATE_DT = #{createDt,jdbcType=TIMESTAMP},
+      CHANNEL_APP_ID = #{channelAppId,jdbcType=DECIMAL},
+      DEBT_DT = #{debtDt,jdbcType=TIMESTAMP},
+      PAY_DT = #{payDt,jdbcType=TIMESTAMP},
+      SHOULD_PAY_DT = #{shouldPayDt,jdbcType=TIMESTAMP},
+      MAX_ALLOW_DEBT = #{maxAllowDebt,jdbcType=DECIMAL},
+      EXPIRE_DT = #{expireDt,jdbcType=TIMESTAMP}
+    where IMEI = #{imei,jdbcType=VARCHAR}
+  </update>
+</mapper>

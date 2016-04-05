@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.sync.ori.CpOrderSyncMapper" >
+  <resultMap id="BaseResultMap" type="com.hytx.model.sync.CpOrderSync" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="MOBILE" property="mobile" jdbcType="DECIMAL" />
+    <result column="SENDTYPE" property="sendtype" jdbcType="DECIMAL" />
+    <result column="GAGEID" property="gageid" jdbcType="VARCHAR" />
+    <result column="MO" property="mo" jdbcType="VARCHAR" />
+    <result column="KEY" property="key" jdbcType="VARCHAR" />
+    <result column="SPNUMBER" property="spnumber" jdbcType="VARCHAR" />
+    <result column="FEECODE" property="feecode" jdbcType="DECIMAL" />
+    <result column="SPCODE" property="spcode" jdbcType="DECIMAL" />
+    <result column="IP" property="ip" jdbcType="VARCHAR" />
+    <result column="UPDATE_DT" property="updateDt" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, MOBILE, SENDTYPE, GAGEID, MO, KEY, SPNUMBER, FEECODE, SPCODE, IP, UPDATE_DT
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hytx.model.sync.CpOrderSyncExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_CP_ORDER_SYNC
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_CP_ORDER_SYNC
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_CP_ORDER_SYNC
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.sync.CpOrderSyncExample" >
+    delete from T_CP_ORDER_SYNC
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.sync.CpOrderSync" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+      select SEQ_CP_ORDER_SYNC_ID.nextval from dual
+    </selectKey>
+    insert into T_CP_ORDER_SYNC (ID, MOBILE, SENDTYPE, 
+      GAGEID, MO, KEY, SPNUMBER, 
+      FEECODE, SPCODE, IP, 
+      UPDATE_DT)
+    values (#{id,jdbcType=DECIMAL}, #{mobile,jdbcType=DECIMAL}, #{sendtype,jdbcType=DECIMAL}, 
+      #{gageid,jdbcType=VARCHAR}, #{mo,jdbcType=VARCHAR}, #{key,jdbcType=VARCHAR}, #{spnumber,jdbcType=VARCHAR}, 
+      #{feecode,jdbcType=DECIMAL}, #{spcode,jdbcType=DECIMAL}, #{ip,jdbcType=VARCHAR}, 
+      #{updateDt,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.sync.CpOrderSync" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+      select SEQ_CP_ORDER_SYNC_ID.nextval from dual
+    </selectKey>
+    insert into T_CP_ORDER_SYNC
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
+      <if test="mobile != null" >
+        MOBILE,
+      </if>
+      <if test="sendtype != null" >
+        SENDTYPE,
+      </if>
+      <if test="gageid != null" >
+        GAGEID,
+      </if>
+      <if test="mo != null" >
+        MO,
+      </if>
+      <if test="key != null" >
+        KEY,
+      </if>
+      <if test="spnumber != null" >
+        SPNUMBER,
+      </if>
+      <if test="feecode != null" >
+        FEECODE,
+      </if>
+      <if test="spcode != null" >
+        SPCODE,
+      </if>
+      <if test="ip != null" >
+        IP,
+      </if>
+      <if test="updateDt != null" >
+        UPDATE_DT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=DECIMAL},
+      <if test="mobile != null" >
+        #{mobile,jdbcType=DECIMAL},
+      </if>
+      <if test="sendtype != null" >
+        #{sendtype,jdbcType=DECIMAL},
+      </if>
+      <if test="gageid != null" >
+        #{gageid,jdbcType=VARCHAR},
+      </if>
+      <if test="mo != null" >
+        #{mo,jdbcType=VARCHAR},
+      </if>
+      <if test="key != null" >
+        #{key,jdbcType=VARCHAR},
+      </if>
+      <if test="spnumber != null" >
+        #{spnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="feecode != null" >
+        #{feecode,jdbcType=DECIMAL},
+      </if>
+      <if test="spcode != null" >
+        #{spcode,jdbcType=DECIMAL},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDt != null" >
+        #{updateDt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.sync.CpOrderSyncExample" resultType="java.lang.Integer" >
+    select count(*) from T_CP_ORDER_SYNC
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_CP_ORDER_SYNC
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.mobile != null" >
+        MOBILE = #{record.mobile,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sendtype != null" >
+        SENDTYPE = #{record.sendtype,jdbcType=DECIMAL},
+      </if>
+      <if test="record.gageid != null" >
+        GAGEID = #{record.gageid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mo != null" >
+        MO = #{record.mo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.key != null" >
+        KEY = #{record.key,jdbcType=VARCHAR},
+      </if>
+      <if test="record.spnumber != null" >
+        SPNUMBER = #{record.spnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.feecode != null" >
+        FEECODE = #{record.feecode,jdbcType=DECIMAL},
+      </if>
+      <if test="record.spcode != null" >
+        SPCODE = #{record.spcode,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ip != null" >
+        IP = #{record.ip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDt != null" >
+        UPDATE_DT = #{record.updateDt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_CP_ORDER_SYNC
+    set ID = #{record.id,jdbcType=DECIMAL},
+      MOBILE = #{record.mobile,jdbcType=DECIMAL},
+      SENDTYPE = #{record.sendtype,jdbcType=DECIMAL},
+      GAGEID = #{record.gageid,jdbcType=VARCHAR},
+      MO = #{record.mo,jdbcType=VARCHAR},
+      KEY = #{record.key,jdbcType=VARCHAR},
+      SPNUMBER = #{record.spnumber,jdbcType=VARCHAR},
+      FEECODE = #{record.feecode,jdbcType=DECIMAL},
+      SPCODE = #{record.spcode,jdbcType=DECIMAL},
+      IP = #{record.ip,jdbcType=VARCHAR},
+      UPDATE_DT = #{record.updateDt,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.sync.CpOrderSync" >
+    update T_CP_ORDER_SYNC
+    <set >
+      <if test="mobile != null" >
+        MOBILE = #{mobile,jdbcType=DECIMAL},
+      </if>
+      <if test="sendtype != null" >
+        SENDTYPE = #{sendtype,jdbcType=DECIMAL},
+      </if>
+      <if test="gageid != null" >
+        GAGEID = #{gageid,jdbcType=VARCHAR},
+      </if>
+      <if test="mo != null" >
+        MO = #{mo,jdbcType=VARCHAR},
+      </if>
+      <if test="key != null" >
+        KEY = #{key,jdbcType=VARCHAR},
+      </if>
+      <if test="spnumber != null" >
+        SPNUMBER = #{spnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="feecode != null" >
+        FEECODE = #{feecode,jdbcType=DECIMAL},
+      </if>
+      <if test="spcode != null" >
+        SPCODE = #{spcode,jdbcType=DECIMAL},
+      </if>
+      <if test="ip != null" >
+        IP = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDt != null" >
+        UPDATE_DT = #{updateDt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.sync.CpOrderSync" >
+    update T_CP_ORDER_SYNC
+    set MOBILE = #{mobile,jdbcType=DECIMAL},
+      SENDTYPE = #{sendtype,jdbcType=DECIMAL},
+      GAGEID = #{gageid,jdbcType=VARCHAR},
+      MO = #{mo,jdbcType=VARCHAR},
+      KEY = #{key,jdbcType=VARCHAR},
+      SPNUMBER = #{spnumber,jdbcType=VARCHAR},
+      FEECODE = #{feecode,jdbcType=DECIMAL},
+      SPCODE = #{spcode,jdbcType=DECIMAL},
+      IP = #{ip,jdbcType=VARCHAR},
+      UPDATE_DT = #{updateDt,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

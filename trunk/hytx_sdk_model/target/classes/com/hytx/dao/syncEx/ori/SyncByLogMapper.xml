@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.syncEx.ori.SyncByLogMapper" >
+  <resultMap id="BaseResultMap" type="com.hytx.model.syncEx.SyncByLog" >
+    <id column="APP_ID" property="appId" jdbcType="VARCHAR" />
+    <id column="LINKID" property="linkid" jdbcType="VARCHAR" />
+    <result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+    <result column="PORT" property="port" jdbcType="VARCHAR" />
+    <result column="MSG" property="msg" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="SYNC_STATUS" property="syncStatus" jdbcType="DECIMAL" />
+    <result column="REDUCE_STATUS" property="reduceStatus" jdbcType="DECIMAL" />
+    <result column="ERROR_CONTENT" property="errorContent" jdbcType="VARCHAR" />
+    <result column="CHANNEL_APP_ID" property="channelAppId" jdbcType="DECIMAL" />
+    <result column="PAY_FEE" property="payFee" jdbcType="DECIMAL" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="COOPID" property="coopid" jdbcType="DECIMAL" />
+    <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+    <result column="ORDERID" property="orderid" jdbcType="VARCHAR" />
+    <result column="RESERVE_ONE" property="reserveOne" jdbcType="VARCHAR" />
+    <result column="RESERVE_TWO" property="reserveTwo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    APP_ID, LINKID, MOBILE, PORT, MSG, STATUS, SYNC_STATUS, REDUCE_STATUS, ERROR_CONTENT, 
+    CHANNEL_APP_ID, PAY_FEE, CREATETIME, COOPID, PROVINCE, ORDERID, RESERVE_ONE, RESERVE_TWO
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hytx.model.syncEx.SyncByLogExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_SYNC_BY_LOG
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.hytx.model.syncEx.SyncByLogKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYNC_BY_LOG
+    where APP_ID = #{appId,jdbcType=VARCHAR}
+      and LINKID = #{linkid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.hytx.model.syncEx.SyncByLogKey" >
+    delete from T_SYNC_BY_LOG
+    where APP_ID = #{appId,jdbcType=VARCHAR}
+      and LINKID = #{linkid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.syncEx.SyncByLogExample" >
+    delete from T_SYNC_BY_LOG
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.syncEx.SyncByLog" >
+    insert into T_SYNC_BY_LOG (APP_ID, LINKID, MOBILE, 
+      PORT, MSG, STATUS, 
+      SYNC_STATUS, REDUCE_STATUS, ERROR_CONTENT, 
+      CHANNEL_APP_ID, PAY_FEE, CREATETIME, 
+      COOPID, PROVINCE, ORDERID, 
+      RESERVE_ONE, RESERVE_TWO)
+    values (#{appId,jdbcType=VARCHAR}, #{linkid,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{port,jdbcType=VARCHAR}, #{msg,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{syncStatus,jdbcType=DECIMAL}, #{reduceStatus,jdbcType=DECIMAL}, #{errorContent,jdbcType=VARCHAR}, 
+      #{channelAppId,jdbcType=DECIMAL}, #{payFee,jdbcType=DECIMAL}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{coopid,jdbcType=DECIMAL}, #{province,jdbcType=VARCHAR}, #{orderid,jdbcType=VARCHAR}, 
+      #{reserveOne,jdbcType=VARCHAR}, #{reserveTwo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.syncEx.SyncByLog" >
+    insert into T_SYNC_BY_LOG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="appId != null" >
+        APP_ID,
+      </if>
+      <if test="linkid != null" >
+        LINKID,
+      </if>
+      <if test="mobile != null" >
+        MOBILE,
+      </if>
+      <if test="port != null" >
+        PORT,
+      </if>
+      <if test="msg != null" >
+        MSG,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="syncStatus != null" >
+        SYNC_STATUS,
+      </if>
+      <if test="reduceStatus != null" >
+        REDUCE_STATUS,
+      </if>
+      <if test="errorContent != null" >
+        ERROR_CONTENT,
+      </if>
+      <if test="channelAppId != null" >
+        CHANNEL_APP_ID,
+      </if>
+      <if test="payFee != null" >
+        PAY_FEE,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="coopid != null" >
+        COOPID,
+      </if>
+      <if test="province != null" >
+        PROVINCE,
+      </if>
+      <if test="orderid != null" >
+        ORDERID,
+      </if>
+      <if test="reserveOne != null" >
+        RESERVE_ONE,
+      </if>
+      <if test="reserveTwo != null" >
+        RESERVE_TWO,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="appId != null" >
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="linkid != null" >
+        #{linkid,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="port != null" >
+        #{port,jdbcType=VARCHAR},
+      </if>
+      <if test="msg != null" >
+        #{msg,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="syncStatus != null" >
+        #{syncStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="reduceStatus != null" >
+        #{reduceStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="errorContent != null" >
+        #{errorContent,jdbcType=VARCHAR},
+      </if>
+      <if test="channelAppId != null" >
+        #{channelAppId,jdbcType=DECIMAL},
+      </if>
+      <if test="payFee != null" >
+        #{payFee,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="coopid != null" >
+        #{coopid,jdbcType=DECIMAL},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="orderid != null" >
+        #{orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="reserveOne != null" >
+        #{reserveOne,jdbcType=VARCHAR},
+      </if>
+      <if test="reserveTwo != null" >
+        #{reserveTwo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.syncEx.SyncByLogExample" resultType="java.lang.Integer" >
+    select count(*) from T_SYNC_BY_LOG
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_SYNC_BY_LOG
+    <set >
+      <if test="record.appId != null" >
+        APP_ID = #{record.appId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkid != null" >
+        LINKID = #{record.linkid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null" >
+        MOBILE = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.port != null" >
+        PORT = #{record.port,jdbcType=VARCHAR},
+      </if>
+      <if test="record.msg != null" >
+        MSG = #{record.msg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.syncStatus != null" >
+        SYNC_STATUS = #{record.syncStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.reduceStatus != null" >
+        REDUCE_STATUS = #{record.reduceStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.errorContent != null" >
+        ERROR_CONTENT = #{record.errorContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.channelAppId != null" >
+        CHANNEL_APP_ID = #{record.channelAppId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.payFee != null" >
+        PAY_FEE = #{record.payFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createtime != null" >
+        CREATETIME = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.coopid != null" >
+        COOPID = #{record.coopid,jdbcType=DECIMAL},
+      </if>
+      <if test="record.province != null" >
+        PROVINCE = #{record.province,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderid != null" >
+        ORDERID = #{record.orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reserveOne != null" >
+        RESERVE_ONE = #{record.reserveOne,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reserveTwo != null" >
+        RESERVE_TWO = #{record.reserveTwo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_SYNC_BY_LOG
+    set APP_ID = #{record.appId,jdbcType=VARCHAR},
+      LINKID = #{record.linkid,jdbcType=VARCHAR},
+      MOBILE = #{record.mobile,jdbcType=VARCHAR},
+      PORT = #{record.port,jdbcType=VARCHAR},
+      MSG = #{record.msg,jdbcType=VARCHAR},
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      SYNC_STATUS = #{record.syncStatus,jdbcType=DECIMAL},
+      REDUCE_STATUS = #{record.reduceStatus,jdbcType=DECIMAL},
+      ERROR_CONTENT = #{record.errorContent,jdbcType=VARCHAR},
+      CHANNEL_APP_ID = #{record.channelAppId,jdbcType=DECIMAL},
+      PAY_FEE = #{record.payFee,jdbcType=DECIMAL},
+      CREATETIME = #{record.createtime,jdbcType=TIMESTAMP},
+      COOPID = #{record.coopid,jdbcType=DECIMAL},
+      PROVINCE = #{record.province,jdbcType=VARCHAR},
+      ORDERID = #{record.orderid,jdbcType=VARCHAR},
+      RESERVE_ONE = #{record.reserveOne,jdbcType=VARCHAR},
+      RESERVE_TWO = #{record.reserveTwo,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.syncEx.SyncByLog" >
+    update T_SYNC_BY_LOG
+    <set >
+      <if test="mobile != null" >
+        MOBILE = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="port != null" >
+        PORT = #{port,jdbcType=VARCHAR},
+      </if>
+      <if test="msg != null" >
+        MSG = #{msg,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="syncStatus != null" >
+        SYNC_STATUS = #{syncStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="reduceStatus != null" >
+        REDUCE_STATUS = #{reduceStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="errorContent != null" >
+        ERROR_CONTENT = #{errorContent,jdbcType=VARCHAR},
+      </if>
+      <if test="channelAppId != null" >
+        CHANNEL_APP_ID = #{channelAppId,jdbcType=DECIMAL},
+      </if>
+      <if test="payFee != null" >
+        PAY_FEE = #{payFee,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="coopid != null" >
+        COOPID = #{coopid,jdbcType=DECIMAL},
+      </if>
+      <if test="province != null" >
+        PROVINCE = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="orderid != null" >
+        ORDERID = #{orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="reserveOne != null" >
+        RESERVE_ONE = #{reserveOne,jdbcType=VARCHAR},
+      </if>
+      <if test="reserveTwo != null" >
+        RESERVE_TWO = #{reserveTwo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where APP_ID = #{appId,jdbcType=VARCHAR}
+      and LINKID = #{linkid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.syncEx.SyncByLog" >
+    update T_SYNC_BY_LOG
+    set MOBILE = #{mobile,jdbcType=VARCHAR},
+      PORT = #{port,jdbcType=VARCHAR},
+      MSG = #{msg,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      SYNC_STATUS = #{syncStatus,jdbcType=DECIMAL},
+      REDUCE_STATUS = #{reduceStatus,jdbcType=DECIMAL},
+      ERROR_CONTENT = #{errorContent,jdbcType=VARCHAR},
+      CHANNEL_APP_ID = #{channelAppId,jdbcType=DECIMAL},
+      PAY_FEE = #{payFee,jdbcType=DECIMAL},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      COOPID = #{coopid,jdbcType=DECIMAL},
+      PROVINCE = #{province,jdbcType=VARCHAR},
+      ORDERID = #{orderid,jdbcType=VARCHAR},
+      RESERVE_ONE = #{reserveOne,jdbcType=VARCHAR},
+      RESERVE_TWO = #{reserveTwo,jdbcType=VARCHAR}
+    where APP_ID = #{appId,jdbcType=VARCHAR}
+      and LINKID = #{linkid,jdbcType=VARCHAR}
+  </update>
+</mapper>

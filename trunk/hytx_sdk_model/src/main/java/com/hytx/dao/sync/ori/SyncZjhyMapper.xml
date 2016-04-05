@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.sync.ori.SyncZjhyMapper" >
+  <resultMap id="BaseResultMap" type="com.hytx.model.sync.SyncZjhy" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="LINKID" property="linkid" jdbcType="VARCHAR" />
+    <result column="MESSAGE" property="message" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="SPNUMBER" property="spnumber" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="IP" property="ip" jdbcType="VARCHAR" />
+    <result column="CPPARAM" property="cpparam" jdbcType="VARCHAR" />
+    <result column="PROVINCE_NAME" property="provinceName" jdbcType="VARCHAR" />
+    <result column="CITY_NAME" property="cityName" jdbcType="VARCHAR" />
+    <result column="RPT_STAT" property="rptStat" jdbcType="VARCHAR" />
+    <result column="SYNC_ALL_ID" property="syncAllId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, LINKID, MESSAGE, PHONE, SPNUMBER, CREATETIME, IP, CPPARAM, PROVINCE_NAME, CITY_NAME, 
+    RPT_STAT, SYNC_ALL_ID
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hytx.model.sync.SyncZjhyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_SYNC_ZJHY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYNC_ZJHY
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SYNC_ZJHY
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.sync.SyncZjhyExample" >
+    delete from T_SYNC_ZJHY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.sync.SyncZjhy" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      select SEQ_ZJHY_ID.nextval from dual
+    </selectKey>
+    insert into T_SYNC_ZJHY (ID, LINKID, MESSAGE, 
+      PHONE, SPNUMBER, CREATETIME, 
+      IP, CPPARAM, PROVINCE_NAME, 
+      CITY_NAME, RPT_STAT, SYNC_ALL_ID
+      )
+    values (#{id,jdbcType=DECIMAL}, #{linkid,jdbcType=VARCHAR}, #{message,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{spnumber,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{ip,jdbcType=VARCHAR}, #{cpparam,jdbcType=VARCHAR}, #{provinceName,jdbcType=VARCHAR}, 
+      #{cityName,jdbcType=VARCHAR}, #{rptStat,jdbcType=VARCHAR}, #{syncAllId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.sync.SyncZjhy" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      select SEQ_ZJHY_ID.nextval from dual
+    </selectKey>
+    insert into T_SYNC_ZJHY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
+      <if test="linkid != null" >
+        LINKID,
+      </if>
+      <if test="message != null" >
+        MESSAGE,
+      </if>
+      <if test="phone != null" >
+        PHONE,
+      </if>
+      <if test="spnumber != null" >
+        SPNUMBER,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="ip != null" >
+        IP,
+      </if>
+      <if test="cpparam != null" >
+        CPPARAM,
+      </if>
+      <if test="provinceName != null" >
+        PROVINCE_NAME,
+      </if>
+      <if test="cityName != null" >
+        CITY_NAME,
+      </if>
+      <if test="rptStat != null" >
+        RPT_STAT,
+      </if>
+      <if test="syncAllId != null" >
+        SYNC_ALL_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=DECIMAL},
+      <if test="linkid != null" >
+        #{linkid,jdbcType=VARCHAR},
+      </if>
+      <if test="message != null" >
+        #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="spnumber != null" >
+        #{spnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="cpparam != null" >
+        #{cpparam,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceName != null" >
+        #{provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityName != null" >
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="rptStat != null" >
+        #{rptStat,jdbcType=VARCHAR},
+      </if>
+      <if test="syncAllId != null" >
+        #{syncAllId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.sync.SyncZjhyExample" resultType="java.lang.Integer" >
+    select count(*) from T_SYNC_ZJHY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_SYNC_ZJHY
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.linkid != null" >
+        LINKID = #{record.linkid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.message != null" >
+        MESSAGE = #{record.message,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null" >
+        PHONE = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.spnumber != null" >
+        SPNUMBER = #{record.spnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        CREATETIME = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.ip != null" >
+        IP = #{record.ip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cpparam != null" >
+        CPPARAM = #{record.cpparam,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provinceName != null" >
+        PROVINCE_NAME = #{record.provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cityName != null" >
+        CITY_NAME = #{record.cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rptStat != null" >
+        RPT_STAT = #{record.rptStat,jdbcType=VARCHAR},
+      </if>
+      <if test="record.syncAllId != null" >
+        SYNC_ALL_ID = #{record.syncAllId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_SYNC_ZJHY
+    set ID = #{record.id,jdbcType=DECIMAL},
+      LINKID = #{record.linkid,jdbcType=VARCHAR},
+      MESSAGE = #{record.message,jdbcType=VARCHAR},
+      PHONE = #{record.phone,jdbcType=VARCHAR},
+      SPNUMBER = #{record.spnumber,jdbcType=VARCHAR},
+      CREATETIME = #{record.createtime,jdbcType=TIMESTAMP},
+      IP = #{record.ip,jdbcType=VARCHAR},
+      CPPARAM = #{record.cpparam,jdbcType=VARCHAR},
+      PROVINCE_NAME = #{record.provinceName,jdbcType=VARCHAR},
+      CITY_NAME = #{record.cityName,jdbcType=VARCHAR},
+      RPT_STAT = #{record.rptStat,jdbcType=VARCHAR},
+      SYNC_ALL_ID = #{record.syncAllId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.sync.SyncZjhy" >
+    update T_SYNC_ZJHY
+    <set >
+      <if test="linkid != null" >
+        LINKID = #{linkid,jdbcType=VARCHAR},
+      </if>
+      <if test="message != null" >
+        MESSAGE = #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="spnumber != null" >
+        SPNUMBER = #{spnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ip != null" >
+        IP = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="cpparam != null" >
+        CPPARAM = #{cpparam,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceName != null" >
+        PROVINCE_NAME = #{provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityName != null" >
+        CITY_NAME = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="rptStat != null" >
+        RPT_STAT = #{rptStat,jdbcType=VARCHAR},
+      </if>
+      <if test="syncAllId != null" >
+        SYNC_ALL_ID = #{syncAllId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.sync.SyncZjhy" >
+    update T_SYNC_ZJHY
+    set LINKID = #{linkid,jdbcType=VARCHAR},
+      MESSAGE = #{message,jdbcType=VARCHAR},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      SPNUMBER = #{spnumber,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      IP = #{ip,jdbcType=VARCHAR},
+      CPPARAM = #{cpparam,jdbcType=VARCHAR},
+      PROVINCE_NAME = #{provinceName,jdbcType=VARCHAR},
+      CITY_NAME = #{cityName,jdbcType=VARCHAR},
+      RPT_STAT = #{rptStat,jdbcType=VARCHAR},
+      SYNC_ALL_ID = #{syncAllId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

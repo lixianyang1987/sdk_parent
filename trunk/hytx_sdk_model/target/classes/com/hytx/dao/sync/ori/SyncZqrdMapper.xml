@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hytx.dao.sync.ori.SyncZqrdMapper">
+  <resultMap id="BaseResultMap" type="com.hytx.model.sync.SyncZqrd">
+    <id column="LINKID" jdbcType="VARCHAR" property="linkid" />
+    <result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
+    <result column="SPNUMBER" jdbcType="VARCHAR" property="spnumber" />
+    <result column="CONTENT" jdbcType="VARCHAR" property="content" />
+    <result column="STATE" jdbcType="VARCHAR" property="state" />
+    <result column="CREATETIME" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="COOPID" jdbcType="DECIMAL" property="coopid" />
+    <result column="SYNC_STATUS" jdbcType="DECIMAL" property="syncStatus" />
+    <result column="REDUCE_STATUS" jdbcType="DECIMAL" property="reduceStatus" />
+    <result column="REQ_CONTENT" jdbcType="VARCHAR" property="reqContent" />
+    <result column="CHANNELAPPID" jdbcType="DECIMAL" property="channelappid" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    LINKID, MOBILE, SPNUMBER, CONTENT, STATE, CREATETIME, COOPID, SYNC_STATUS, REDUCE_STATUS, 
+    REQ_CONTENT, CHANNELAPPID
+  </sql>
+  <select id="selectByExample" parameterType="com.hytx.model.sync.SyncZqrdExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from SYNC_ZQRD
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SYNC_ZQRD
+    where LINKID = #{linkid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from SYNC_ZQRD
+    where LINKID = #{linkid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.sync.SyncZqrdExample">
+    delete from SYNC_ZQRD
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.sync.SyncZqrd">
+    insert into SYNC_ZQRD (LINKID, MOBILE, SPNUMBER, 
+      CONTENT, STATE, CREATETIME, 
+      COOPID, SYNC_STATUS, REDUCE_STATUS, 
+      REQ_CONTENT, CHANNELAPPID)
+    values (#{linkid,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{spnumber,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{coopid,jdbcType=DECIMAL}, #{syncStatus,jdbcType=DECIMAL}, #{reduceStatus,jdbcType=DECIMAL}, 
+      #{reqContent,jdbcType=VARCHAR}, #{channelappid,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.sync.SyncZqrd">
+    insert into SYNC_ZQRD
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="linkid != null">
+        LINKID,
+      </if>
+      <if test="mobile != null">
+        MOBILE,
+      </if>
+      <if test="spnumber != null">
+        SPNUMBER,
+      </if>
+      <if test="content != null">
+        CONTENT,
+      </if>
+      <if test="state != null">
+        STATE,
+      </if>
+      <if test="createtime != null">
+        CREATETIME,
+      </if>
+      <if test="coopid != null">
+        COOPID,
+      </if>
+      <if test="syncStatus != null">
+        SYNC_STATUS,
+      </if>
+      <if test="reduceStatus != null">
+        REDUCE_STATUS,
+      </if>
+      <if test="reqContent != null">
+        REQ_CONTENT,
+      </if>
+      <if test="channelappid != null">
+        CHANNELAPPID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="linkid != null">
+        #{linkid,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="spnumber != null">
+        #{spnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="coopid != null">
+        #{coopid,jdbcType=DECIMAL},
+      </if>
+      <if test="syncStatus != null">
+        #{syncStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="reduceStatus != null">
+        #{reduceStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="reqContent != null">
+        #{reqContent,jdbcType=VARCHAR},
+      </if>
+      <if test="channelappid != null">
+        #{channelappid,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.sync.SyncZqrdExample" resultType="java.lang.Integer">
+    select count(*) from SYNC_ZQRD
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update SYNC_ZQRD
+    <set>
+      <if test="record.linkid != null">
+        LINKID = #{record.linkid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null">
+        MOBILE = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.spnumber != null">
+        SPNUMBER = #{record.spnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null">
+        CONTENT = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.state != null">
+        STATE = #{record.state,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null">
+        CREATETIME = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.coopid != null">
+        COOPID = #{record.coopid,jdbcType=DECIMAL},
+      </if>
+      <if test="record.syncStatus != null">
+        SYNC_STATUS = #{record.syncStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.reduceStatus != null">
+        REDUCE_STATUS = #{record.reduceStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.reqContent != null">
+        REQ_CONTENT = #{record.reqContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.channelappid != null">
+        CHANNELAPPID = #{record.channelappid,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update SYNC_ZQRD
+    set LINKID = #{record.linkid,jdbcType=VARCHAR},
+      MOBILE = #{record.mobile,jdbcType=VARCHAR},
+      SPNUMBER = #{record.spnumber,jdbcType=VARCHAR},
+      CONTENT = #{record.content,jdbcType=VARCHAR},
+      STATE = #{record.state,jdbcType=VARCHAR},
+      CREATETIME = #{record.createtime,jdbcType=TIMESTAMP},
+      COOPID = #{record.coopid,jdbcType=DECIMAL},
+      SYNC_STATUS = #{record.syncStatus,jdbcType=DECIMAL},
+      REDUCE_STATUS = #{record.reduceStatus,jdbcType=DECIMAL},
+      REQ_CONTENT = #{record.reqContent,jdbcType=VARCHAR},
+      CHANNELAPPID = #{record.channelappid,jdbcType=DECIMAL}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.sync.SyncZqrd">
+    update SYNC_ZQRD
+    <set>
+      <if test="mobile != null">
+        MOBILE = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="spnumber != null">
+        SPNUMBER = #{spnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        STATE = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="coopid != null">
+        COOPID = #{coopid,jdbcType=DECIMAL},
+      </if>
+      <if test="syncStatus != null">
+        SYNC_STATUS = #{syncStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="reduceStatus != null">
+        REDUCE_STATUS = #{reduceStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="reqContent != null">
+        REQ_CONTENT = #{reqContent,jdbcType=VARCHAR},
+      </if>
+      <if test="channelappid != null">
+        CHANNELAPPID = #{channelappid,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where LINKID = #{linkid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.sync.SyncZqrd">
+    update SYNC_ZQRD
+    set MOBILE = #{mobile,jdbcType=VARCHAR},
+      SPNUMBER = #{spnumber,jdbcType=VARCHAR},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      STATE = #{state,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      COOPID = #{coopid,jdbcType=DECIMAL},
+      SYNC_STATUS = #{syncStatus,jdbcType=DECIMAL},
+      REDUCE_STATUS = #{reduceStatus,jdbcType=DECIMAL},
+      REQ_CONTENT = #{reqContent,jdbcType=VARCHAR},
+      CHANNELAPPID = #{channelappid,jdbcType=DECIMAL}
+    where LINKID = #{linkid,jdbcType=VARCHAR}
+  </update>
+ 
+</mapper>

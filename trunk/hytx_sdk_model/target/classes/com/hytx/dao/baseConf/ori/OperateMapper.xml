@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hytx.dao.baseConf.ori.OperateMapper">
+  <resultMap id="BaseResultMap" type="com.hytx.model.baseConf.Operate">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="OP_NAME" jdbcType="VARCHAR" property="opName" />
+    <result column="PRICE" jdbcType="DECIMAL" property="price" />
+    <result column="FEE_CODE" jdbcType="VARCHAR" property="feeCode" />
+    <result column="OP_CODE" jdbcType="VARCHAR" property="opCode" />
+    <result column="SUFFIX_NUM" jdbcType="DECIMAL" property="suffixNum" />
+    <result column="SERVER_TYPE" jdbcType="DECIMAL" property="serverType" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="WEIGHT" jdbcType="DECIMAL" property="weight" />
+    <result column="OP_TYPE" jdbcType="DECIMAL" property="opType" />
+    <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+    <result column="CREATE_DT" jdbcType="TIMESTAMP" property="createDt" />
+    <result column="UPDATE_BY" jdbcType="VARCHAR" property="updateBy" />
+    <result column="UPDATE_DT" jdbcType="TIMESTAMP" property="updateDt" />
+    <result column="APP_ID" jdbcType="DECIMAL" property="appId" />
+    <result column="APP_SN" jdbcType="VARCHAR" property="appSn" />
+    <result column="CHANNEL_SN" jdbcType="VARCHAR" property="channelSn" />
+    <result column="ENSURE_TYPE" jdbcType="DECIMAL" property="ensureType" />
+    <result column="ENSURE_CONTENT" jdbcType="VARCHAR" property="ensureContent" />
+    <result column="ENSURE_NUM" jdbcType="VARCHAR" property="ensureNum" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, OP_NAME, PRICE, FEE_CODE, OP_CODE, SUFFIX_NUM, SERVER_TYPE, STATUS, WEIGHT, OP_TYPE, 
+    CREATE_BY, CREATE_DT, UPDATE_BY, UPDATE_DT, APP_ID, APP_SN, CHANNEL_SN, ENSURE_TYPE, 
+    ENSURE_CONTENT, ENSURE_NUM
+  </sql>
+  <select id="selectByExample" parameterType="com.hytx.model.baseConf.OperateExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_OPERATE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_OPERATE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from T_OPERATE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.baseConf.OperateExample">
+    delete from T_OPERATE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.baseConf.Operate">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+      select SEQ_OPERATE_ID.nextval from dual
+    </selectKey>
+    insert into T_OPERATE (ID, OP_NAME, PRICE, 
+      FEE_CODE, OP_CODE, SUFFIX_NUM, 
+      SERVER_TYPE, STATUS, WEIGHT, 
+      OP_TYPE, CREATE_BY, CREATE_DT, 
+      UPDATE_BY, UPDATE_DT, APP_ID, 
+      APP_SN, CHANNEL_SN, ENSURE_TYPE, 
+      ENSURE_CONTENT, ENSURE_NUM)
+    values (#{id,jdbcType=DECIMAL}, #{opName,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
+      #{feeCode,jdbcType=VARCHAR}, #{opCode,jdbcType=VARCHAR}, #{suffixNum,jdbcType=DECIMAL}, 
+      #{serverType,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, #{weight,jdbcType=DECIMAL}, 
+      #{opType,jdbcType=DECIMAL}, #{createBy,jdbcType=VARCHAR}, #{createDt,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR}, #{updateDt,jdbcType=TIMESTAMP}, #{appId,jdbcType=DECIMAL}, 
+      #{appSn,jdbcType=VARCHAR}, #{channelSn,jdbcType=VARCHAR}, #{ensureType,jdbcType=DECIMAL}, 
+      #{ensureContent,jdbcType=VARCHAR}, #{ensureNum,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.baseConf.Operate">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+      select SEQ_OPERATE_ID.nextval from dual
+    </selectKey>
+    insert into T_OPERATE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      ID,
+      <if test="opName != null">
+        OP_NAME,
+      </if>
+      <if test="price != null">
+        PRICE,
+      </if>
+      <if test="feeCode != null">
+        FEE_CODE,
+      </if>
+      <if test="opCode != null">
+        OP_CODE,
+      </if>
+      <if test="suffixNum != null">
+        SUFFIX_NUM,
+      </if>
+      <if test="serverType != null">
+        SERVER_TYPE,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="weight != null">
+        WEIGHT,
+      </if>
+      <if test="opType != null">
+        OP_TYPE,
+      </if>
+      <if test="createBy != null">
+        CREATE_BY,
+      </if>
+      <if test="createDt != null">
+        CREATE_DT,
+      </if>
+      <if test="updateBy != null">
+        UPDATE_BY,
+      </if>
+      <if test="updateDt != null">
+        UPDATE_DT,
+      </if>
+      <if test="appId != null">
+        APP_ID,
+      </if>
+      <if test="appSn != null">
+        APP_SN,
+      </if>
+      <if test="channelSn != null">
+        CHANNEL_SN,
+      </if>
+      <if test="ensureType != null">
+        ENSURE_TYPE,
+      </if>
+      <if test="ensureContent != null">
+        ENSURE_CONTENT,
+      </if>
+      <if test="ensureNum != null">
+        ENSURE_NUM,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{id,jdbcType=DECIMAL},
+      <if test="opName != null">
+        #{opName,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="feeCode != null">
+        #{feeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="opCode != null">
+        #{opCode,jdbcType=VARCHAR},
+      </if>
+      <if test="suffixNum != null">
+        #{suffixNum,jdbcType=DECIMAL},
+      </if>
+      <if test="serverType != null">
+        #{serverType,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="opType != null">
+        #{opType,jdbcType=DECIMAL},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDt != null">
+        #{createDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDt != null">
+        #{updateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appId != null">
+        #{appId,jdbcType=DECIMAL},
+      </if>
+      <if test="appSn != null">
+        #{appSn,jdbcType=VARCHAR},
+      </if>
+      <if test="channelSn != null">
+        #{channelSn,jdbcType=VARCHAR},
+      </if>
+      <if test="ensureType != null">
+        #{ensureType,jdbcType=DECIMAL},
+      </if>
+      <if test="ensureContent != null">
+        #{ensureContent,jdbcType=VARCHAR},
+      </if>
+      <if test="ensureNum != null">
+        #{ensureNum,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.baseConf.OperateExample" resultType="java.lang.Integer">
+    select count(*) from T_OPERATE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update T_OPERATE
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.opName != null">
+        OP_NAME = #{record.opName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null">
+        PRICE = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.feeCode != null">
+        FEE_CODE = #{record.feeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.opCode != null">
+        OP_CODE = #{record.opCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.suffixNum != null">
+        SUFFIX_NUM = #{record.suffixNum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.serverType != null">
+        SERVER_TYPE = #{record.serverType,jdbcType=DECIMAL},
+      </if>
+      <if test="record.status != null">
+        STATUS = #{record.status,jdbcType=DECIMAL},
+      </if>
+      <if test="record.weight != null">
+        WEIGHT = #{record.weight,jdbcType=DECIMAL},
+      </if>
+      <if test="record.opType != null">
+        OP_TYPE = #{record.opType,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createBy != null">
+        CREATE_BY = #{record.createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDt != null">
+        CREATE_DT = #{record.createDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateBy != null">
+        UPDATE_BY = #{record.updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDt != null">
+        UPDATE_DT = #{record.updateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.appId != null">
+        APP_ID = #{record.appId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.appSn != null">
+        APP_SN = #{record.appSn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.channelSn != null">
+        CHANNEL_SN = #{record.channelSn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ensureType != null">
+        ENSURE_TYPE = #{record.ensureType,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ensureContent != null">
+        ENSURE_CONTENT = #{record.ensureContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ensureNum != null">
+        ENSURE_NUM = #{record.ensureNum,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update T_OPERATE
+    set ID = #{record.id,jdbcType=DECIMAL},
+      OP_NAME = #{record.opName,jdbcType=VARCHAR},
+      PRICE = #{record.price,jdbcType=DECIMAL},
+      FEE_CODE = #{record.feeCode,jdbcType=VARCHAR},
+      OP_CODE = #{record.opCode,jdbcType=VARCHAR},
+      SUFFIX_NUM = #{record.suffixNum,jdbcType=DECIMAL},
+      SERVER_TYPE = #{record.serverType,jdbcType=DECIMAL},
+      STATUS = #{record.status,jdbcType=DECIMAL},
+      WEIGHT = #{record.weight,jdbcType=DECIMAL},
+      OP_TYPE = #{record.opType,jdbcType=DECIMAL},
+      CREATE_BY = #{record.createBy,jdbcType=VARCHAR},
+      CREATE_DT = #{record.createDt,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{record.updateBy,jdbcType=VARCHAR},
+      UPDATE_DT = #{record.updateDt,jdbcType=TIMESTAMP},
+      APP_ID = #{record.appId,jdbcType=DECIMAL},
+      APP_SN = #{record.appSn,jdbcType=VARCHAR},
+      CHANNEL_SN = #{record.channelSn,jdbcType=VARCHAR},
+      ENSURE_TYPE = #{record.ensureType,jdbcType=DECIMAL},
+      ENSURE_CONTENT = #{record.ensureContent,jdbcType=VARCHAR},
+      ENSURE_NUM = #{record.ensureNum,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.baseConf.Operate">
+    update T_OPERATE
+    <set>
+      <if test="opName != null">
+        OP_NAME = #{opName,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        PRICE = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="feeCode != null">
+        FEE_CODE = #{feeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="opCode != null">
+        OP_CODE = #{opCode,jdbcType=VARCHAR},
+      </if>
+      <if test="suffixNum != null">
+        SUFFIX_NUM = #{suffixNum,jdbcType=DECIMAL},
+      </if>
+      <if test="serverType != null">
+        SERVER_TYPE = #{serverType,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="weight != null">
+        WEIGHT = #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="opType != null">
+        OP_TYPE = #{opType,jdbcType=DECIMAL},
+      </if>
+      <if test="createBy != null">
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDt != null">
+        CREATE_DT = #{createDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDt != null">
+        UPDATE_DT = #{updateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appId != null">
+        APP_ID = #{appId,jdbcType=DECIMAL},
+      </if>
+      <if test="appSn != null">
+        APP_SN = #{appSn,jdbcType=VARCHAR},
+      </if>
+      <if test="channelSn != null">
+        CHANNEL_SN = #{channelSn,jdbcType=VARCHAR},
+      </if>
+      <if test="ensureType != null">
+        ENSURE_TYPE = #{ensureType,jdbcType=DECIMAL},
+      </if>
+      <if test="ensureContent != null">
+        ENSURE_CONTENT = #{ensureContent,jdbcType=VARCHAR},
+      </if>
+      <if test="ensureNum != null">
+        ENSURE_NUM = #{ensureNum,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.baseConf.Operate">
+    update T_OPERATE
+    set OP_NAME = #{opName,jdbcType=VARCHAR},
+      PRICE = #{price,jdbcType=DECIMAL},
+      FEE_CODE = #{feeCode,jdbcType=VARCHAR},
+      OP_CODE = #{opCode,jdbcType=VARCHAR},
+      SUFFIX_NUM = #{suffixNum,jdbcType=DECIMAL},
+      SERVER_TYPE = #{serverType,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL},
+      WEIGHT = #{weight,jdbcType=DECIMAL},
+      OP_TYPE = #{opType,jdbcType=DECIMAL},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      CREATE_DT = #{createDt,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      UPDATE_DT = #{updateDt,jdbcType=TIMESTAMP},
+      APP_ID = #{appId,jdbcType=DECIMAL},
+      APP_SN = #{appSn,jdbcType=VARCHAR},
+      CHANNEL_SN = #{channelSn,jdbcType=VARCHAR},
+      ENSURE_TYPE = #{ensureType,jdbcType=DECIMAL},
+      ENSURE_CONTENT = #{ensureContent,jdbcType=VARCHAR},
+      ENSURE_NUM = #{ensureNum,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

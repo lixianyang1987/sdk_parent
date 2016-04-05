@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.sync.ori.SyncYpplDxMapper" >
+  <resultMap id="BaseResultMap" type="com.hytx.model.sync.SyncYpplDx" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="ACTION" property="action" jdbcType="VARCHAR" />
+    <result column="SPID" property="spid" jdbcType="VARCHAR" />
+    <result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+    <result column="SERVICEID" property="serviceid" jdbcType="VARCHAR" />
+    <result column="MOCONTENT" property="mocontent" jdbcType="VARCHAR" />
+    <result column="LINKID" property="linkid" jdbcType="VARCHAR" />
+    <result column="MTCONTENT" property="mtcontent" jdbcType="VARCHAR" />
+    <result column="FEE" property="fee" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="DTIME" property="dtime" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="PROVINCE_NAME" property="provinceName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, ACTION, SPID, MOBILE, SERVICEID, MOCONTENT, LINKID, MTCONTENT, FEE, STATUS, DTIME, 
+    CREATETIME, PROVINCE_NAME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hytx.model.sync.SyncYpplDxExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_SYNC_YPPLDX
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYNC_YPPLDX
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_SYNC_YPPLDX
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.sync.SyncYpplDxExample" >
+    delete from T_SYNC_YPPLDX
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.sync.SyncYpplDx" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+      select SEQ_SYNC_YPPLDX_ID.nextval from dual
+    </selectKey>
+    insert into T_SYNC_YPPLDX (ID, ACTION, SPID, 
+      MOBILE, SERVICEID, MOCONTENT, 
+      LINKID, MTCONTENT, FEE, 
+      STATUS, DTIME, CREATETIME, 
+      PROVINCE_NAME)
+    values (#{id,jdbcType=DECIMAL}, #{action,jdbcType=VARCHAR}, #{spid,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{serviceid,jdbcType=VARCHAR}, #{mocontent,jdbcType=VARCHAR}, 
+      #{linkid,jdbcType=VARCHAR}, #{mtcontent,jdbcType=VARCHAR}, #{fee,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{dtime,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{provinceName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.sync.SyncYpplDx" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+      select SEQ_SYNC_YPPLDX_ID.nextval from dual
+    </selectKey>
+    insert into T_SYNC_YPPLDX
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
+      <if test="action != null" >
+        ACTION,
+      </if>
+      <if test="spid != null" >
+        SPID,
+      </if>
+      <if test="mobile != null" >
+        MOBILE,
+      </if>
+      <if test="serviceid != null" >
+        SERVICEID,
+      </if>
+      <if test="mocontent != null" >
+        MOCONTENT,
+      </if>
+      <if test="linkid != null" >
+        LINKID,
+      </if>
+      <if test="mtcontent != null" >
+        MTCONTENT,
+      </if>
+      <if test="fee != null" >
+        FEE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="dtime != null" >
+        DTIME,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="provinceName != null" >
+        PROVINCE_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=DECIMAL},
+      <if test="action != null" >
+        #{action,jdbcType=VARCHAR},
+      </if>
+      <if test="spid != null" >
+        #{spid,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceid != null" >
+        #{serviceid,jdbcType=VARCHAR},
+      </if>
+      <if test="mocontent != null" >
+        #{mocontent,jdbcType=VARCHAR},
+      </if>
+      <if test="linkid != null" >
+        #{linkid,jdbcType=VARCHAR},
+      </if>
+      <if test="mtcontent != null" >
+        #{mtcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="fee != null" >
+        #{fee,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="dtime != null" >
+        #{dtime,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="provinceName != null" >
+        #{provinceName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.sync.SyncYpplDxExample" resultType="java.lang.Integer" >
+    select count(*) from T_SYNC_YPPLDX
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_SYNC_YPPLDX
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.action != null" >
+        ACTION = #{record.action,jdbcType=VARCHAR},
+      </if>
+      <if test="record.spid != null" >
+        SPID = #{record.spid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null" >
+        MOBILE = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.serviceid != null" >
+        SERVICEID = #{record.serviceid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mocontent != null" >
+        MOCONTENT = #{record.mocontent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkid != null" >
+        LINKID = #{record.linkid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mtcontent != null" >
+        MTCONTENT = #{record.mtcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fee != null" >
+        FEE = #{record.fee,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dtime != null" >
+        DTIME = #{record.dtime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        CREATETIME = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.provinceName != null" >
+        PROVINCE_NAME = #{record.provinceName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_SYNC_YPPLDX
+    set ID = #{record.id,jdbcType=DECIMAL},
+      ACTION = #{record.action,jdbcType=VARCHAR},
+      SPID = #{record.spid,jdbcType=VARCHAR},
+      MOBILE = #{record.mobile,jdbcType=VARCHAR},
+      SERVICEID = #{record.serviceid,jdbcType=VARCHAR},
+      MOCONTENT = #{record.mocontent,jdbcType=VARCHAR},
+      LINKID = #{record.linkid,jdbcType=VARCHAR},
+      MTCONTENT = #{record.mtcontent,jdbcType=VARCHAR},
+      FEE = #{record.fee,jdbcType=VARCHAR},
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      DTIME = #{record.dtime,jdbcType=VARCHAR},
+      CREATETIME = #{record.createtime,jdbcType=TIMESTAMP},
+      PROVINCE_NAME = #{record.provinceName,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.sync.SyncYpplDx" >
+    update T_SYNC_YPPLDX
+    <set >
+      <if test="action != null" >
+        ACTION = #{action,jdbcType=VARCHAR},
+      </if>
+      <if test="spid != null" >
+        SPID = #{spid,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        MOBILE = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceid != null" >
+        SERVICEID = #{serviceid,jdbcType=VARCHAR},
+      </if>
+      <if test="mocontent != null" >
+        MOCONTENT = #{mocontent,jdbcType=VARCHAR},
+      </if>
+      <if test="linkid != null" >
+        LINKID = #{linkid,jdbcType=VARCHAR},
+      </if>
+      <if test="mtcontent != null" >
+        MTCONTENT = #{mtcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="fee != null" >
+        FEE = #{fee,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="dtime != null" >
+        DTIME = #{dtime,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="provinceName != null" >
+        PROVINCE_NAME = #{provinceName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.sync.SyncYpplDx" >
+    update T_SYNC_YPPLDX
+    set ACTION = #{action,jdbcType=VARCHAR},
+      SPID = #{spid,jdbcType=VARCHAR},
+      MOBILE = #{mobile,jdbcType=VARCHAR},
+      SERVICEID = #{serviceid,jdbcType=VARCHAR},
+      MOCONTENT = #{mocontent,jdbcType=VARCHAR},
+      LINKID = #{linkid,jdbcType=VARCHAR},
+      MTCONTENT = #{mtcontent,jdbcType=VARCHAR},
+      FEE = #{fee,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      DTIME = #{dtime,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      PROVINCE_NAME = #{provinceName,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.xzf.ex.XzfCountMapperEx" >
+  <resultMap type="com.hytx.dto.xzf.XzfCountDto" id="baseResultMap">
+      <result column="date" property="date_str" jdbcType="VARCHAR"/>
+      <result column="channelAppName" property="channelAppName" jdbcType="VARCHAR"/>
+      <result column="channel_app_id" property="channelAppId" jdbcType="INTEGER"/>
+      <result column="fee_value" property="feeValue" jdbcType="INTEGER"/>
+      <result column="data_type" property="dataType" jdbcType="INTEGER"/>
+      <result column="op_type" property="opType" jdbcType="INTEGER"/>
+      <result column="mobile" property="mobile" jdbcType="VARCHAR"/>
+      <result column="total" property="total" jdbcType="INTEGER"/>
+      <result column="total_suc" property="totalSuc" jdbcType="INTEGER"/>
+      <result column="total_users" property="totalUsers" jdbcType="INTEGER"/>
+  </resultMap>
+  
+   <resultMap id="flowLogResultMap" type="com.hytx.dto.xzf.XzfFlowLogDto" extends="com.hytx.dao.xzf.ori.XzfFlowLogMapper.BaseResultMap" >
+         <result column="mobile" property="mobile" jdbcType="VARCHAR"/>
+         <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+   </resultMap>
+ 
+  
+   <resultMap type="com.hytx.dto.count.KeyValueDto" id="keyValueResultMap">
+         <result column="date_str" property="key" jdbcType="VARCHAR"/>
+         <result column="income" property="value" jdbcType="INTEGER"/>
+   </resultMap>
+   
+  <select id="countXzfOrders" resultMap="baseResultMap">
+       select t.* from (
+       select rownum rm,tb.* from (
+            select  data_type,fee_value,op_type, count(distinct v.imei) as total_users,count(*) as total,
+            sum(decode(v.status,1,1,0)) as total_suc
+            from V_XZF_BILL v  
+            where   
+            to_char(v.create_dt,'yyyy-mm-dd') between #{findDto.startDate,jdbcType=VARCHAR} and #{findDto.endDate,jdbcType=VARCHAR}	
+            group by v.data_type,fee_value,op_type
+            order by v.data_type,fee_value,op_type
+		) tb
+		)t 
+		where rm between #{page.pageStartIndex} and #{page.pageEndIndex}
+  </select>
+  
+  <select id="countXzfOrdersTotal" resultType="java.lang.Integer">
+       select  count(distinct  data_type||'_'||fee_value||'_'||op_type)  
+       from V_XZF_BILL v  
+       where   
+       to_char(v.create_dt,'yyyy-mm-dd') between #{findDto.startDate,jdbcType=VARCHAR} and #{findDto.endDate,jdbcType=VARCHAR}	
+  </select>
+  
+
+  <select id="selectFlowLogListByPage" resultMap="flowLogResultMap">
+        select  t.*,u.mobile,u.name as user_name from (
+	        select rownum rm,tb.* from(
+				select  r.* from T_XZF_FLOW_LOG r  where 1=1  
+				<if test="findDto.orderId!=null">
+					and order_id like '%${findDto.orderId}%'
+				</if>
+				<if test="findDto.imsi!=null">
+					and imsi = #{findDto.imsi,jdbcType=VARCHAR}
+				</if>
+				<if test="findDto.imei!=null">
+					and imei = #{findDto.imei,jdbcType=VARCHAR}
+				</if>
+				and to_char(r.create_dt,'yyyy-mm-dd') between #{findDto.startDate,jdbcType=VARCHAR} and #{findDto.endDate,jdbcType=VARCHAR}	
+				order by create_dt asc
+			)tb
+		)t  inner join t_xzf_user u on t.imei=u.imei
+		where t.rm between #{page.pageStartIndex} and #{page.pageEndIndex}
+		order by t.order_id asc
+  </select>
+  
+  <select id="countFlowLog" resultType="java.lang.Integer">
+		select  count(*) from T_XZF_FLOW_LOG r  where 1=1  
+		<if test="findDto.orderId!=null">
+			and order_id like '%${findDto.orderId}%'
+		</if>
+		<if test="findDto.imsi!=null">
+			and imsi = #{findDto.imsi,jdbcType=VARCHAR}
+		</if>
+		<if test="findDto.imei!=null">
+			and imei = #{findDto.imei,jdbcType=VARCHAR}
+		</if>
+		and exists(
+		  select u.imei from t_xzf_user u where r.imei=u.imei
+		)
+		and to_char(r.create_dt,'yyyy-mm-dd') between #{findDto.startDate,jdbcType=VARCHAR} and #{findDto.endDate,jdbcType=VARCHAR}	
+  </select> 
+
+</mapper>

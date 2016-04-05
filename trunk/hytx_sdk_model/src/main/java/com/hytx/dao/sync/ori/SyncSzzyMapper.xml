@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.sync.ori.SyncSzzyMapper" >
+  <resultMap id="BaseResultMap" type="com.hytx.model.sync.SyncSzzy" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="LINKID" property="linkid" jdbcType="VARCHAR" />
+    <result column="INSTRUCTION" property="instruction" jdbcType="VARCHAR" />
+    <result column="MOB" property="mob" jdbcType="VARCHAR" />
+    <result column="DESTMOB" property="destmob" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="IP" property="ip" jdbcType="VARCHAR" />
+    <result column="CPPARAM" property="cpparam" jdbcType="VARCHAR" />
+    <result column="PROVINCE_NAME" property="provinceName" jdbcType="VARCHAR" />
+    <result column="RPT_STAT" property="rptStat" jdbcType="VARCHAR" />
+    <result column="SYNC_ALL_ID" property="syncAllId" jdbcType="VARCHAR" />
+    <result column="DT" property="dt" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, LINKID, INSTRUCTION, MOB, DESTMOB, CREATETIME, IP, CPPARAM, PROVINCE_NAME, RPT_STAT, 
+    SYNC_ALL_ID, DT
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hytx.model.sync.SyncSzzyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_SYNC_SZZY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYNC_SZZY
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SYNC_SZZY
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.sync.SyncSzzyExample" >
+    delete from T_SYNC_SZZY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.sync.SyncSzzy" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      select seq_SYNC_SZZY_id.nextval from dual
+    </selectKey>
+    insert into T_SYNC_SZZY (ID, LINKID, INSTRUCTION, 
+      MOB, DESTMOB, CREATETIME, 
+      IP, CPPARAM, PROVINCE_NAME, 
+      RPT_STAT, SYNC_ALL_ID, DT
+      )
+    values (#{id,jdbcType=DECIMAL}, #{linkid,jdbcType=VARCHAR}, #{instruction,jdbcType=VARCHAR}, 
+      #{mob,jdbcType=VARCHAR}, #{destmob,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{ip,jdbcType=VARCHAR}, #{cpparam,jdbcType=VARCHAR}, #{provinceName,jdbcType=VARCHAR}, 
+      #{rptStat,jdbcType=VARCHAR}, #{syncAllId,jdbcType=VARCHAR}, #{dt,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.sync.SyncSzzy" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      select seq_SYNC_SZZY_id.nextval from dual
+    </selectKey>
+    insert into T_SYNC_SZZY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
+      <if test="linkid != null" >
+        LINKID,
+      </if>
+      <if test="instruction != null" >
+        INSTRUCTION,
+      </if>
+      <if test="mob != null" >
+        MOB,
+      </if>
+      <if test="destmob != null" >
+        DESTMOB,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="ip != null" >
+        IP,
+      </if>
+      <if test="cpparam != null" >
+        CPPARAM,
+      </if>
+      <if test="provinceName != null" >
+        PROVINCE_NAME,
+      </if>
+      <if test="rptStat != null" >
+        RPT_STAT,
+      </if>
+      <if test="syncAllId != null" >
+        SYNC_ALL_ID,
+      </if>
+      <if test="dt != null" >
+        DT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=DECIMAL},
+      <if test="linkid != null" >
+        #{linkid,jdbcType=VARCHAR},
+      </if>
+      <if test="instruction != null" >
+        #{instruction,jdbcType=VARCHAR},
+      </if>
+      <if test="mob != null" >
+        #{mob,jdbcType=VARCHAR},
+      </if>
+      <if test="destmob != null" >
+        #{destmob,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="cpparam != null" >
+        #{cpparam,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceName != null" >
+        #{provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="rptStat != null" >
+        #{rptStat,jdbcType=VARCHAR},
+      </if>
+      <if test="syncAllId != null" >
+        #{syncAllId,jdbcType=VARCHAR},
+      </if>
+      <if test="dt != null" >
+        #{dt,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.sync.SyncSzzyExample" resultType="java.lang.Integer" >
+    select count(*) from T_SYNC_SZZY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_SYNC_SZZY
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.linkid != null" >
+        LINKID = #{record.linkid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.instruction != null" >
+        INSTRUCTION = #{record.instruction,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mob != null" >
+        MOB = #{record.mob,jdbcType=VARCHAR},
+      </if>
+      <if test="record.destmob != null" >
+        DESTMOB = #{record.destmob,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        CREATETIME = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.ip != null" >
+        IP = #{record.ip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cpparam != null" >
+        CPPARAM = #{record.cpparam,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provinceName != null" >
+        PROVINCE_NAME = #{record.provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rptStat != null" >
+        RPT_STAT = #{record.rptStat,jdbcType=VARCHAR},
+      </if>
+      <if test="record.syncAllId != null" >
+        SYNC_ALL_ID = #{record.syncAllId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dt != null" >
+        DT = #{record.dt,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_SYNC_SZZY
+    set ID = #{record.id,jdbcType=DECIMAL},
+      LINKID = #{record.linkid,jdbcType=VARCHAR},
+      INSTRUCTION = #{record.instruction,jdbcType=VARCHAR},
+      MOB = #{record.mob,jdbcType=VARCHAR},
+      DESTMOB = #{record.destmob,jdbcType=VARCHAR},
+      CREATETIME = #{record.createtime,jdbcType=TIMESTAMP},
+      IP = #{record.ip,jdbcType=VARCHAR},
+      CPPARAM = #{record.cpparam,jdbcType=VARCHAR},
+      PROVINCE_NAME = #{record.provinceName,jdbcType=VARCHAR},
+      RPT_STAT = #{record.rptStat,jdbcType=VARCHAR},
+      SYNC_ALL_ID = #{record.syncAllId,jdbcType=VARCHAR},
+      DT = #{record.dt,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.sync.SyncSzzy" >
+    update T_SYNC_SZZY
+    <set >
+      <if test="linkid != null" >
+        LINKID = #{linkid,jdbcType=VARCHAR},
+      </if>
+      <if test="instruction != null" >
+        INSTRUCTION = #{instruction,jdbcType=VARCHAR},
+      </if>
+      <if test="mob != null" >
+        MOB = #{mob,jdbcType=VARCHAR},
+      </if>
+      <if test="destmob != null" >
+        DESTMOB = #{destmob,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ip != null" >
+        IP = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="cpparam != null" >
+        CPPARAM = #{cpparam,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceName != null" >
+        PROVINCE_NAME = #{provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="rptStat != null" >
+        RPT_STAT = #{rptStat,jdbcType=VARCHAR},
+      </if>
+      <if test="syncAllId != null" >
+        SYNC_ALL_ID = #{syncAllId,jdbcType=VARCHAR},
+      </if>
+      <if test="dt != null" >
+        DT = #{dt,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.sync.SyncSzzy" >
+    update T_SYNC_SZZY
+    set LINKID = #{linkid,jdbcType=VARCHAR},
+      INSTRUCTION = #{instruction,jdbcType=VARCHAR},
+      MOB = #{mob,jdbcType=VARCHAR},
+      DESTMOB = #{destmob,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      IP = #{ip,jdbcType=VARCHAR},
+      CPPARAM = #{cpparam,jdbcType=VARCHAR},
+      PROVINCE_NAME = #{provinceName,jdbcType=VARCHAR},
+      RPT_STAT = #{rptStat,jdbcType=VARCHAR},
+      SYNC_ALL_ID = #{syncAllId,jdbcType=VARCHAR},
+      DT = #{dt,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:util="http://www.springframework.org/schema/util" 
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+		http://www.springframework.org/schema/cache
+        http://www.springframework.org/schema/cache/spring-cache-3.2.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		">
+
+    <context:property-placeholder ignore-unresolvable="true" local-override="true"
+                                  location="classpath*:/application.properties"/>
+
+	<bean id="propertyFactoryBean"
+		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="locations">
+			<list>
+				<value>classpath:application.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	
+    <!-- 使用annotation 自动注册bean, 并保证@Required、@Autowired的属性被注入 -->
+    <context:component-scan base-package="com.hytx.common.**,com.hytx.service.**,com.hytx.dao.**,com.hytx.dao.**,com.hytx.intercepter.**">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+	
+	   <!-- 缓存 -->
+    <cache:annotation-driven cache-manager="cacheManager"/>
+    <!-- cacheManager工厂类 -->
+	<bean id="cacheManagerFactory"
+		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"
+		p:configLocation="classpath:ehcache.xml" />
+	<!-- 声明cacheManager -->
+	<bean id="cacheManager" name="cacheManager"   class="org.springframework.cache.ehcache.EhCacheCacheManager"
+		p:cacheManager-ref="cacheManagerFactory" />
+    <!-- portal master数据库 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+		<!-- 连接池启动时创建的初始化连接数量（默认值为0） -->
+		<property name="initialSize" value="1" />
+		<!-- 连接池中可同时连接的最大的连接数 默认 8 -->
+		<property name="maxActive" value="100" />
+		<!-- 连接池中最小的空闲的连接数，低于这个数量会被创建新的连接 -->
+		<property name="minIdle" value="5" />
+		<!-- 连接池中最大的空闲的连接数，超过的空闲连接将被释放，如果设置为负数表示不限制 默认8 -->
+		<property name="maxIdle" value="30" />
+		<!-- 最大等待时间，当没有可用连接时，连接池等待连接释放的最大时间，超过该时间限制会抛出异常，如果设置-1表示无限等待 -->
+		<property name="maxWait" value="60000" />
+		<!-- 超过removeAbandonedTimeout时间后，是否进 行没用连接（废弃）的回收（默认为false，调整为true) -->
+		<property name="removeAbandoned" value="true" />
+		<!-- 超过时间限制，回收没有用(废弃)的连接（默认为 300秒，调整为180） -->
+		<property name="removeAbandonedTimeout" value="180" />
+		<!-- 默认提交 -->
+		<property name="defaultAutoCommit" value="true" />
+		<!-- 打开检查,用异步线程evict进行检查 -->
+		<property name="testWhileIdle" value="true" />
+		<!-- 就是在进行borrowObject进行处理时，对拿到的connection进行validateObject校验 -->
+		<property name="testOnBorrow" value="false" />
+		<!-- 就是在进行returnObject对返回的connection进行validateObject校验，个人觉得对数据库连接池的管理意义不大 -->
+		<property name="testOnReturn" value="false" />
+		<!-- 代表检查的sql -->
+		<property name="validationQuery" value="select 1 from dual" />
+		<!-- 代表在执行检查时，通过statement设置，statement.setQueryTimeout(validationQueryTimeout) -->
+		<property name="validationQueryTimeout" value="1" />
+		<property name="timeBetweenEvictionRunsMillis" value="30000" />
+		<!-- 代表每次检查链接的数量，建议设置和maxActive一样大，这样每次可以有效检查所有的链接. -->
+		<property name="numTestsPerEvictionRun" value="100" />
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+     <!-- 使用annotation定义事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager"  proxy-target-class="true" />
+    
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:mybatis-configuration.xml"></property>
+	</bean>
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"> 
+     <!--basePackage指定要扫描的包，在此包之下的映射器都会被搜索到。可指定多个包，包与包之间用逗号或分号分隔--> 
+     	<property name="basePackage" value="com.hytx.dao" />
+     </bean> 
+	<bean id="multipartResolver"  
+        class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
+        <property name="maxUploadSize">  
+            <value>2048576</value>  
+        </property>  
+    </bean>
+    
+     <bean id="springUtil" class="com.hytx.util.AppContextUtil"></bean>
+     
+     <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource" scope="singleton">
+	   <property name="basenames">
+			<set>
+				<value>classpath:property_zh_CN</value>
+			</set>
+		</property>
+	</bean>
+    
+</beans>

@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.xzf.ori.XzfVcodeMapper" >
+  <resultMap id="BaseResultMap" type="com.hytx.model.xzf.XzfVcode" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+    <result column="VCODE" property="vcode" jdbcType="VARCHAR" />
+    <result column="EFFECTIVE_DT" property="effectiveDt" jdbcType="TIMESTAMP" />
+    <result column="EXPIRE_DT" property="expireDt" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, MOBILE, VCODE, EFFECTIVE_DT, EXPIRE_DT
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hytx.model.xzf.XzfVcodeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_XZF_VCODE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_XZF_VCODE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from T_XZF_VCODE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.xzf.XzfVcodeExample" >
+    delete from T_XZF_VCODE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.xzf.XzfVcode" >
+    <selectKey resultType="java.math.BigDecimal" keyProperty="id" order="BEFORE" >
+      select SEQ_XZF_VCODE_ID.nextval from dual
+    </selectKey>
+    insert into T_XZF_VCODE (ID, MOBILE, VCODE, 
+      EFFECTIVE_DT, EXPIRE_DT)
+    values (#{id,jdbcType=DECIMAL}, #{mobile,jdbcType=VARCHAR}, #{vcode,jdbcType=VARCHAR}, 
+      #{effectiveDt,jdbcType=TIMESTAMP}, #{expireDt,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.xzf.XzfVcode" >
+    <selectKey resultType="java.math.BigDecimal" keyProperty="id" order="BEFORE" >
+      select SEQ_XZF_VCODE_ID.nextval from dual
+    </selectKey>
+    insert into T_XZF_VCODE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
+      <if test="mobile != null" >
+        MOBILE,
+      </if>
+      <if test="vcode != null" >
+        VCODE,
+      </if>
+      <if test="effectiveDt != null" >
+        EFFECTIVE_DT,
+      </if>
+      <if test="expireDt != null" >
+        EXPIRE_DT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=DECIMAL},
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="vcode != null" >
+        #{vcode,jdbcType=VARCHAR},
+      </if>
+      <if test="effectiveDt != null" >
+        #{effectiveDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expireDt != null" >
+        #{expireDt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.xzf.XzfVcodeExample" resultType="java.lang.Integer" >
+    select count(*) from T_XZF_VCODE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_XZF_VCODE
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.mobile != null" >
+        MOBILE = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vcode != null" >
+        VCODE = #{record.vcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.effectiveDt != null" >
+        EFFECTIVE_DT = #{record.effectiveDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.expireDt != null" >
+        EXPIRE_DT = #{record.expireDt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_XZF_VCODE
+    set ID = #{record.id,jdbcType=DECIMAL},
+      MOBILE = #{record.mobile,jdbcType=VARCHAR},
+      VCODE = #{record.vcode,jdbcType=VARCHAR},
+      EFFECTIVE_DT = #{record.effectiveDt,jdbcType=TIMESTAMP},
+      EXPIRE_DT = #{record.expireDt,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.xzf.XzfVcode" >
+    update T_XZF_VCODE
+    <set >
+      <if test="mobile != null" >
+        MOBILE = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="vcode != null" >
+        VCODE = #{vcode,jdbcType=VARCHAR},
+      </if>
+      <if test="effectiveDt != null" >
+        EFFECTIVE_DT = #{effectiveDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expireDt != null" >
+        EXPIRE_DT = #{expireDt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.xzf.XzfVcode" >
+    update T_XZF_VCODE
+    set MOBILE = #{mobile,jdbcType=VARCHAR},
+      VCODE = #{vcode,jdbcType=VARCHAR},
+      EFFECTIVE_DT = #{effectiveDt,jdbcType=TIMESTAMP},
+      EXPIRE_DT = #{expireDt,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

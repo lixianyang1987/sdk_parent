@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.baseConf.ex.AppMapperEx" >
+   <resultMap id="baseResultMap" type="com.hytx.dto.baseConf.AppDto" extends="com.hytx.dao.baseConf.ori.AppMapper.BaseResultMap" >
+      <result column="cp_name" property="cpName" jdbcType="VARCHAR"/>
+      <result column="sm_name" property="smName" jdbcType="VARCHAR"/>
+   </resultMap>
+   <select id="selectAppListByPage" resultMap="baseResultMap">
+      select  t.*,cp.cp_name,sm.settlement_id,s.sm_name from (
+          select rownum rm,tb.* from(
+        select  r.*,sm1.settlement_id from T_APP r  
+        inner join T_SETTLEMENT_APP sm1 on r.id=sm1.app_id
+     	inner join T_SETTLEMENT_METHOD s1 on sm1.settlement_id=s1.sm_id 
+        where status=1 
+        <if test="findApp.appName!=null">
+           and app_name like '%${findApp.appName}%'
+		</if>
+		<if test="findApp.cpId!=null and findApp.cpId &gt;0">
+			 and cp_id = #{findApp.cpId,jdbcType=INTEGER}
+		</if>  
+	    <if test="findApp.smId!=null and findApp.smId &gt;0">
+      	    and sm1.settlement_id = #{findApp.smId,jdbcType=INTEGER}
+        </if>             
+        order by create_dt desc
+      )tb 
+      )t 
+      inner join T_CP_INFO cp on t.cp_id=cp.id
+   	  inner join T_SETTLEMENT_APP sm on t.id=sm.app_id
+      inner join T_SETTLEMENT_METHOD s on sm.settlement_id=s.sm_id
+      where 1=1       
+      and  t.rm between #{page.pageStartIndex} and #{page.pageEndIndex}
+	  order by t.create_dt desc
+  </select>
+  
+  <select id="countApp" resultType="java.lang.Integer">
+		SELECT count(1) from T_APP  where status=1   
+		<if test="findApp.appName!=null">
+			and app_name like '%${findApp.appName}%'
+		</if>
+		<if test="findApp.cpId!=null and findApp.cpId &gt;0">
+			and cp_id = #{findApp.cpId,jdbcType=INTEGER}
+		</if>
+  </select>
+  
+  <select id="selectAppsOfChannel" resultMap="baseResultMap">
+       select * from T_APP a where a.status=1 
+       <if test="channelId!=null and channelId &gt; 0">
+	        and a.id in
+	       (select app_id from t_channel_app c where channel_id=#{channelId,jdbcType=INTEGER})
+       </if>
+       order by id asc
+  </select>
+  
+  <select id="selectAppsByChannelAndCp" resultMap="baseResultMap">
+       select * from T_APP a where a.status=1 
+       <if test="cpId!=null and cpId &gt;0">
+          and a.cp_id =#{cpId,jdbcType=INTEGER}
+       </if>
+       <if test="channelId!=null and channelId &gt;0">
+          and a.id in
+          (select app_id from t_channel_app c where channel_id=#{channelId,jdbcType=INTEGER})
+       </if>
+       order by id asc
+  </select>
+</mapper>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.baseConf.ori.SettlementChannelAppMapper" >
+  <resultMap id="BaseResultMap" type="com.hytx.model.baseConf.SettlementChannelApp" >
+    <id column="CHANNEL_APP_ID" property="channelAppId" jdbcType="DECIMAL" />
+    <result column="SETTLEMENT_ID" property="settlementId" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    CHANNEL_APP_ID, SETTLEMENT_ID
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hytx.model.baseConf.SettlementChannelAppExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_SETTLEMENT_CHANNEL_APP
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SETTLEMENT_CHANNEL_APP
+    where CHANNEL_APP_ID = #{channelAppId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SETTLEMENT_CHANNEL_APP
+    where CHANNEL_APP_ID = #{channelAppId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.baseConf.SettlementChannelAppExample" >
+    delete from T_SETTLEMENT_CHANNEL_APP
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.baseConf.SettlementChannelApp" >
+    insert into T_SETTLEMENT_CHANNEL_APP (CHANNEL_APP_ID, SETTLEMENT_ID)
+    values (#{channelAppId,jdbcType=DECIMAL}, #{settlementId,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.baseConf.SettlementChannelApp" >
+    insert into T_SETTLEMENT_CHANNEL_APP
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="channelAppId != null" >
+        CHANNEL_APP_ID,
+      </if>
+      <if test="settlementId != null" >
+        SETTLEMENT_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="channelAppId != null" >
+        #{channelAppId,jdbcType=DECIMAL},
+      </if>
+      <if test="settlementId != null" >
+        #{settlementId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.baseConf.SettlementChannelAppExample" resultType="java.lang.Integer" >
+    select count(*) from T_SETTLEMENT_CHANNEL_APP
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_SETTLEMENT_CHANNEL_APP
+    <set >
+      <if test="record.channelAppId != null" >
+        CHANNEL_APP_ID = #{record.channelAppId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.settlementId != null" >
+        SETTLEMENT_ID = #{record.settlementId,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_SETTLEMENT_CHANNEL_APP
+    set CHANNEL_APP_ID = #{record.channelAppId,jdbcType=DECIMAL},
+      SETTLEMENT_ID = #{record.settlementId,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.baseConf.SettlementChannelApp" >
+    update T_SETTLEMENT_CHANNEL_APP
+    <set >
+      <if test="settlementId != null" >
+        SETTLEMENT_ID = #{settlementId,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where CHANNEL_APP_ID = #{channelAppId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.baseConf.SettlementChannelApp" >
+    update T_SETTLEMENT_CHANNEL_APP
+    set SETTLEMENT_ID = #{settlementId,jdbcType=DECIMAL}
+    where CHANNEL_APP_ID = #{channelAppId,jdbcType=DECIMAL}
+  </update>
+</mapper>

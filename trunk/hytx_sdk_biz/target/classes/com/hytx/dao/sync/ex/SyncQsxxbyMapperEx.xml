@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.sync.ex.SyncQsxxbyMapperEx" >
+   <resultMap id="baseResultMap" type="com.hytx.model.sync.SyncQsxxby" extends="com.hytx.dao.sync.ori.SyncQsxxbyMapper.BaseResultMap" ></resultMap>
+   <select id="selectLastOrderRecord" resultMap="baseResultMap">
+        select * from t_sync_qsxxby t where t.operate_type=2 
+        and t.phone=#{mobile,jdbcType=DECIMAL}
+        and t.MODAT_RECEIVE=(
+           select max(MODAT_RECEIVE) from  t_sync_qsxxby where operate_type=2 
+           and phone=#{mobile,jdbcType=DECIMAL}
+        )
+   </select>
+</mapper>

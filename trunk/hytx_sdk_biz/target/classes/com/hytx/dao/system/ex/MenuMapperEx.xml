@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.system.ex.MenuMapperEx" >
+   <resultMap id="baseResultMap" type="com.hytx.model.system.Menu" extends="com.hytx.dao.system.ori.MenuMapper.BaseResultMap" ></resultMap>
+   <select id="selectMenuListByPage" resultMap="baseResultMap">
+        select * from (
+	        select rownum rm,tb.* from(
+				select m.* from T_SYS_MENU m where status!=-10  
+				<if test="findMenu.name!=null">
+					and name like '%${findMenu.name}%'
+				</if>
+				ORDER BY CREATE_DT DESC
+			)tb
+		)t
+		where t.rm between #{page.pageStartIndex} and #{page.pageEndIndex}
+  </select>
+  
+  <select id="countMenu" resultType="java.lang.Integer">
+		select count(1) from T_SYS_MENU  where status!=-10  
+		<if test="findMenu.name!=null">
+			and name like '%${findMenu.name}%'
+		</if>
+  </select>
+  
+  <insert id="insertReturnId" parameterType="com.hytx.model.system.Menu">
+      insert into T_SYS_MENU (id, name, pid, 
+      menu_type, url, is_leaf, 
+      parent_ids, tier, orderNum, 
+      update_dt, update_by)
+      values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{pid,jdbcType=INTEGER}, 
+      #{menuType,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, #{isLeaf,jdbcType=INTEGER}, 
+      #{parentIds,jdbcType=VARCHAR}, #{tier,jdbcType=INTEGER}, #{ordernum,jdbcType=INTEGER}, 
+      #{updateDt,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
+  </insert>
+  
+  <select id="selectMenuId" resultType="java.lang.Integer" >
+     select SEQ_SYS_MENU_ID.NEXTVAL from DUAL
+  </select>
+  
+  
+  <delete id="deleteChildMenus" parameterType="java.lang.String">
+      delete from  T_SYS_MENU where id=#{id,jdbcType=INTEGER} or parent_ids=#{id,jdbcType=VARCHAR}
+      or parent_ids like '${id},%' 
+      or parent_ids like '%,${id}'
+      or parent_ids like '%,${id},%'
+  </delete>
+  
+  <select id="selectUserChildrenMenus" resultMap="baseResultMap">
+      select * from T_SYS_MENU m where pid=#{pid,jdbcType=INTEGER}
+      <if test="user.id!=null and user.userName!=null and user.userName != 'admin'">
+        and exists(
+		select a.id from 
+		(select v.id,b.parent_ids,v.menu_id  from T_SYS_MENU_AUTH v
+		 inner join T_SYS_MENU b on v.menu_id=b.id 
+		)a  where (a.menu_id=m.id or instr(','||a.parent_ids||',',','||m.id||',') > 0 )
+		and a.id in( select s.menu_auth_id from T_SYS_ROLE_MENU_AUTH s where s.role_id 
+		in ( 
+			select ur.role_id from T_SYS_USER_ROLE ur
+			inner join T_SYS_ROLE r on ur.role_id=r.id
+			and r.status=1
+			and ur.user_id=#{user.id,jdbcType=INTEGER} 
+		) )
+		
+		) 
+		</if>
+		order by ordernum asc  
+  </select>
+  
+  
+</mapper>

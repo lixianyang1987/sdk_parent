@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.sms.ex.SmsLtyyMapperEx" >
+  <resultMap id="baseResultMap" type="com.hytx.model.sms.SmsLtyy" extends="com.hytx.dao.sms.ori.SmsLtyyMapper.BaseResultMap" ></resultMap>
+  
+  <select id="selectSeqId" resultType="java.lang.Long" >
+     select SEQ_SMS_LTYY_ID.NEXTVAL from DUAL
+  </select>
+  
+</mapper>

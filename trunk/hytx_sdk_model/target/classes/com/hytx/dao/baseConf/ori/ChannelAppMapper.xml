@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.baseConf.ori.ChannelAppMapper" >
+  <resultMap id="BaseResultMap" type="com.hytx.model.baseConf.ChannelApp" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CHANNEL_ID" property="channelId" jdbcType="DECIMAL" />
+    <result column="APP_ID" property="appId" jdbcType="DECIMAL" />
+    <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="CREATE_DT" property="createDt" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_DT" property="updateDt" jdbcType="TIMESTAMP" />
+    <result column="KEY" property="key" jdbcType="VARCHAR" />
+    <result column="PACKAGE_NAME" property="packageName" jdbcType="VARCHAR" />
+    <result column="FEE_STATUS" property="feeStatus" jdbcType="DECIMAL" />
+    <result column="TEST_STATUS" property="testStatus" jdbcType="DECIMAL" />
+    <result column="SYNC_STATUS" property="syncStatus" jdbcType="DECIMAL" />
+    <result column="SYNC_URL" property="syncUrl" jdbcType="VARCHAR" />
+    <result column="REDUCE_PERCENT" property="reducePercent" jdbcType="DECIMAL" />
+    <result column="SIGN_KEY" property="signKey" jdbcType="VARCHAR" />
+    <result column="DAY_LIMIT" property="dayLimit" jdbcType="DECIMAL" />
+    <result column="MONTH_LIMIT" property="monthLimit" jdbcType="DECIMAL" />
+    <result column="FEE_PERCENT" property="feePercent" jdbcType="DECIMAL" />
+    <result column="CPA_PRICE" property="cpaPrice" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="EXT" property="ext" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, CHANNEL_ID, APP_ID, MEMO, CREATE_BY, CREATE_DT, UPDATE_BY, UPDATE_DT, KEY, PACKAGE_NAME, 
+    FEE_STATUS, TEST_STATUS, SYNC_STATUS, SYNC_URL, REDUCE_PERCENT, SIGN_KEY, DAY_LIMIT, 
+    MONTH_LIMIT, FEE_PERCENT, CPA_PRICE, NAME, EXT
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hytx.model.baseConf.ChannelAppExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_CHANNEL_APP
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_CHANNEL_APP
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_CHANNEL_APP
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.baseConf.ChannelAppExample" >
+    delete from T_CHANNEL_APP
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.baseConf.ChannelApp" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      select SEQ_CHANNEL_APP_ID.nextval from dual
+    </selectKey>
+    insert into T_CHANNEL_APP (ID, CHANNEL_ID, APP_ID, 
+      MEMO, CREATE_BY, CREATE_DT, 
+      UPDATE_BY, UPDATE_DT, KEY, 
+      PACKAGE_NAME, FEE_STATUS, TEST_STATUS, 
+      SYNC_STATUS, SYNC_URL, REDUCE_PERCENT, 
+      SIGN_KEY, DAY_LIMIT, MONTH_LIMIT, 
+      FEE_PERCENT, CPA_PRICE, NAME, 
+      EXT)
+    values (#{id,jdbcType=DECIMAL}, #{channelId,jdbcType=DECIMAL}, #{appId,jdbcType=DECIMAL}, 
+      #{memo,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{createDt,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR}, #{updateDt,jdbcType=TIMESTAMP}, #{key,jdbcType=VARCHAR}, 
+      #{packageName,jdbcType=VARCHAR}, #{feeStatus,jdbcType=DECIMAL}, #{testStatus,jdbcType=DECIMAL}, 
+      #{syncStatus,jdbcType=DECIMAL}, #{syncUrl,jdbcType=VARCHAR}, #{reducePercent,jdbcType=DECIMAL}, 
+      #{signKey,jdbcType=VARCHAR}, #{dayLimit,jdbcType=DECIMAL}, #{monthLimit,jdbcType=DECIMAL}, 
+      #{feePercent,jdbcType=DECIMAL}, #{cpaPrice,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR}, 
+      #{ext,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.baseConf.ChannelApp" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      select SEQ_CHANNEL_APP_ID.nextval from dual
+    </selectKey>
+    insert into T_CHANNEL_APP
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
+      <if test="channelId != null" >
+        CHANNEL_ID,
+      </if>
+      <if test="appId != null" >
+        APP_ID,
+      </if>
+      <if test="memo != null" >
+        MEMO,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="createDt != null" >
+        CREATE_DT,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+      <if test="updateDt != null" >
+        UPDATE_DT,
+      </if>
+      <if test="key != null" >
+        KEY,
+      </if>
+      <if test="packageName != null" >
+        PACKAGE_NAME,
+      </if>
+      <if test="feeStatus != null" >
+        FEE_STATUS,
+      </if>
+      <if test="testStatus != null" >
+        TEST_STATUS,
+      </if>
+      <if test="syncStatus != null" >
+        SYNC_STATUS,
+      </if>
+      <if test="syncUrl != null" >
+        SYNC_URL,
+      </if>
+      <if test="reducePercent != null" >
+        REDUCE_PERCENT,
+      </if>
+      <if test="signKey != null" >
+        SIGN_KEY,
+      </if>
+      <if test="dayLimit != null" >
+        DAY_LIMIT,
+      </if>
+      <if test="monthLimit != null" >
+        MONTH_LIMIT,
+      </if>
+      <if test="feePercent != null" >
+        FEE_PERCENT,
+      </if>
+      <if test="cpaPrice != null" >
+        CPA_PRICE,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="ext != null" >
+        EXT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=DECIMAL},
+      <if test="channelId != null" >
+        #{channelId,jdbcType=DECIMAL},
+      </if>
+      <if test="appId != null" >
+        #{appId,jdbcType=DECIMAL},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDt != null" >
+        #{createDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDt != null" >
+        #{updateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="key != null" >
+        #{key,jdbcType=VARCHAR},
+      </if>
+      <if test="packageName != null" >
+        #{packageName,jdbcType=VARCHAR},
+      </if>
+      <if test="feeStatus != null" >
+        #{feeStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="testStatus != null" >
+        #{testStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="syncStatus != null" >
+        #{syncStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="syncUrl != null" >
+        #{syncUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="reducePercent != null" >
+        #{reducePercent,jdbcType=DECIMAL},
+      </if>
+      <if test="signKey != null" >
+        #{signKey,jdbcType=VARCHAR},
+      </if>
+      <if test="dayLimit != null" >
+        #{dayLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="monthLimit != null" >
+        #{monthLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="feePercent != null" >
+        #{feePercent,jdbcType=DECIMAL},
+      </if>
+      <if test="cpaPrice != null" >
+        #{cpaPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="ext != null" >
+        #{ext,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.baseConf.ChannelAppExample" resultType="java.lang.Integer" >
+    select count(*) from T_CHANNEL_APP
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_CHANNEL_APP
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.channelId != null" >
+        CHANNEL_ID = #{record.channelId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.appId != null" >
+        APP_ID = #{record.appId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.memo != null" >
+        MEMO = #{record.memo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createBy != null" >
+        CREATE_BY = #{record.createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDt != null" >
+        CREATE_DT = #{record.createDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateBy != null" >
+        UPDATE_BY = #{record.updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDt != null" >
+        UPDATE_DT = #{record.updateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.key != null" >
+        KEY = #{record.key,jdbcType=VARCHAR},
+      </if>
+      <if test="record.packageName != null" >
+        PACKAGE_NAME = #{record.packageName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.feeStatus != null" >
+        FEE_STATUS = #{record.feeStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.testStatus != null" >
+        TEST_STATUS = #{record.testStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.syncStatus != null" >
+        SYNC_STATUS = #{record.syncStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.syncUrl != null" >
+        SYNC_URL = #{record.syncUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reducePercent != null" >
+        REDUCE_PERCENT = #{record.reducePercent,jdbcType=DECIMAL},
+      </if>
+      <if test="record.signKey != null" >
+        SIGN_KEY = #{record.signKey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dayLimit != null" >
+        DAY_LIMIT = #{record.dayLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="record.monthLimit != null" >
+        MONTH_LIMIT = #{record.monthLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="record.feePercent != null" >
+        FEE_PERCENT = #{record.feePercent,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cpaPrice != null" >
+        CPA_PRICE = #{record.cpaPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.name != null" >
+        NAME = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext != null" >
+        EXT = #{record.ext,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_CHANNEL_APP
+    set ID = #{record.id,jdbcType=DECIMAL},
+      CHANNEL_ID = #{record.channelId,jdbcType=DECIMAL},
+      APP_ID = #{record.appId,jdbcType=DECIMAL},
+      MEMO = #{record.memo,jdbcType=VARCHAR},
+      CREATE_BY = #{record.createBy,jdbcType=VARCHAR},
+      CREATE_DT = #{record.createDt,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{record.updateBy,jdbcType=VARCHAR},
+      UPDATE_DT = #{record.updateDt,jdbcType=TIMESTAMP},
+      KEY = #{record.key,jdbcType=VARCHAR},
+      PACKAGE_NAME = #{record.packageName,jdbcType=VARCHAR},
+      FEE_STATUS = #{record.feeStatus,jdbcType=DECIMAL},
+      TEST_STATUS = #{record.testStatus,jdbcType=DECIMAL},
+      SYNC_STATUS = #{record.syncStatus,jdbcType=DECIMAL},
+      SYNC_URL = #{record.syncUrl,jdbcType=VARCHAR},
+      REDUCE_PERCENT = #{record.reducePercent,jdbcType=DECIMAL},
+      SIGN_KEY = #{record.signKey,jdbcType=VARCHAR},
+      DAY_LIMIT = #{record.dayLimit,jdbcType=DECIMAL},
+      MONTH_LIMIT = #{record.monthLimit,jdbcType=DECIMAL},
+      FEE_PERCENT = #{record.feePercent,jdbcType=DECIMAL},
+      CPA_PRICE = #{record.cpaPrice,jdbcType=DECIMAL},
+      NAME = #{record.name,jdbcType=VARCHAR},
+      EXT = #{record.ext,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.baseConf.ChannelApp" >
+    update T_CHANNEL_APP
+    <set >
+      <if test="channelId != null" >
+        CHANNEL_ID = #{channelId,jdbcType=DECIMAL},
+      </if>
+      <if test="appId != null" >
+        APP_ID = #{appId,jdbcType=DECIMAL},
+      </if>
+      <if test="memo != null" >
+        MEMO = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDt != null" >
+        CREATE_DT = #{createDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDt != null" >
+        UPDATE_DT = #{updateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="key != null" >
+        KEY = #{key,jdbcType=VARCHAR},
+      </if>
+      <if test="packageName != null" >
+        PACKAGE_NAME = #{packageName,jdbcType=VARCHAR},
+      </if>
+      <if test="feeStatus != null" >
+        FEE_STATUS = #{feeStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="testStatus != null" >
+        TEST_STATUS = #{testStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="syncStatus != null" >
+        SYNC_STATUS = #{syncStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="syncUrl != null" >
+        SYNC_URL = #{syncUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="reducePercent != null" >
+        REDUCE_PERCENT = #{reducePercent,jdbcType=DECIMAL},
+      </if>
+      <if test="signKey != null" >
+        SIGN_KEY = #{signKey,jdbcType=VARCHAR},
+      </if>
+      <if test="dayLimit != null" >
+        DAY_LIMIT = #{dayLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="monthLimit != null" >
+        MONTH_LIMIT = #{monthLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="feePercent != null" >
+        FEE_PERCENT = #{feePercent,jdbcType=DECIMAL},
+      </if>
+      <if test="cpaPrice != null" >
+        CPA_PRICE = #{cpaPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="ext != null" >
+        EXT = #{ext,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.baseConf.ChannelApp" >
+    update T_CHANNEL_APP
+    set CHANNEL_ID = #{channelId,jdbcType=DECIMAL},
+      APP_ID = #{appId,jdbcType=DECIMAL},
+      MEMO = #{memo,jdbcType=VARCHAR},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      CREATE_DT = #{createDt,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      UPDATE_DT = #{updateDt,jdbcType=TIMESTAMP},
+      KEY = #{key,jdbcType=VARCHAR},
+      PACKAGE_NAME = #{packageName,jdbcType=VARCHAR},
+      FEE_STATUS = #{feeStatus,jdbcType=DECIMAL},
+      TEST_STATUS = #{testStatus,jdbcType=DECIMAL},
+      SYNC_STATUS = #{syncStatus,jdbcType=DECIMAL},
+      SYNC_URL = #{syncUrl,jdbcType=VARCHAR},
+      REDUCE_PERCENT = #{reducePercent,jdbcType=DECIMAL},
+      SIGN_KEY = #{signKey,jdbcType=VARCHAR},
+      DAY_LIMIT = #{dayLimit,jdbcType=DECIMAL},
+      MONTH_LIMIT = #{monthLimit,jdbcType=DECIMAL},
+      FEE_PERCENT = #{feePercent,jdbcType=DECIMAL},
+      CPA_PRICE = #{cpaPrice,jdbcType=DECIMAL},
+      NAME = #{name,jdbcType=VARCHAR},
+      EXT = #{ext,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

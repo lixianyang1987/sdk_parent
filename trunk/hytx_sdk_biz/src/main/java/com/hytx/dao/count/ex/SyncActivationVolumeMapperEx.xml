@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.count.ex.SyncActivationVolumeMapperEx">
+	<resultMap id="BaseResultMap" type="com.hytx.model.syncEx.TActivationVolume">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="DAYTIME" property="daytime" jdbcType="TIMESTAMP" />
+		<result column="CHANNEL_NAME" property="channelName" jdbcType="VARCHAR" />
+		<result column="APP_NAME" property="appName" jdbcType="VARCHAR" />
+		<result column="COOPERATION_MODE" property="cooperationMode"
+			jdbcType="VARCHAR" />
+		<result column="THE_ACTIVATION_NUMS" property="theActivationNums"
+			jdbcType="DECIMAL" />
+		<result column="PRICE" property="price" jdbcType="DECIMAL" />
+	</resultMap>
+	<select id="selectSyncActivationVolumeListPage" resultMap="BaseResultMap">
+		select t.*
+		from (
+		select rownum rm,tb.* from(
+		select r.* from select * from
+		T_ACTIVATIONVOLUME r where 1=1
+		and to_char(r.daytime,'yyyy-mm-dd')
+		between
+		#{findDto.startDate,jdbcType=VARCHAR} and 
+		#{findDto.endDate,jdbcType=VARCHAR}
+		)tb
+		)t
+		where t.rm between
+		#{page.pageStartIndex} and #{page.pageEndIndex}
+	</select>
+
+	<select id="countSyncActivationVolume" resultType="java.lang.Integer">
+		select count(*) from
+		T_ACTIVATIONVOLUME r where 1=1
+		and to_char(r.daytime,'yyyy-mm-dd')
+		between
+		#{findDto.startDate,jdbcType=VARCHAR} and
+		#{findDto.endDate,jdbcType=VARCHAR}
+	</select>
+</mapper>

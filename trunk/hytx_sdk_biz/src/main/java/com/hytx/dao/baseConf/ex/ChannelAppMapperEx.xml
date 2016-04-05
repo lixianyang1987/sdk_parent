@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.baseConf.ex.ChannelAppMapperEx" >
+   <resultMap id="baseResultMap" type="com.hytx.dto.baseConf.ChannelAppDto" extends="com.hytx.dao.baseConf.ori.ChannelAppMapper.BaseResultMap" >
+       <result column="app_name" property="appName" jdbcType="VARCHAR"/>
+       <result column="channel_name" property="channelName" jdbcType="VARCHAR"/>
+       <result column="sm_name" property="smName" jdbcType="VARCHAR"/>
+   </resultMap>
+   <select id="selectChannelAppListByPage" resultMap="baseResultMap">
+        select  t.*,a.app_name,c.channel_name from (
+            select rownum rm,tb.* from(
+        select  r.*,amca.settlement_id,sm.sm_name from T_CHANNEL_APP r 
+        left outer join t_Settlement_Channel_App amca on amca.channel_app_id=r.id 
+         left outer join t_Settlement_Method sm on amca.settlement_id=sm.sm_id 
+         where 1=1  
+         <if test="findChannelApp.channelId!=null and findChannelApp.channelId &gt; 0">
+            and channel_id = #{findChannelApp.channelId,jdbcType=INTEGER}
+				</if>
+				<if test="findChannelApp.appId!=null and findChannelApp.appId &gt; 0">
+				    and app_id = #{findChannelApp.appId,jdbcType=INTEGER}
+				</if>
+        <if test="findChannelApp.smId!=null and findChannelApp.smId &gt; 0">
+				    and amca.settlement_id = #{findChannelApp.smId,jdbcType=INTEGER}
+				</if>
+				<if test="findChannelApp.name!=null and findChannelApp.name != ''">
+				    and name like '${findChannelApp.name}%'
+				</if>
+        order by id desc
+      )tb
+    )t left outer join T_APP a on a.id=t.app_id 
+    left outer join T_CHANNEL c on c.id=t.channel_id
+    where t.rm between #{page.pageStartIndex} and #{page.pageEndIndex}
+    order by t.id desc
+  </select>
+  
+  <select id="countChannelApp" resultType="java.lang.Integer">
+		SELECT count(1) FROM T_CHANNEL_APP  WHERE 1=1 
+    	<if test="findChannelApp.channelId!=null and findChannelApp.channelId &gt; 0">
+		    and CHANNEL_ID = #{findChannelApp.channelId,jdbcType=INTEGER}
+		</if>
+		<if test="findChannelApp.appId!=null and findChannelApp.appId &gt; 0">
+		    and APP_ID = #{findChannelApp.appId,jdbcType=INTEGER}
+		</if>
+		<if test="findChannelApp.name!=null and findChannelApp.name != ''">
+		    and name like '${findChannelApp.name}%'
+		</if>
+  </select>
+  
+  <select id="selectChannelAppDtoById" resultMap="baseResultMap">
+        select  t.*,a.app_name,c.channel_name FROM(
+			SELECT r.* FROM T_CHANNEL_APP r  WHERE id=${id}  
+		)t left outer join T_APP a on a.id=t.app_id 
+		left outer join T_CHANNEL c on c.id=t.channel_id 
+  </select>
+  
+</mapper>

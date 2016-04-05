@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.baseConf.ori.ChannelMapper" >
+  <resultMap id="BaseResultMap" type="com.hytx.model.baseConf.Channel" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CHANNEL_NAME" property="channelName" jdbcType="VARCHAR" />
+    <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+    <result column="CREATE_DT" property="createDt" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_DT" property="updateDt" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="LINK_MAN" property="linkMan" jdbcType="VARCHAR" />
+    <result column="LINK_QQ" property="linkQq" jdbcType="VARCHAR" />
+    <result column="LINK_MOBILE" property="linkMobile" jdbcType="VARCHAR" />
+    <result column="LINK_EMAIL" property="linkEmail" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, CHANNEL_NAME, MEMO, CREATE_DT, CREATE_BY, UPDATE_DT, UPDATE_BY, LINK_MAN, LINK_QQ, 
+    LINK_MOBILE, LINK_EMAIL, STATUS
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hytx.model.baseConf.ChannelExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_CHANNEL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_CHANNEL
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_CHANNEL
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.baseConf.ChannelExample" >
+    delete from T_CHANNEL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.baseConf.Channel" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      select SEQ_CHANNEL_ID.nextval from dual
+    </selectKey>
+    insert into T_CHANNEL (ID, CHANNEL_NAME, MEMO, 
+      CREATE_DT, CREATE_BY, UPDATE_DT, 
+      UPDATE_BY, LINK_MAN, LINK_QQ, 
+      LINK_MOBILE, LINK_EMAIL, STATUS
+      )
+    values (#{id,jdbcType=DECIMAL}, #{channelName,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}, 
+      #{createDt,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateDt,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR}, #{linkMan,jdbcType=VARCHAR}, #{linkQq,jdbcType=VARCHAR}, 
+      #{linkMobile,jdbcType=VARCHAR}, #{linkEmail,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.baseConf.Channel" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      select SEQ_CHANNEL_ID.nextval from dual
+    </selectKey>
+    insert into T_CHANNEL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
+      <if test="channelName != null" >
+        CHANNEL_NAME,
+      </if>
+      <if test="memo != null" >
+        MEMO,
+      </if>
+      <if test="createDt != null" >
+        CREATE_DT,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="updateDt != null" >
+        UPDATE_DT,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+      <if test="linkMan != null" >
+        LINK_MAN,
+      </if>
+      <if test="linkQq != null" >
+        LINK_QQ,
+      </if>
+      <if test="linkMobile != null" >
+        LINK_MOBILE,
+      </if>
+      <if test="linkEmail != null" >
+        LINK_EMAIL,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=DECIMAL},
+      <if test="channelName != null" >
+        #{channelName,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="createDt != null" >
+        #{createDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDt != null" >
+        #{updateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="linkMan != null" >
+        #{linkMan,jdbcType=VARCHAR},
+      </if>
+      <if test="linkQq != null" >
+        #{linkQq,jdbcType=VARCHAR},
+      </if>
+      <if test="linkMobile != null" >
+        #{linkMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="linkEmail != null" >
+        #{linkEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.baseConf.ChannelExample" resultType="java.lang.Integer" >
+    select count(*) from T_CHANNEL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_CHANNEL
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.channelName != null" >
+        CHANNEL_NAME = #{record.channelName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.memo != null" >
+        MEMO = #{record.memo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDt != null" >
+        CREATE_DT = #{record.createDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createBy != null" >
+        CREATE_BY = #{record.createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDt != null" >
+        UPDATE_DT = #{record.updateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateBy != null" >
+        UPDATE_BY = #{record.updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkMan != null" >
+        LINK_MAN = #{record.linkMan,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkQq != null" >
+        LINK_QQ = #{record.linkQq,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkMobile != null" >
+        LINK_MOBILE = #{record.linkMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkEmail != null" >
+        LINK_EMAIL = #{record.linkEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_CHANNEL
+    set ID = #{record.id,jdbcType=DECIMAL},
+      CHANNEL_NAME = #{record.channelName,jdbcType=VARCHAR},
+      MEMO = #{record.memo,jdbcType=VARCHAR},
+      CREATE_DT = #{record.createDt,jdbcType=TIMESTAMP},
+      CREATE_BY = #{record.createBy,jdbcType=VARCHAR},
+      UPDATE_DT = #{record.updateDt,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{record.updateBy,jdbcType=VARCHAR},
+      LINK_MAN = #{record.linkMan,jdbcType=VARCHAR},
+      LINK_QQ = #{record.linkQq,jdbcType=VARCHAR},
+      LINK_MOBILE = #{record.linkMobile,jdbcType=VARCHAR},
+      LINK_EMAIL = #{record.linkEmail,jdbcType=VARCHAR},
+      STATUS = #{record.status,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.baseConf.Channel" >
+    update T_CHANNEL
+    <set >
+      <if test="channelName != null" >
+        CHANNEL_NAME = #{channelName,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        MEMO = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="createDt != null" >
+        CREATE_DT = #{createDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDt != null" >
+        UPDATE_DT = #{updateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="linkMan != null" >
+        LINK_MAN = #{linkMan,jdbcType=VARCHAR},
+      </if>
+      <if test="linkQq != null" >
+        LINK_QQ = #{linkQq,jdbcType=VARCHAR},
+      </if>
+      <if test="linkMobile != null" >
+        LINK_MOBILE = #{linkMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="linkEmail != null" >
+        LINK_EMAIL = #{linkEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.baseConf.Channel" >
+    update T_CHANNEL
+    set CHANNEL_NAME = #{channelName,jdbcType=VARCHAR},
+      MEMO = #{memo,jdbcType=VARCHAR},
+      CREATE_DT = #{createDt,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_DT = #{updateDt,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      LINK_MAN = #{linkMan,jdbcType=VARCHAR},
+      LINK_QQ = #{linkQq,jdbcType=VARCHAR},
+      LINK_MOBILE = #{linkMobile,jdbcType=VARCHAR},
+      LINK_EMAIL = #{linkEmail,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

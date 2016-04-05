@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.list.ex.UserFilterListMapperEx" >
+   <resultMap id="baseResultMap" type="com.hytx.model.list.UserFilterList" extends="com.hytx.dao.list.ori.UserFilterListMapper.BaseResultMap" ></resultMap>
+   <select id="selectUserFilterListListByPage" resultMap="baseResultMap">
+        select * from (
+	        select rownum rm,tb.* from(
+				select u.* from T_USER_FILTER_LIST u where 1=1  
+				<if test="findUserFilterList.listType!=null and findUserFilterList.listType &gt; 0">
+					and  list_type=#{findUserFilterList.listType,jdbcType=INTEGER}
+				</if>
+				<if test="findUserFilterList.imsi!=null">
+					and  imsi like '%${findUserFilterList.imsi}%'
+				</if>
+				order by  id desc
+			)tb
+		)t
+		where t.rm between #{page.pageStartIndex} and #{page.pageEndIndex}
+  </select>
+  
+  <select id="countUserFilterList" resultType="java.lang.Integer">
+		select count(1) from T_USER_FILTER_LIST  where 1=1
+		<if test="findUserFilterList.listType!=null and findUserFilterList.listType &gt; 0">
+			and  list_type=#{findUserFilterList.listType,jdbcType=INTEGER}
+		</if>
+		<if test="findUserFilterList.imsi!=null">
+			and  imsi like '%${findUserFilterList.imsi}%'
+		</if>
+  </select>
+  
+  
+</mapper>

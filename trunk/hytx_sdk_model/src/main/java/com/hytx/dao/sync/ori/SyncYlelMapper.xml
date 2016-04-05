@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hytx.dao.sync.ori.SyncYlelMapper">
+  <resultMap id="BaseResultMap" type="com.hytx.model.sync.SyncYlel">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="MO_FROM" jdbcType="VARCHAR" property="moFrom" />
+    <result column="MO_TO" jdbcType="VARCHAR" property="moTo" />
+    <result column="CONTENT" jdbcType="VARCHAR" property="content" />
+    <result column="LINKID" jdbcType="VARCHAR" property="linkid" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="IP" jdbcType="VARCHAR" property="ip" />
+    <result column="CREATETIME" jdbcType="TIMESTAMP" property="createtime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, MO_FROM, MO_TO, CONTENT, LINKID, STATUS, IP, CREATETIME
+  </sql>
+  <select id="selectByExample" parameterType="com.hytx.model.sync.SyncYlelExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_SYNC_YLEL
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYNC_YLEL
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from T_SYNC_YLEL
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.sync.SyncYlelExample">
+    delete from T_SYNC_YLEL
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.sync.SyncYlel">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Long">
+      select SEQ_SYNC_YLEL_ID.nextval from dual
+    </selectKey>
+    insert into T_SYNC_YLEL (ID, MO_FROM, MO_TO, 
+      CONTENT, LINKID, STATUS, 
+      IP, CREATETIME)
+    values (#{id,jdbcType=DECIMAL}, #{moFrom,jdbcType=VARCHAR}, #{moTo,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{linkid,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{ip,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.sync.SyncYlel">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Long">
+      select SEQ_SYNC_YLEL_ID.nextval from dual
+    </selectKey>
+    insert into T_SYNC_YLEL
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      ID,
+      <if test="moFrom != null">
+        MO_FROM,
+      </if>
+      <if test="moTo != null">
+        MO_TO,
+      </if>
+      <if test="content != null">
+        CONTENT,
+      </if>
+      <if test="linkid != null">
+        LINKID,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="ip != null">
+        IP,
+      </if>
+      <if test="createtime != null">
+        CREATETIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{id,jdbcType=DECIMAL},
+      <if test="moFrom != null">
+        #{moFrom,jdbcType=VARCHAR},
+      </if>
+      <if test="moTo != null">
+        #{moTo,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="linkid != null">
+        #{linkid,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.sync.SyncYlelExample" resultType="java.lang.Integer">
+    select count(*) from T_SYNC_YLEL
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update T_SYNC_YLEL
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.moFrom != null">
+        MO_FROM = #{record.moFrom,jdbcType=VARCHAR},
+      </if>
+      <if test="record.moTo != null">
+        MO_TO = #{record.moTo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null">
+        CONTENT = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkid != null">
+        LINKID = #{record.linkid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ip != null">
+        IP = #{record.ip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null">
+        CREATETIME = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update T_SYNC_YLEL
+    set ID = #{record.id,jdbcType=DECIMAL},
+      MO_FROM = #{record.moFrom,jdbcType=VARCHAR},
+      MO_TO = #{record.moTo,jdbcType=VARCHAR},
+      CONTENT = #{record.content,jdbcType=VARCHAR},
+      LINKID = #{record.linkid,jdbcType=VARCHAR},
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      IP = #{record.ip,jdbcType=VARCHAR},
+      CREATETIME = #{record.createtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.sync.SyncYlel">
+    update T_SYNC_YLEL
+    <set>
+      <if test="moFrom != null">
+        MO_FROM = #{moFrom,jdbcType=VARCHAR},
+      </if>
+      <if test="moTo != null">
+        MO_TO = #{moTo,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="linkid != null">
+        LINKID = #{linkid,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null">
+        IP = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.sync.SyncYlel">
+    update T_SYNC_YLEL
+    set MO_FROM = #{moFrom,jdbcType=VARCHAR},
+      MO_TO = #{moTo,jdbcType=VARCHAR},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      LINKID = #{linkid,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      IP = #{ip,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+ 
+</mapper>

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.count.ex.SyncExCountMapperEx">
+	<resultMap type="com.hytx.dto.count.SyncExCountDto" id="baseResultMap">
+		<result column="ds_js" property="dsjs" jdbcType="INTEGER" />
+		<result column="dx_js" property="dxjs" jdbcType="INTEGER" />
+		<result column="cp_name" property="spName" jdbcType="VARCHAR" />
+		<result column="channel_name" property="channelName" jdbcType="VARCHAR" />
+		<result column="province" property="province" jdbcType="VARCHAR" />
+		<result column="app_name" property="appName" jdbcType="VARCHAR" />
+		<result column="createtime" property="createTime" jdbcType="VARCHAR" />
+		<result column="channelAppName" property="channelAppName"
+			jdbcType="VARCHAR" />
+		<result column="mobile" property="mobile" jdbcType="VARCHAR" />
+		<result column="channel_app_id" property="channelAppId"
+			jdbcType="INTEGER" />
+		<result column="fee_value" property="feeValue" jdbcType="INTEGER" />
+		<result column="down_status" property="downStatus" jdbcType="INTEGER" />
+		<result column="sync_status" property="syncStatus" jdbcType="INTEGER" />
+		<result column="reduce_status" property="reduceStatus"
+			jdbcType="INTEGER" />
+		<result column="fee_status" property="feeStatus" jdbcType="INTEGER" />
+		<result column="total_users" property="totalUsers" jdbcType="INTEGER" />
+		<result column="up_count" property="upCount" jdbcType="INTEGER" />
+		<result column="down_count" property="downCount" jdbcType="INTEGER" />
+		<result column="suc_count" property="sucCount" jdbcType="INTEGER" />
+		<result column="synced_count" property="syncedCount" jdbcType="INTEGER" />
+		<result column="reduce_count" property="reduceCount" jdbcType="INTEGER" />
+		<result column="reduce_percent" property="reducePercent"
+			jdbcType="INTEGER" />
+	</resultMap>
+	<resultMap type="com.hytx.model.baseConf.ChannelApp" id="channelAppResult"
+		extends="com.hytx.dao.baseConf.ori.ChannelAppMapper.BaseResultMap">
+	</resultMap>
+
+	<resultMap type="com.hytx.dto.count.KeyValueDto" id="keyValueResultMap">
+		<result column="date_str" property="key" jdbcType="VARCHAR" />
+		<result column="income" property="value" jdbcType="INTEGER" />
+	</resultMap>
+
+	<select id="countSyncEx" resultMap="baseResultMap">
+		select t.*,c.name as channelAppName,c.reduce_percent from (
+		select rownum rm,tb.* from (
+		select sma.settlement_id as ds_js,smca.settlement_id as
+		dx_js,cpin.cp_name,ch.channel_name,ap.app_name,v.channel_app_id,fee_value,count(distinct
+		v.mobile) as total_users,count(*) as up_count,
+		sum(decode(v.status,null,0,1)) as down_count,
+		sum(decode(v.status,1,1,0)) as suc_count,
+		sum(decode(v.reduce_status,1,1,0)) as
+		reduce_count,sum(decode(v.sync_status,1,1,0)) as synced_count
+		from T_COUNT_INCOME v
+		inner join t_channel_app ca on ca.id=v.channel_app_id
+		inner join t_channel ch on ch.id=ca.channel_id
+		inner join t_app ap on ap.id=ca.app_id
+		inner join t_cp_info cpin on cpin.id=ap.cp_id
+		inner join t_settlement_app sma on sma.app_id=ap.id
+		inner join t_settlement_channel_app smca on smca.channel_app_id=ca.id
+		<if test="findDto.channelAppId!=null and findDto.channelAppId &gt; 0">
+			and v.channel_app_id=#{findDto.channelAppId,jdbcType=INTEGER}
+		</if>
+		<if test="findDto.channelId!=null and findDto.channelId &gt; 0">
+			and ca.channel_id=#{findDto.channelId,jdbcType=INTEGER}
+		</if>
+		<if test="findDto.appId!=null and findDto.appId &gt; 0">
+			and ap.id=#{findDto.appId,jdbcType=INTEGER}
+		</if>
+		<if test="findDto.spId!=null and findDto.spId &gt; 0">
+			and cpin.id=#{findDto.spId,jdbcType=INTEGER}
+		</if>
+		<if test="findDto.dsjs!=null and findDto.dsjs &gt; 0">
+			and sma.settlement_id=#{findDto.dsjs,jdbcType=INTEGER}
+		</if>
+		<if test="findDto.dxjs!=null and findDto.dxjs &gt; 0">
+			and smca.settlement_id=#{findDto.dxjs,jdbcType=INTEGER}
+		</if>
+		<if test="findDto.reduceStatus!=null and findDto.reduceStatus &gt; 0">
+			and v.reduce_status=0
+		</if>
+		and to_char(v.createtime,'yyyy-mm-dd') between
+		#{findDto.startDate,jdbcType=VARCHAR} and
+		#{findDto.endDate,jdbcType=VARCHAR}
+
+		where v.channel_app_id is not null
+		group by
+		v.channel_app_id,fee_value,ch.channel_name,ap.app_name,cpin.cp_name,sma.settlement_id,smca.settlement_id
+		order by v.channel_app_id,fee_value
+		) tb
+		)t inner join t_channel_app c on c.id=t.channel_app_id
+		where rm between
+		#{page.pageStartIndex} and #{page.pageEndIndex}
+		order by t.channel_app_id
+	</select>
+
+	<select id="countSyncExTotal" resultType="java.lang.Integer">
+		select count(distinct v.channel_app_id||v.fee_value)
+		from T_COUNT_INCOME v
+		where channel_app_id is not null
+		<if test="findDto.channelAppId!=null and findDto.channelAppId &gt; 0">
+			and v.channel_app_id=#{findDto.channelAppId,jdbcType=INTEGER}
+		</if>
+		<if test="findDto.reduceStatus!=null and findDto.reduceStatus &gt; 0">
+			and v.reduce_status=0
+		</if>
+		and to_char(v.createtime,'yyyy-mm-dd') between
+		#{findDto.startDate,jdbcType=VARCHAR}
+		and #{findDto.endDate,jdbcType=VARCHAR}
+	</select>
+
+
+	<select id="countSyncExDetail" resultMap="baseResultMap">
+		select t.* from (
+		select rownum rm,tb.* from (
+		select v.channel_app_id,fee_value, v.mobile,c.name as channelAppName,
+		decode(v.status,null,0,1) as down_status, v.status as fee_status,
+		v.reduce_status,v.sync_status,v.createtime,v.province,c.channel_id
+		from T_COUNT_INCOME v
+		inner join t_channel_app c on c.id=v.channel_app_id
+		where channel_app_id is not null
+		<if test="findDto.channelId!=null and findDto.channelId &gt; 0">
+			and c.channel_id=#{findDto.channelId,jdbcType=INTEGER}
+		</if>
+		<if test="findDto.channelAppId!=null and findDto.channelAppId &gt; 0">
+			and v.channel_app_id=#{findDto.channelAppId,jdbcType=INTEGER}
+		</if>
+		<if test="findDto.reduceStatus!=null and findDto.reduceStatus &gt; 0">
+			and v.reduce_status=0
+		</if>
+		<if test="findDto.mobile!=null and findDto.mobile!=''">
+			and v.mobile=#{findDto.mobile,jdbcType=INTEGER}
+		</if>
+		and to_char(v.createtime,'yyyy-mm-dd') between
+		#{findDto.startDate,jdbcType=VARCHAR} and
+		#{findDto.endDate,jdbcType=VARCHAR}
+		order by v.channel_app_id desc ,v.createtime desc
+		) tb
+		)t where rm between #{page.pageStartIndex} and #{page.pageEndIndex}
+	</select>
+
+	<select id="countSyncExDetailTotal" resultType="java.lang.Integer">
+		select count(*) from T_COUNT_INCOME v inner join t_channel_app c on
+		c.id=v.channel_app_id
+		where channel_app_id is not null
+		<if test="findDto.channelAppId!=null and findDto.channelAppId &gt; 0">
+			and v.channel_app_id=#{findDto.channelAppId,jdbcType=INTEGER}
+		</if>
+		<if test="findDto.channelId!=null and findDto.channelId &gt; 0">
+			and c.channel_id=#{findDto.channelId,jdbcType=INTEGER}
+		</if>
+		<if test="findDto.reduceStatus!=null and findDto.reduceStatus &gt; 0">
+			and v.reduce_status=0
+		</if>
+		<if test="findDto.mobile!=null and findDto.mobile!=''">
+			and v.mobile=#{findDto.mobile,jdbcType=INTEGER}
+		</if>
+		and to_char(v.createtime,'yyyy-mm-dd') between
+		#{findDto.startDate,jdbcType=VARCHAR} and
+		#{findDto.endDate,jdbcType=VARCHAR}
+	</select>
+
+	<select id="findSyncExChannelApp" resultMap="channelAppResult">
+		select * from t_channel_app where id in(
+		select channel_app_id from T_COUNT_INCOME
+		)
+	</select>
+
+	<select id="selectMonthDayIncome" resultMap="keyValueResultMap">
+		select to_char(createtime,'dd') as date_str,sum(fee_value)/100 as income
+		from t_count_income t
+		where t.createtime &gt;= #{findDto.leftDate,jdbcType=TIMESTAMP}
+		and t.createtime &lt; #{findDto.rightDate,jdbcType=TIMESTAMP}
+		and t.status=1
+		group by to_char(createtime,'dd')
+		order by to_char(createtime,'dd')
+	</select>
+
+	<select id="selectDayHourIncome" resultMap="keyValueResultMap">
+		select to_char(createtime,'hh24') as date_str,sum(fee_value)/100 as income
+		from t_count_income t
+		where t.createtime &gt;= #{findDto.leftDate,jdbcType=TIMESTAMP}
+		and t.createtime &lt; #{findDto.rightDate,jdbcType=TIMESTAMP}
+		and t.status=1
+		group by to_char(createtime,'hh24')
+		order by to_char(createtime,'hh24')
+	</select>
+
+</mapper>

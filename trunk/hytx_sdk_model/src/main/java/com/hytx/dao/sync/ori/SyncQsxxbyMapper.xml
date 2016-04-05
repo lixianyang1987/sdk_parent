@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hytx.dao.sync.ori.SyncQsxxbyMapper">
+  <resultMap id="BaseResultMap" type="com.hytx.model.sync.SyncQsxxby">
+    <id column="MORID" jdbcType="VARCHAR" property="morid" />
+    <result column="GATEWAY_ID" jdbcType="VARCHAR" property="gatewayId" />
+    <result column="PRODUCT_ID" jdbcType="VARCHAR" property="productId" />
+    <result column="PHONE" jdbcType="DECIMAL" property="phone" />
+    <result column="OPERATE_TYPE" jdbcType="DECIMAL" property="operateType" />
+    <result column="MODAT_RECEIVE" jdbcType="VARCHAR" property="modatReceive" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="REDUCE_STATUS" jdbcType="DECIMAL" property="reduceStatus" />
+    <result column="SYNC_STATUS" jdbcType="DECIMAL" property="syncStatus" />
+    <result column="BEGIN_TIME" jdbcType="TIMESTAMP" property="beginTime" />
+    <result column="END_TIME" jdbcType="TIMESTAMP" property="endTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    MORID, GATEWAY_ID, PRODUCT_ID, PHONE, OPERATE_TYPE, MODAT_RECEIVE, STATUS, CREATE_TIME, 
+    REDUCE_STATUS, SYNC_STATUS, BEGIN_TIME, END_TIME
+  </sql>
+  <select id="selectByExample" parameterType="com.hytx.model.sync.SyncQsxxbyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_SYNC_QSXXBY
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYNC_QSXXBY
+    where MORID = #{morid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SYNC_QSXXBY
+    where MORID = #{morid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.sync.SyncQsxxbyExample">
+    delete from T_SYNC_QSXXBY
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.sync.SyncQsxxby">
+    insert into T_SYNC_QSXXBY (MORID, GATEWAY_ID, PRODUCT_ID, 
+      PHONE, OPERATE_TYPE, MODAT_RECEIVE, 
+      STATUS, CREATE_TIME, REDUCE_STATUS, 
+      SYNC_STATUS, BEGIN_TIME, END_TIME
+      )
+    values (#{morid,jdbcType=VARCHAR}, #{gatewayId,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=DECIMAL}, #{operateType,jdbcType=DECIMAL}, #{modatReceive,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{reduceStatus,jdbcType=DECIMAL}, 
+      #{syncStatus,jdbcType=DECIMAL}, #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.sync.SyncQsxxby">
+    insert into T_SYNC_QSXXBY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="morid != null">
+        MORID,
+      </if>
+      <if test="gatewayId != null">
+        GATEWAY_ID,
+      </if>
+      <if test="productId != null">
+        PRODUCT_ID,
+      </if>
+      <if test="phone != null">
+        PHONE,
+      </if>
+      <if test="operateType != null">
+        OPERATE_TYPE,
+      </if>
+      <if test="modatReceive != null">
+        MODAT_RECEIVE,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="reduceStatus != null">
+        REDUCE_STATUS,
+      </if>
+      <if test="syncStatus != null">
+        SYNC_STATUS,
+      </if>
+      <if test="beginTime != null">
+        BEGIN_TIME,
+      </if>
+      <if test="endTime != null">
+        END_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="morid != null">
+        #{morid,jdbcType=VARCHAR},
+      </if>
+      <if test="gatewayId != null">
+        #{gatewayId,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null">
+        #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=DECIMAL},
+      </if>
+      <if test="operateType != null">
+        #{operateType,jdbcType=DECIMAL},
+      </if>
+      <if test="modatReceive != null">
+        #{modatReceive,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reduceStatus != null">
+        #{reduceStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="syncStatus != null">
+        #{syncStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="beginTime != null">
+        #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.sync.SyncQsxxbyExample" resultType="java.lang.Integer">
+    select count(*) from T_SYNC_QSXXBY
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update T_SYNC_QSXXBY
+    <set>
+      <if test="record.morid != null">
+        MORID = #{record.morid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gatewayId != null">
+        GATEWAY_ID = #{record.gatewayId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productId != null">
+        PRODUCT_ID = #{record.productId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null">
+        PHONE = #{record.phone,jdbcType=DECIMAL},
+      </if>
+      <if test="record.operateType != null">
+        OPERATE_TYPE = #{record.operateType,jdbcType=DECIMAL},
+      </if>
+      <if test="record.modatReceive != null">
+        MODAT_RECEIVE = #{record.modatReceive,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.reduceStatus != null">
+        REDUCE_STATUS = #{record.reduceStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.syncStatus != null">
+        SYNC_STATUS = #{record.syncStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.beginTime != null">
+        BEGIN_TIME = #{record.beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null">
+        END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update T_SYNC_QSXXBY
+    set MORID = #{record.morid,jdbcType=VARCHAR},
+      GATEWAY_ID = #{record.gatewayId,jdbcType=VARCHAR},
+      PRODUCT_ID = #{record.productId,jdbcType=VARCHAR},
+      PHONE = #{record.phone,jdbcType=DECIMAL},
+      OPERATE_TYPE = #{record.operateType,jdbcType=DECIMAL},
+      MODAT_RECEIVE = #{record.modatReceive,jdbcType=VARCHAR},
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      REDUCE_STATUS = #{record.reduceStatus,jdbcType=DECIMAL},
+      SYNC_STATUS = #{record.syncStatus,jdbcType=DECIMAL},
+      BEGIN_TIME = #{record.beginTime,jdbcType=TIMESTAMP},
+      END_TIME = #{record.endTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.sync.SyncQsxxby">
+    update T_SYNC_QSXXBY
+    <set>
+      <if test="gatewayId != null">
+        GATEWAY_ID = #{gatewayId,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null">
+        PRODUCT_ID = #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        PHONE = #{phone,jdbcType=DECIMAL},
+      </if>
+      <if test="operateType != null">
+        OPERATE_TYPE = #{operateType,jdbcType=DECIMAL},
+      </if>
+      <if test="modatReceive != null">
+        MODAT_RECEIVE = #{modatReceive,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reduceStatus != null">
+        REDUCE_STATUS = #{reduceStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="syncStatus != null">
+        SYNC_STATUS = #{syncStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="beginTime != null">
+        BEGIN_TIME = #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where MORID = #{morid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.sync.SyncQsxxby">
+    update T_SYNC_QSXXBY
+    set GATEWAY_ID = #{gatewayId,jdbcType=VARCHAR},
+      PRODUCT_ID = #{productId,jdbcType=VARCHAR},
+      PHONE = #{phone,jdbcType=DECIMAL},
+      OPERATE_TYPE = #{operateType,jdbcType=DECIMAL},
+      MODAT_RECEIVE = #{modatReceive,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      REDUCE_STATUS = #{reduceStatus,jdbcType=DECIMAL},
+      SYNC_STATUS = #{syncStatus,jdbcType=DECIMAL},
+      BEGIN_TIME = #{beginTime,jdbcType=TIMESTAMP},
+      END_TIME = #{endTime,jdbcType=TIMESTAMP}
+    where MORID = #{morid,jdbcType=VARCHAR}
+  </update>
+</mapper>

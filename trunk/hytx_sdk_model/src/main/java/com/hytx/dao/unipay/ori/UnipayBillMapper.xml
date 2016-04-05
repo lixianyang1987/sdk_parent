@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.unipay.ori.UnipayBillMapper" >
+  <resultMap id="BaseResultMap" type="com.hytx.model.unipay.UnipayBill" >
+    <id column="ORDER_ID" property="orderId" jdbcType="VARCHAR" />
+    <result column="IMSI" property="imsi" jdbcType="VARCHAR" />
+    <result column="IMEI" property="imei" jdbcType="VARCHAR" />
+    <result column="UA" property="ua" jdbcType="VARCHAR" />
+    <result column="VER_SDK" property="verSdk" jdbcType="VARCHAR" />
+    <result column="FEE_VALUE" property="feeValue" jdbcType="VARCHAR" />
+    <result column="ORDER_TIME" property="orderTime" jdbcType="VARCHAR" />
+    <result column="CREATE_DT" property="createDt" jdbcType="TIMESTAMP" />
+    <result column="EXTRA_INFO" property="extraInfo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ORDER_ID, IMSI, IMEI, UA, VER_SDK, FEE_VALUE, ORDER_TIME, CREATE_DT, EXTRA_INFO
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hytx.model.unipay.UnipayBillExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_UNIPAY_BILL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_UNIPAY_BILL
+    where ORDER_ID = #{orderId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_UNIPAY_BILL
+    where ORDER_ID = #{orderId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.unipay.UnipayBillExample" >
+    delete from T_UNIPAY_BILL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.unipay.UnipayBill" >
+    insert into T_UNIPAY_BILL (ORDER_ID, IMSI, IMEI, 
+      UA, VER_SDK, FEE_VALUE, 
+      ORDER_TIME, CREATE_DT, EXTRA_INFO
+      )
+    values (#{orderId,jdbcType=VARCHAR}, #{imsi,jdbcType=VARCHAR}, #{imei,jdbcType=VARCHAR}, 
+      #{ua,jdbcType=VARCHAR}, #{verSdk,jdbcType=VARCHAR}, #{feeValue,jdbcType=VARCHAR}, 
+      #{orderTime,jdbcType=VARCHAR}, #{createDt,jdbcType=TIMESTAMP}, #{extraInfo,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.unipay.UnipayBill" >
+    insert into T_UNIPAY_BILL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="imsi != null" >
+        IMSI,
+      </if>
+      <if test="imei != null" >
+        IMEI,
+      </if>
+      <if test="ua != null" >
+        UA,
+      </if>
+      <if test="verSdk != null" >
+        VER_SDK,
+      </if>
+      <if test="feeValue != null" >
+        FEE_VALUE,
+      </if>
+      <if test="orderTime != null" >
+        ORDER_TIME,
+      </if>
+      <if test="createDt != null" >
+        CREATE_DT,
+      </if>
+      <if test="extraInfo != null" >
+        EXTRA_INFO,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="imsi != null" >
+        #{imsi,jdbcType=VARCHAR},
+      </if>
+      <if test="imei != null" >
+        #{imei,jdbcType=VARCHAR},
+      </if>
+      <if test="ua != null" >
+        #{ua,jdbcType=VARCHAR},
+      </if>
+      <if test="verSdk != null" >
+        #{verSdk,jdbcType=VARCHAR},
+      </if>
+      <if test="feeValue != null" >
+        #{feeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="orderTime != null" >
+        #{orderTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createDt != null" >
+        #{createDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extraInfo != null" >
+        #{extraInfo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.unipay.UnipayBillExample" resultType="java.lang.Integer" >
+    select count(*) from T_UNIPAY_BILL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_UNIPAY_BILL
+    <set >
+      <if test="record.orderId != null" >
+        ORDER_ID = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imsi != null" >
+        IMSI = #{record.imsi,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imei != null" >
+        IMEI = #{record.imei,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ua != null" >
+        UA = #{record.ua,jdbcType=VARCHAR},
+      </if>
+      <if test="record.verSdk != null" >
+        VER_SDK = #{record.verSdk,jdbcType=VARCHAR},
+      </if>
+      <if test="record.feeValue != null" >
+        FEE_VALUE = #{record.feeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderTime != null" >
+        ORDER_TIME = #{record.orderTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDt != null" >
+        CREATE_DT = #{record.createDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.extraInfo != null" >
+        EXTRA_INFO = #{record.extraInfo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_UNIPAY_BILL
+    set ORDER_ID = #{record.orderId,jdbcType=VARCHAR},
+      IMSI = #{record.imsi,jdbcType=VARCHAR},
+      IMEI = #{record.imei,jdbcType=VARCHAR},
+      UA = #{record.ua,jdbcType=VARCHAR},
+      VER_SDK = #{record.verSdk,jdbcType=VARCHAR},
+      FEE_VALUE = #{record.feeValue,jdbcType=VARCHAR},
+      ORDER_TIME = #{record.orderTime,jdbcType=VARCHAR},
+      CREATE_DT = #{record.createDt,jdbcType=TIMESTAMP},
+      EXTRA_INFO = #{record.extraInfo,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.unipay.UnipayBill" >
+    update T_UNIPAY_BILL
+    <set >
+      <if test="imsi != null" >
+        IMSI = #{imsi,jdbcType=VARCHAR},
+      </if>
+      <if test="imei != null" >
+        IMEI = #{imei,jdbcType=VARCHAR},
+      </if>
+      <if test="ua != null" >
+        UA = #{ua,jdbcType=VARCHAR},
+      </if>
+      <if test="verSdk != null" >
+        VER_SDK = #{verSdk,jdbcType=VARCHAR},
+      </if>
+      <if test="feeValue != null" >
+        FEE_VALUE = #{feeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="orderTime != null" >
+        ORDER_TIME = #{orderTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createDt != null" >
+        CREATE_DT = #{createDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extraInfo != null" >
+        EXTRA_INFO = #{extraInfo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ORDER_ID = #{orderId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.unipay.UnipayBill" >
+    update T_UNIPAY_BILL
+    set IMSI = #{imsi,jdbcType=VARCHAR},
+      IMEI = #{imei,jdbcType=VARCHAR},
+      UA = #{ua,jdbcType=VARCHAR},
+      VER_SDK = #{verSdk,jdbcType=VARCHAR},
+      FEE_VALUE = #{feeValue,jdbcType=VARCHAR},
+      ORDER_TIME = #{orderTime,jdbcType=VARCHAR},
+      CREATE_DT = #{createDt,jdbcType=TIMESTAMP},
+      EXTRA_INFO = #{extraInfo,jdbcType=VARCHAR}
+    where ORDER_ID = #{orderId,jdbcType=VARCHAR}
+  </update>
+</mapper>

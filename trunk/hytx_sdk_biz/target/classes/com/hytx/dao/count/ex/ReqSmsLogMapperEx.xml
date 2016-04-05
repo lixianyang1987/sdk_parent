@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.count.ex.ReqSmsLogMapperEx" >
+   <resultMap id="baseResultMap" type="com.hytx.dto.client.ReqSmsLogDto" extends="com.hytx.dao.client.ori.ReqSmsMapper.BaseResultMap" >
+       <result column="app_name" property="appName" jdbcType="VARCHAR"/>
+       <result column="channel_name" property="channelName" jdbcType="VARCHAR"/>
+       <result column="province_name" property="provinceName" jdbcType="VARCHAR"/>
+       <result column="pay_point_name" property="payPointName" jdbcType="VARCHAR"/>
+       <result column="cn_name" property="cnName" jdbcType="VARCHAR"/>
+       <result column="mobile" property="mobile" jdbcType="INTEGER"/>
+   </resultMap>
+   
+   <resultMap id="commandResultMap" type="com.hytx.dto.client.ReqSmsCommandDto" extends="com.hytx.dao.client.ori.ReqSmsCommandMapper.BaseResultMap" >
+       <result column="app_name" property="appName" jdbcType="VARCHAR"/>
+       <result column="op_name" property="operateName" jdbcType="VARCHAR"/>
+       <result column="province_name" property="provinceName" jdbcType="VARCHAR"/>
+       <result column="pay_point_name" property="payPointName" jdbcType="VARCHAR"/>
+   </resultMap>
+   
+   <select id="selectReqSmsListByPage" resultMap="baseResultMap">
+        select t.*,n.name as cn_name from (
+         select rownum rm,tb.* from (
+		  select u.*,a.app_name,c.channel_name,p.province_name,s.name as pay_point_name,f.mobile from T_REQ_SMS u 
+		  left outer join T_APP a on a.id=u.app_id
+		  left outer join T_CHANNEL c on c.id=u.channel_id
+		  left outer join T_PROVINCE p on p.id=u.province_id
+		  left outer join T_PAY_POINT s on s.id=u.pay_point_id
+		  <if test="findReqSms.mobile==null">
+		   left outer join t_sdk_info f on f.imsi=u.imsi
+		  </if>
+		  <if test="findReqSms.mobile!=null">
+		   inner  join t_sdk_info f on f.imsi=u.imsi
+		   and f.mobile=#{findReqSms.mobile,jdbcType=INTEGER}
+		  </if>
+		  where 1=1
+		  <if test="findReqSms.appId!=null and findReqSms.appId &gt; 0">
+		      and u.app_id=#{findReqSms.appId,jdbcType=INTEGER}
+		  </if>
+		  <if test="findReqSms.channelId!=null and findReqSms.channelId &gt; 0">
+		      and u.channel_id=#{findReqSms.channelId,jdbcType=INTEGER}
+		  </if>
+		  <if test="findReqSms.serverType!=null and findReqSms.serverType &gt; 0">
+		      and u.server_type=#{findReqSms.serverType,jdbcType=INTEGER}
+		  </if>
+		  <if test="findReqSms.provinceId!=null and findReqSms.provinceId &gt; 0">
+		      and u.province_id=#{findReqSms.provinceId,jdbcType=INTEGER}
+		  </if>
+		  <if test="findReqSms.imsi!=null and findReqSms.imsi!=''">
+		     and u.imsi like  '${findReqSms.imsi.trim()}%'
+		  </if>
+		  <if test="findReqSms.startDate!=null">
+		     and to_char(u.update_dt,'yyyy-mm-dd') &gt;= #{findReqSms.startDate,jdbcType=VARCHAR}
+		  </if>
+		  <if test="findReqSms.endDate!=null">
+		     and to_char(u.update_dt,'yyyy-mm-dd') &lt;= #{findReqSms.endDate,jdbcType=VARCHAR}
+		  </if>
+		   order by u.update_dt desc
+		  )tb
+		)t  
+		left outer join t_channel_app n on n.channel_id=t.channel_id 
+		and n.app_id=t.app_id
+		where t.rm between #{page.pageStartIndex} and #{page.pageEndIndex}
+		order by t.update_dt desc
+  </select>
+  
+  <select id="countReqSms" resultType="java.lang.Integer">
+	   select count(1) from T_REQ_SMS u  where 1=1
+		 <if test="findReqSms.appId!=null and findReqSms.appId &gt; 0">
+		      and u.app_id=#{findReqSms.appId,jdbcType=INTEGER}
+		  </if>
+		  <if test="findReqSms.channelId!=null and findReqSms.channelId &gt; 0">
+		      and u.channel_id=#{findReqSms.channelId,jdbcType=INTEGER}
+		  </if>
+		  <if test="findReqSms.startDate!=null">
+		     and to_char(u.update_dt,'yyyy-mm-dd') &gt;= #{findReqSms.startDate,jdbcType=VARCHAR}
+		  </if>
+		  <if test="findReqSms.endDate!=null">
+		     and to_char(u.update_dt,'yyyy-mm-dd') &lt;= #{findReqSms.endDate,jdbcType=VARCHAR}
+		  </if>
+  </select>
+  
+  <select id="findReqSmsCommands" resultMap="commandResultMap">
+		select t.*,a.app_name,p.op_name,s.name as pay_point_name,pr.province_name
+		 from (
+		    select * from T_REQ_SMS_COMMAND where order_id=#{orderId,jdbcType=VARCHAR}
+		 )t 
+		 left outer join T_APP a on a.id=t.app_id
+		 left outer join T_OPERATE p on p.id=t.operate_id
+		 left outer join T_PAY_POINT s on s.id=t.pay_point_id
+		 left outer join T_PROVINCE pr on pr.id=t.province_id
+		 order by t.id asc
+  </select>
+</mapper>

@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.syncEx.ori.SyncLtyyMapper" >
+  <resultMap id="BaseResultMap" type="com.hytx.model.syncEx.SyncLtyy" >
+    <id column="LINK_ID" property="linkId" jdbcType="VARCHAR" />
+    <result column="MSG" property="msg" jdbcType="VARCHAR" />
+    <result column="SP_NUMBER" property="spNumber" jdbcType="VARCHAR" />
+    <result column="MOBILE_ID" property="mobileId" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="REDUCE_STATUS" property="reduceStatus" jdbcType="DECIMAL" />
+    <result column="SYNC_STATUS" property="syncStatus" jdbcType="DECIMAL" />
+    <result column="CREATE_DT" property="createDt" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DT" property="updateDt" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    LINK_ID, MSG, SP_NUMBER, MOBILE_ID, STATUS, REDUCE_STATUS, SYNC_STATUS, CREATE_DT, 
+    UPDATE_DT
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hytx.model.syncEx.SyncLtyyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_SYNC_LTYY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYNC_LTYY
+    where LINK_ID = #{linkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_SYNC_LTYY
+    where LINK_ID = #{linkId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.syncEx.SyncLtyyExample" >
+    delete from T_SYNC_LTYY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.syncEx.SyncLtyy" >
+    insert into T_SYNC_LTYY (LINK_ID, MSG, SP_NUMBER, 
+      MOBILE_ID, STATUS, REDUCE_STATUS, 
+      SYNC_STATUS, CREATE_DT, UPDATE_DT
+      )
+    values (#{linkId,jdbcType=VARCHAR}, #{msg,jdbcType=VARCHAR}, #{spNumber,jdbcType=VARCHAR}, 
+      #{mobileId,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, #{reduceStatus,jdbcType=DECIMAL}, 
+      #{syncStatus,jdbcType=DECIMAL}, #{createDt,jdbcType=TIMESTAMP}, #{updateDt,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.syncEx.SyncLtyy" >
+    insert into T_SYNC_LTYY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="linkId != null" >
+        LINK_ID,
+      </if>
+      <if test="msg != null" >
+        MSG,
+      </if>
+      <if test="spNumber != null" >
+        SP_NUMBER,
+      </if>
+      <if test="mobileId != null" >
+        MOBILE_ID,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="reduceStatus != null" >
+        REDUCE_STATUS,
+      </if>
+      <if test="syncStatus != null" >
+        SYNC_STATUS,
+      </if>
+      <if test="createDt != null" >
+        CREATE_DT,
+      </if>
+      <if test="updateDt != null" >
+        UPDATE_DT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="linkId != null" >
+        #{linkId,jdbcType=VARCHAR},
+      </if>
+      <if test="msg != null" >
+        #{msg,jdbcType=VARCHAR},
+      </if>
+      <if test="spNumber != null" >
+        #{spNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileId != null" >
+        #{mobileId,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="reduceStatus != null" >
+        #{reduceStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="syncStatus != null" >
+        #{syncStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="createDt != null" >
+        #{createDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDt != null" >
+        #{updateDt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.syncEx.SyncLtyyExample" resultType="java.lang.Integer" >
+    select count(*) from T_SYNC_LTYY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_SYNC_LTYY
+    <set >
+      <if test="record.linkId != null" >
+        LINK_ID = #{record.linkId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.msg != null" >
+        MSG = #{record.msg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.spNumber != null" >
+        SP_NUMBER = #{record.spNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobileId != null" >
+        MOBILE_ID = #{record.mobileId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=DECIMAL},
+      </if>
+      <if test="record.reduceStatus != null" >
+        REDUCE_STATUS = #{record.reduceStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.syncStatus != null" >
+        SYNC_STATUS = #{record.syncStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createDt != null" >
+        CREATE_DT = #{record.createDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateDt != null" >
+        UPDATE_DT = #{record.updateDt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_SYNC_LTYY
+    set LINK_ID = #{record.linkId,jdbcType=VARCHAR},
+      MSG = #{record.msg,jdbcType=VARCHAR},
+      SP_NUMBER = #{record.spNumber,jdbcType=VARCHAR},
+      MOBILE_ID = #{record.mobileId,jdbcType=DECIMAL},
+      STATUS = #{record.status,jdbcType=DECIMAL},
+      REDUCE_STATUS = #{record.reduceStatus,jdbcType=DECIMAL},
+      SYNC_STATUS = #{record.syncStatus,jdbcType=DECIMAL},
+      CREATE_DT = #{record.createDt,jdbcType=TIMESTAMP},
+      UPDATE_DT = #{record.updateDt,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.syncEx.SyncLtyy" >
+    update T_SYNC_LTYY
+    <set >
+      <if test="msg != null" >
+        MSG = #{msg,jdbcType=VARCHAR},
+      </if>
+      <if test="spNumber != null" >
+        SP_NUMBER = #{spNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileId != null" >
+        MOBILE_ID = #{mobileId,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="reduceStatus != null" >
+        REDUCE_STATUS = #{reduceStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="syncStatus != null" >
+        SYNC_STATUS = #{syncStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="createDt != null" >
+        CREATE_DT = #{createDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDt != null" >
+        UPDATE_DT = #{updateDt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where LINK_ID = #{linkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.syncEx.SyncLtyy" >
+    update T_SYNC_LTYY
+    set MSG = #{msg,jdbcType=VARCHAR},
+      SP_NUMBER = #{spNumber,jdbcType=VARCHAR},
+      MOBILE_ID = #{mobileId,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL},
+      REDUCE_STATUS = #{reduceStatus,jdbcType=DECIMAL},
+      SYNC_STATUS = #{syncStatus,jdbcType=DECIMAL},
+      CREATE_DT = #{createDt,jdbcType=TIMESTAMP},
+      UPDATE_DT = #{updateDt,jdbcType=TIMESTAMP}
+    where LINK_ID = #{linkId,jdbcType=VARCHAR}
+  </update>
+</mapper>

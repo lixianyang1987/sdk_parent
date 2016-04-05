@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.baseConf.ori.AppServerMapper" >
+  <resultMap id="BaseResultMap" type="com.hytx.model.baseConf.AppServer" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="APP_ID" property="appId" jdbcType="DECIMAL" />
+    <result column="SERVER_TYPE" property="serverType" jdbcType="DECIMAL" />
+    <result column="CONTROL_FLAG" property="controlFlag" jdbcType="DECIMAL" />
+    <result column="DAY_LIMIT" property="dayLimit" jdbcType="DECIMAL" />
+    <result column="MONTH_LIMIT" property="monthLimit" jdbcType="DECIMAL" />
+    <result column="WAIT_SECONDS" property="waitSeconds" jdbcType="DECIMAL" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="CREATE_DT" property="createDt" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_DT" property="updateDt" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="OP_RANGE" property="opRange" jdbcType="DECIMAL" />
+    <result column="EXT1" property="ext1" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, APP_ID, SERVER_TYPE, CONTROL_FLAG, DAY_LIMIT, MONTH_LIMIT, WAIT_SECONDS, CREATE_BY, 
+    CREATE_DT, UPDATE_BY, UPDATE_DT, STATUS, OP_RANGE, EXT1
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hytx.model.baseConf.AppServerExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_APP_SERVER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_APP_SERVER
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_APP_SERVER
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.baseConf.AppServerExample" >
+    delete from T_APP_SERVER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.baseConf.AppServer" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      select SEQ_APP_SERVER_ID.nextval from dual
+    </selectKey>
+    insert into T_APP_SERVER (ID, APP_ID, SERVER_TYPE, 
+      CONTROL_FLAG, DAY_LIMIT, MONTH_LIMIT, 
+      WAIT_SECONDS, CREATE_BY, CREATE_DT, 
+      UPDATE_BY, UPDATE_DT, STATUS, 
+      OP_RANGE, EXT1)
+    values (#{id,jdbcType=DECIMAL}, #{appId,jdbcType=DECIMAL}, #{serverType,jdbcType=DECIMAL}, 
+      #{controlFlag,jdbcType=DECIMAL}, #{dayLimit,jdbcType=DECIMAL}, #{monthLimit,jdbcType=DECIMAL}, 
+      #{waitSeconds,jdbcType=DECIMAL}, #{createBy,jdbcType=VARCHAR}, #{createDt,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR}, #{updateDt,jdbcType=TIMESTAMP}, #{status,jdbcType=DECIMAL}, 
+      #{opRange,jdbcType=DECIMAL}, #{ext1,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.baseConf.AppServer" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      select SEQ_APP_SERVER_ID.nextval from dual
+    </selectKey>
+    insert into T_APP_SERVER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
+      <if test="appId != null" >
+        APP_ID,
+      </if>
+      <if test="serverType != null" >
+        SERVER_TYPE,
+      </if>
+      <if test="controlFlag != null" >
+        CONTROL_FLAG,
+      </if>
+      <if test="dayLimit != null" >
+        DAY_LIMIT,
+      </if>
+      <if test="monthLimit != null" >
+        MONTH_LIMIT,
+      </if>
+      <if test="waitSeconds != null" >
+        WAIT_SECONDS,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="createDt != null" >
+        CREATE_DT,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+      <if test="updateDt != null" >
+        UPDATE_DT,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="opRange != null" >
+        OP_RANGE,
+      </if>
+      <if test="ext1 != null" >
+        EXT1,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=DECIMAL},
+      <if test="appId != null" >
+        #{appId,jdbcType=DECIMAL},
+      </if>
+      <if test="serverType != null" >
+        #{serverType,jdbcType=DECIMAL},
+      </if>
+      <if test="controlFlag != null" >
+        #{controlFlag,jdbcType=DECIMAL},
+      </if>
+      <if test="dayLimit != null" >
+        #{dayLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="monthLimit != null" >
+        #{monthLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="waitSeconds != null" >
+        #{waitSeconds,jdbcType=DECIMAL},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDt != null" >
+        #{createDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDt != null" >
+        #{updateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="opRange != null" >
+        #{opRange,jdbcType=DECIMAL},
+      </if>
+      <if test="ext1 != null" >
+        #{ext1,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.baseConf.AppServerExample" resultType="java.lang.Integer" >
+    select count(*) from T_APP_SERVER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_APP_SERVER
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.appId != null" >
+        APP_ID = #{record.appId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.serverType != null" >
+        SERVER_TYPE = #{record.serverType,jdbcType=DECIMAL},
+      </if>
+      <if test="record.controlFlag != null" >
+        CONTROL_FLAG = #{record.controlFlag,jdbcType=DECIMAL},
+      </if>
+      <if test="record.dayLimit != null" >
+        DAY_LIMIT = #{record.dayLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="record.monthLimit != null" >
+        MONTH_LIMIT = #{record.monthLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="record.waitSeconds != null" >
+        WAIT_SECONDS = #{record.waitSeconds,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createBy != null" >
+        CREATE_BY = #{record.createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDt != null" >
+        CREATE_DT = #{record.createDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateBy != null" >
+        UPDATE_BY = #{record.updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDt != null" >
+        UPDATE_DT = #{record.updateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=DECIMAL},
+      </if>
+      <if test="record.opRange != null" >
+        OP_RANGE = #{record.opRange,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ext1 != null" >
+        EXT1 = #{record.ext1,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_APP_SERVER
+    set ID = #{record.id,jdbcType=DECIMAL},
+      APP_ID = #{record.appId,jdbcType=DECIMAL},
+      SERVER_TYPE = #{record.serverType,jdbcType=DECIMAL},
+      CONTROL_FLAG = #{record.controlFlag,jdbcType=DECIMAL},
+      DAY_LIMIT = #{record.dayLimit,jdbcType=DECIMAL},
+      MONTH_LIMIT = #{record.monthLimit,jdbcType=DECIMAL},
+      WAIT_SECONDS = #{record.waitSeconds,jdbcType=DECIMAL},
+      CREATE_BY = #{record.createBy,jdbcType=VARCHAR},
+      CREATE_DT = #{record.createDt,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{record.updateBy,jdbcType=VARCHAR},
+      UPDATE_DT = #{record.updateDt,jdbcType=TIMESTAMP},
+      STATUS = #{record.status,jdbcType=DECIMAL},
+      OP_RANGE = #{record.opRange,jdbcType=DECIMAL},
+      EXT1 = #{record.ext1,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.baseConf.AppServer" >
+    update T_APP_SERVER
+    <set >
+      <if test="appId != null" >
+        APP_ID = #{appId,jdbcType=DECIMAL},
+      </if>
+      <if test="serverType != null" >
+        SERVER_TYPE = #{serverType,jdbcType=DECIMAL},
+      </if>
+      <if test="controlFlag != null" >
+        CONTROL_FLAG = #{controlFlag,jdbcType=DECIMAL},
+      </if>
+      <if test="dayLimit != null" >
+        DAY_LIMIT = #{dayLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="monthLimit != null" >
+        MONTH_LIMIT = #{monthLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="waitSeconds != null" >
+        WAIT_SECONDS = #{waitSeconds,jdbcType=DECIMAL},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDt != null" >
+        CREATE_DT = #{createDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDt != null" >
+        UPDATE_DT = #{updateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="opRange != null" >
+        OP_RANGE = #{opRange,jdbcType=DECIMAL},
+      </if>
+      <if test="ext1 != null" >
+        EXT1 = #{ext1,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.baseConf.AppServer" >
+    update T_APP_SERVER
+    set APP_ID = #{appId,jdbcType=DECIMAL},
+      SERVER_TYPE = #{serverType,jdbcType=DECIMAL},
+      CONTROL_FLAG = #{controlFlag,jdbcType=DECIMAL},
+      DAY_LIMIT = #{dayLimit,jdbcType=DECIMAL},
+      MONTH_LIMIT = #{monthLimit,jdbcType=DECIMAL},
+      WAIT_SECONDS = #{waitSeconds,jdbcType=DECIMAL},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      CREATE_DT = #{createDt,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      UPDATE_DT = #{updateDt,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=DECIMAL},
+      OP_RANGE = #{opRange,jdbcType=DECIMAL},
+      EXT1 = #{ext1,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

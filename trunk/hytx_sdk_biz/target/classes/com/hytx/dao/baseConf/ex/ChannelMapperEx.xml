@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.baseConf.ex.ChannelMapperEx" >
+   <resultMap id="baseResultMap" type="com.hytx.model.baseConf.Channel" extends="com.hytx.dao.baseConf.ori.ChannelMapper.BaseResultMap" ></resultMap>
+   <select id="selectChannelListByPage" resultMap="baseResultMap">
+        select * from (
+	        select rownum rm,tb.* from(
+				select  u.* from T_CHANNEL u where status!=-1  
+				<if test="findChannel.channelName!=null">
+					and channel_name like '%${findChannel.channelName}%'
+				</if>
+				 order by create_dt desc
+			 )tb
+		)t
+		where t.rm between #{page.pageStartIndex} and #{page.pageEndIndex}
+		order by t.create_dt desc
+  </select>
+  
+  <select id="countChannel" resultType="java.lang.Integer">
+		SELECT count(1) from T_CHANNEL  where status!=-1  
+		<if test="findChannel.channelName!=null">
+			and channel_name like '%${findChannel.channelName}%'
+		</if>
+  </select>
+  
+  <select id="selectByCpId"  resultMap="baseResultMap">
+     select * from T_CHANNEL c where status!=-1  
+     <if test="cpId!=null and cpId &gt; 0">
+		 and c.id in (
+		     select t.channel_id from T_CHANNEL_APP t where   t.app_id in(
+		        select id from T_APP a where a.status=1 and a.cp_id=#{cpId,jdbcType=INTEGER}
+		     )
+		 )
+     </if>
+  </select>
+  <select id="selectByAppId"  resultMap="baseResultMap">
+     select * from T_CHANNEL c where status!=-1  
+     <if test="appId!=null and appId &gt; 0">
+		 and c.id in (
+		     select t.channel_id from T_CHANNEL_APP t where t.app_id=#{appId,jdbcType=INTEGER}
+		 )
+     </if>
+  </select>
+</mapper>

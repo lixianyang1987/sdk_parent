@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.unipay.ex.UnipayStateMapperEx" >
+  <resultMap id="baseResultMap" type="com.hytx.model.unipay.UnipayState" extends="com.hytx.dao.unipay.ori.UnipayStateMapper.BaseResultMap" ></resultMap>
+  <select id="countUserUnipayOrder" resultType="java.lang.Integer">
+		select count(1) from T_UNIPAY_BILL b
+        inner join T_UNIPAY_STATE s on b.order_id=s.order_id
+        and b.imsi=#{imsi,jdbcType=VARCHAR}
+        and s.resp_code='00'
+  </select>
+  
+</mapper>

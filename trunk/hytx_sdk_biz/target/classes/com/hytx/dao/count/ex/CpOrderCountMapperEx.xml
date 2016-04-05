@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.count.ex.CpOrderCountMapperEx" >
+  <resultMap type="com.hytx.dto.count.CpOrderCountDto" id="baseResultMap">
+      <result column="day" property="date" jdbcType="VARCHAR"/>
+      <result column="channel_name" property="channelName" jdbcType="VARCHAR"/>
+      <result column="app_name" property="appName" jdbcType="VARCHAR"/>
+      <result column="cn_name" property="cnName" jdbcType="VARCHAR"/>
+      <result column="activates" property="activates" jdbcType="INTEGER"/>
+  </resultMap>
+   <select id="countCpOrder" resultMap="baseResultMap">
+		select t.day,a.app_name,h.channel_name,q.name as cn_name, case when q.cpa_price>0 then round(t.all_fee*q.fee_percent*(100-q.reduce_percent)/(10000*q.cpa_price),0) else round(t.all_fee*q.fee_percent*(100-q.reduce_percent)/(10000),0) end as activates from 
+		(
+		 select to_char(s.order_dt,'yyyy-mm-dd') day,s.channel_id,s.cn_app_id,sum(s.fee_value) all_fee
+		 from v_sync_info s 
+		 where  status=0 and to_char(s.order_dt,'yyyy-mm-dd') between #{findDto.startDate,jdbcType=VARCHAR} and #{findDto.endDate,jdbcType=VARCHAR}	
+		 and s.app_id!=407
+		 <if test="findDto.channelId!=null and findDto.channelId &gt; 0">
+			 and s.channel_id=#{findDto.channelId,jdbcType=INTEGER}
+		 </if>
+		 <if test="findDto.appId!=null and findDto.appId &gt; 0">
+			 and s.cn_app_id=#{findDto.appId,jdbcType=INTEGER}
+		 </if>
+		  group by to_char(s.order_dt,'yyyy-mm-dd'),s.channel_id,s.cn_app_id 
+		) t
+		inner join T_APP a on a.id=t.cn_app_id
+		inner join T_CHANNEL h on h.id=t.channel_id
+		inner join T_CHANNEL_APP q 
+		on t.cn_app_id=q.app_id and t.channel_id=q.channel_id
+		order by t.day asc,t.channel_id asc
+  </select>  
+</mapper>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.client.ex.ReqSmsMapperEx" >
+   <resultMap id="baseResultMap" type="com.hytx.model.client.ReqSms" extends="com.hytx.dao.client.ori.ReqSmsMapper.BaseResultMap" ></resultMap>
+   <resultMap id="consumerResultMap" type="com.hytx.dto.client.AppConsumerDto" >
+      <result column="app_id" property="appId" jdbcType="INTEGER"/>
+      <result column="consumer" property="consumer" jdbcType="INTEGER"/>
+   </resultMap>
+  <select id="selectDayConsumer" resultType="java.lang.Long">
+        select sum(c.fee_value) from T_REQ_SMS_COMMAND c inner join T_REQ_SMS r on c.order_id=r.order_id
+        and  r.imsi=#{imsi,jdbcType=VARCHAR}
+        and to_char(c.update_dt,'yyyy-mm-dd')=#{dateStr,jdbcType=VARCHAR}
+        and c.send_status=1
+  </select>
+  <select id="selectMonthConsumer" resultType="java.lang.Long">
+        select sum(c.fee_value) from T_REQ_SMS_COMMAND c inner join T_REQ_SMS r on c.order_id=r.order_id
+        and  r.imsi=#{imsi,jdbcType=VARCHAR}
+        and to_char(c.update_dt,'yyyy-mm')=#{monthStr,jdbcType=VARCHAR}
+        and c.send_status=1
+        
+  </select>
+  <select id="selectDayChannelAppConsumer" resultType="java.lang.Long">
+        select sum(c.fee_value) from T_REQ_SMS_COMMAND c
+        inner join T_REQ_SMS r on c.order_id=r.order_id
+        and r.channel_id=#{channelId,jdbcType=INTEGER}
+        and r.province_id=#{provinceId,jdbcType=INTEGER}
+        and r.app_id=#{appId,jdbcType=INTEGER}
+        and to_char(c.update_dt,'yyyy-mm-dd')=#{dateStr,jdbcType=VARCHAR}
+        and c.send_status=1
+  </select>
+  <select id="selectDayAppConsumer" resultType="java.lang.Long">
+        select sum(c.fee_value) from T_REQ_SMS_COMMAND c
+        inner join T_REQ_SMS r
+        on  r.order_id=c.order_id
+        and c.app_id=#{appId,jdbcType=INTEGER}
+        and to_char(c.update_dt,'yyyy-mm-dd')=#{dateStr,jdbcType=VARCHAR}
+        and r.province_id=#{provinceId,jdbcType=INTEGER}
+        and c.send_status=1
+  </select>
+  
+  <select id="selectDayUserAppConsumer" resultType="java.lang.Long">
+        select sum(c.fee_value) from T_REQ_SMS_COMMAND c
+        inner join T_REQ_SMS r
+        on r.order_id=c.order_id
+        and c.app_id=#{appId,jdbcType=INTEGER}
+        and c.send_status=1
+        and to_char(c.update_dt,'yyyy-mm-dd')=#{dateStr,jdbcType=VARCHAR}
+        and r.imsi=#{imsi,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectMonthUserAppConsumer" resultType="java.lang.Long">
+        select sum(c.fee_value) from T_REQ_SMS_COMMAND c
+        inner join T_REQ_SMS r
+        on r.order_id=c.order_id
+        and c.send_status=1
+        and c.app_id=#{appId,jdbcType=INTEGER}
+        and to_char(c.update_dt,'yyyy-mm')=#{dateStr,jdbcType=VARCHAR}
+        and r.imsi=#{imsi,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectUserAppsDayConsumer" resultMap="consumerResultMap">
+        select c.app_id,sum(c.fee_value) as consumer from T_REQ_SMS_COMMAND c
+        inner join T_REQ_SMS r
+        on r.order_id=c.order_id
+        and c.send_status=1
+        and to_char(c.update_dt,'yyyy-mm-dd')=#{dateStr,jdbcType=VARCHAR}
+        and r.imsi=#{imsi,jdbcType=VARCHAR}
+        group by c.app_id
+  </select>
+  
+  <select id="selectUserAppsMonthConsumer" resultMap="consumerResultMap">
+        select c.app_id,sum(c.fee_value) as consumer from T_REQ_SMS_COMMAND c
+        inner join T_REQ_SMS r
+        on r.order_id=c.order_id
+        and c.send_status=1
+        and to_char(c.update_dt,'yyyy-mm')=#{dateStr,jdbcType=VARCHAR}
+        and r.imsi=#{imsi,jdbcType=VARCHAR}
+        group by c.app_id
+  </select>
+</mapper>

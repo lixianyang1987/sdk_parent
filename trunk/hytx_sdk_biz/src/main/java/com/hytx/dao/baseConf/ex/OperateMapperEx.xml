@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.baseConf.ex.OperateMapperEx" >
+   <resultMap id="baseResultMapEx" type="com.hytx.model.baseConf.Operate" extends="com.hytx.dao.baseConf.ori.OperateMapper.BaseResultMap" >
+   </resultMap>
+   <select id="selectOperateListByPage" resultMap="baseResultMapEx">
+        select  t.* from (
+			select rownum rm,dt.* from (
+			select r.* from T_OPERATE r  where 1=1  
+			<if test="findOperate.opName!=null">
+			  and r.op_name like '%${findOperate.opName}%'
+			</if>
+			<if test="findOperate.appId!=null and findOperate.appId &gt;0">
+				and r.app_id = #{findOperate.appId,jdbcType=INTEGER}
+			</if>
+			<if test="findOperate.serverType!=null and findOperate.serverType &gt;0">
+				and r.server_type = #{findOperate.serverType,jdbcType=INTEGER}
+			</if>
+			<if test="findOperate.opType!=null and findOperate.opType &gt;0">
+				and r.op_type = #{findOperate.opType,jdbcType=INTEGER}
+			</if>
+			<if test="findOperate.status!=null">
+				and r.status = #{findOperate.status,jdbcType=INTEGER}
+			</if>
+			<if test="findOperate.provinceId!=null and findOperate.provinceId &gt;0">
+				and exists(
+				   select id from T_APP a where a.id=r.app_id and a.id in(
+				     select record_id from T_PROVINCE_REF p where p.province_id=#{findOperate.provinceId,jdbcType=INTEGER}
+				     and p.ref_type=3
+				   )
+				)
+			</if>
+			 order by r.create_dt desc
+			 )dt
+		)t 
+		where t.rm between #{page.pageStartIndex} and #{page.pageEndIndex}
+		order by t.create_dt desc
+  </select>
+  
+  <select id="countOperate" resultType="java.lang.Integer">
+		select count(1) from T_OPERATE r  where 1=1 
+	    <if test="findOperate.opName!=null">
+		  and r.op_name like '%${findOperate.opName}%'
+		</if>
+		<if test="findOperate.appId!=null and findOperate.appId &gt;0">
+			and r.app_id = #{findOperate.appId,jdbcType=INTEGER}
+		</if>
+		<if test="findOperate.serverType!=null and findOperate.serverType &gt;0">
+			and r.server_type = #{findOperate.serverType,jdbcType=INTEGER}
+		</if> 
+		<if test="findOperate.opType!=null and findOperate.opType &gt;0">
+			and r.op_type = #{findOperate.opType,jdbcType=INTEGER}
+		</if> 
+		<if test="findOperate.status!=null">
+			and r.status = #{findOperate.status,jdbcType=INTEGER}
+		</if>
+		<if test="findOperate.provinceId!=null and findOperate.provinceId &gt;0">
+				and exists(
+				   select id from T_APP a where a.id=r.app_id and a.id in(
+				     select record_id from T_PROVINCE_REF p where p.province_id=#{findOperate.provinceId,jdbcType=INTEGER}
+				     and p.ref_type=3
+				   )
+				)
+		</if>
+  </select>
+  
+  <select id="selectServerAppOperates" resultMap="baseResultMapEx">
+         select * from T_OPERATE  t where server_type = #{serverType,jdbcType=INTEGER}
+         and t.status=1
+         and t.app_id= #{appId,jdbcType=INTEGER}
+         order by t.price asc
+  </select>
+   <select id="selectOperateByPayPointIds" resultMap="baseResultMapEx">
+         select t.* from T_OPERATE  t inner join 
+         T_PAY_POINT_OPERATE p on p.operate_id= t.id
+         and   p.paypoint_id = #{payPointId,jdbcType=INTEGER}
+  </select>
+  
+  
+  
+</mapper>

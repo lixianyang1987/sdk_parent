@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.system.ex.RoleMapperEx" >
+   <resultMap id="baseResultMap" type="com.hytx.model.system.Role" extends="com.hytx.dao.system.ori.RoleMapper.BaseResultMap" ></resultMap>
+   <resultMap id="userRoleResultMap" type="com.hytx.dto.system.UserRoleDto" extends="com.hytx.dao.system.ori.RoleMapper.BaseResultMap" >
+      <result column="user_id" property="userId" javaType="INTEGER"/>
+   </resultMap>
+   <select id="selectRoleListByPage" resultMap="baseResultMap">
+        select * from (
+	        select rownum rm,tb.* from(
+				select r.* from T_SYS_ROLE r  where status!=-10  
+				<if test="findRole.name!=null">
+					and name like '%${findRole.name}%'
+				</if>
+				order by create_dt desc
+			)tb
+		)t
+		where t.rm between #{page.pageStartIndex} and #{page.pageEndIndex}
+  </select>
+  
+  <select id="countRole" resultType="java.lang.Integer">
+		select count(1) from T_SYS_ROLE  where status!=-10  
+		<if test="findRole.name!=null">
+			and name like '%${findRole.name}%'
+		</if>
+  </select>
+  
+  <select id="selectUserRoleDtoList" resultMap="userRoleResultMap">
+       select r.*,ur.user_id from T_SYS_ROLE r left outer join
+       T_SYS_USER_ROLE ur on r.id=ur.role_id 
+       and ur.user_id=#{userId,jdbcType=INTEGER}
+       where  r.status=1
+  </select>
+  
+</mapper>

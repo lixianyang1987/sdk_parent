@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.client.ex.ReqSmsCommandMapperEx" >
+  <resultMap id="baseResultMap" type="com.hytx.model.client.ReqSmsCommand" extends="com.hytx.dao.client.ori.ReqSmsCommandMapper.BaseResultMap" ></resultMap>
+  <select id="selectUserFailCommandList" resultMap="baseResultMap">
+       select * from (
+	        select rownum rm,tb.* from(
+		        select  r.* from T_REQ_SMS_COMMAND r
+		        inner join T_REQ_SMS s on s.order_id=r.order_id 
+		        and  s.imsi=#{imsi,jdbcType=VARCHAR}
+		        and  r.send_status=-1 
+		        and  s.server_type=#{serverType,jdbcType=INTEGER}
+		        and to_char(r.update_dt,'yyyy-mm-dd') &gt;= #{startDate,jdbcType=VARCHAR}
+		        order by r.fee_value desc
+	        )tb
+        )t where t.rm &lt; 2
+  </select>
+  
+  <select id="countUserSendCmd" resultType="java.lang.Integer">
+      select  count(1) from T_REQ_SMS_COMMAND r
+        inner join T_REQ_SMS s on s.order_id=r.order_id 
+        and  s.imsi=#{imsi,jdbcType=VARCHAR}
+        and  r.send_status=1 
+        and  s.app_id=#{appId,jdbcType=INTEGER}
+        and  s.channel_id=#{channelId,jdbcType=INTEGER}
+        and  (r.two_ensure is null
+           or r.ensure_status=1
+        )
+  </select>
+  
+   <select id="selectDayMaxSerialNum" resultType="java.lang.Integer">
+      select  max(serial_num) from T_REQ_SMS_COMMAND r
+      where to_char(update_dt,'yyyy-mm-dd')=#{toDay,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectBySerialNum" resultMap="baseResultMap">
+       select * from T_REQ_SMS_COMMAND r where 
+       r.serial_num=#{serialNum,jdbcType=INTEGER}
+       and (
+         to_char(r.update_dt,'yyyymmdd')=#{toDay,jdbcType=VARCHAR}
+         or to_char(r.update_dt+1/(24*60),'yyyymmdd')=#{toDay,jdbcType=VARCHAR}
+       ) 
+       order by update_dt desc
+  </select>
+  
+   
+  <select id="selectNoSyncByOrderTime" resultMap="baseResultMap">
+       select * from T_REQ_SMS_COMMAND r where 
+       r.app_id=#{appId,jdbcType=INTEGER}
+       and r.fee_value=#{feeValue,jdbcType=INTEGER}
+       and  not exists(
+           select serial_num from T_SYNC_ALL s  where s.serial_num=r.serial_num
+           and r.update_dt between s.create_dt-2/24 and s.create_dt
+           and  (
+             to_char(r.update_dt,'yyyymmdd')=substr(s.rpt_time,0,8)
+             or to_char(r.update_dt+2/(24*60),'yyyymmdd')=substr(s.rpt_time,0,8)
+           ) 
+       )
+       and to_date(#{orderDt,jdbcType=VARCHAR},'yyyymmddhh24miss') 
+       between   r.update_dt-(3/(24*60))  and  r.update_dt+(3/(24*60))
+       order by r.send_status desc,r.update_dt desc  
+  </select>
+  
+</mapper>

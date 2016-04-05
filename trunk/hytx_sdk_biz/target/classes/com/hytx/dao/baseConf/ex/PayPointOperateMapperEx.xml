@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.baseConf.ex.PayPointOperateMapperEx" >
+   <resultMap id="baseResultMapEx" type="com.hytx.dto.baseConf.OperateDto" extends="com.hytx.dao.baseConf.ori.OperateMapper.BaseResultMap" >
+       <result column="ref_record_id" property="refRecordId" javaType="INTEGER"/>
+   </resultMap>
+   <select id="selectPayPointOperateList" resultMap="baseResultMapEx">
+         select * from (
+         select p.*,a.id as ref_record_id from T_OPERATE p 
+         left outer join T_PAY_POINT_OPERATE a  on a.OPERATE_ID=p.id
+         where  1=1
+        <if test="payPointOperate.paypointId!=null and payPointOperate.paypointId &gt;0">
+			and a.paypoint_id = #{payPointOperate.paypointId,jdbcType=INTEGER}
+		</if> 
+		)t where ref_record_id is not null and ref_record_id>0	
+		ORDER BY ref_record_id asc
+  </select>
+</mapper>

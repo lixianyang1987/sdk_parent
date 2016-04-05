@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.sync.ori.OrderSyncMapper" >
+  <resultMap id="BaseResultMap" type="com.hytx.model.sync.OrderSync" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="TRANSACTION_ID" property="transactionId" jdbcType="VARCHAR" />
+    <result column="RESULT" property="result" jdbcType="VARCHAR" />
+    <result column="RESULT_DESC" property="resultDesc" jdbcType="VARCHAR" />
+    <result column="ACTION_TIME" property="actionTime" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="MO" property="mo" jdbcType="VARCHAR" />
+    <result column="DEST" property="dest" jdbcType="VARCHAR" />
+    <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+    <result column="APP_ID" property="appId" jdbcType="VARCHAR" />
+    <result column="PAY_CODE" property="payCode" jdbcType="VARCHAR" />
+    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+    <result column="ORDER_ID" property="orderId" jdbcType="VARCHAR" />
+    <result column="CP_PARAM" property="cpParam" jdbcType="VARCHAR" />
+    <result column="OPERATOR" property="operator" jdbcType="DECIMAL" />
+    <result column="HRET" property="hret" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, TRANSACTION_ID, RESULT, RESULT_DESC, ACTION_TIME, USER_ID, MO, DEST, PROVINCE, 
+    APP_ID, PAY_CODE, PRICE, ORDER_ID, CP_PARAM, OPERATOR, HRET
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hytx.model.sync.OrderSyncExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_ORDER_SYNC
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_ORDER_SYNC
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_ORDER_SYNC
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.sync.OrderSyncExample" >
+    delete from T_ORDER_SYNC
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.sync.OrderSync" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+      select SEQ_ORDER_SYNC_ID.nextval from dual
+    </selectKey>
+    insert into T_ORDER_SYNC (ID, TRANSACTION_ID, RESULT, 
+      RESULT_DESC, ACTION_TIME, USER_ID, 
+      MO, DEST, PROVINCE, 
+      APP_ID, PAY_CODE, PRICE, 
+      ORDER_ID, CP_PARAM, OPERATOR, 
+      HRET)
+    values (#{id,jdbcType=DECIMAL}, #{transactionId,jdbcType=VARCHAR}, #{result,jdbcType=VARCHAR}, 
+      #{resultDesc,jdbcType=VARCHAR}, #{actionTime,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{mo,jdbcType=VARCHAR}, #{dest,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
+      #{appId,jdbcType=VARCHAR}, #{payCode,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
+      #{orderId,jdbcType=VARCHAR}, #{cpParam,jdbcType=VARCHAR}, #{operator,jdbcType=DECIMAL}, 
+      #{hret,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.sync.OrderSync" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+      select SEQ_ORDER_SYNC_ID.nextval from dual
+    </selectKey>
+    insert into T_ORDER_SYNC
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
+      <if test="transactionId != null" >
+        TRANSACTION_ID,
+      </if>
+      <if test="result != null" >
+        RESULT,
+      </if>
+      <if test="resultDesc != null" >
+        RESULT_DESC,
+      </if>
+      <if test="actionTime != null" >
+        ACTION_TIME,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="mo != null" >
+        MO,
+      </if>
+      <if test="dest != null" >
+        DEST,
+      </if>
+      <if test="province != null" >
+        PROVINCE,
+      </if>
+      <if test="appId != null" >
+        APP_ID,
+      </if>
+      <if test="payCode != null" >
+        PAY_CODE,
+      </if>
+      <if test="price != null" >
+        PRICE,
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="cpParam != null" >
+        CP_PARAM,
+      </if>
+      <if test="operator != null" >
+        OPERATOR,
+      </if>
+      <if test="hret != null" >
+        HRET,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=DECIMAL},
+      <if test="transactionId != null" >
+        #{transactionId,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null" >
+        #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="resultDesc != null" >
+        #{resultDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="actionTime != null" >
+        #{actionTime,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="mo != null" >
+        #{mo,jdbcType=VARCHAR},
+      </if>
+      <if test="dest != null" >
+        #{dest,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="appId != null" >
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="payCode != null" >
+        #{payCode,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="cpParam != null" >
+        #{cpParam,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=DECIMAL},
+      </if>
+      <if test="hret != null" >
+        #{hret,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.sync.OrderSyncExample" resultType="java.lang.Integer" >
+    select count(*) from T_ORDER_SYNC
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_ORDER_SYNC
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.transactionId != null" >
+        TRANSACTION_ID = #{record.transactionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.result != null" >
+        RESULT = #{record.result,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resultDesc != null" >
+        RESULT_DESC = #{record.resultDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.actionTime != null" >
+        ACTION_TIME = #{record.actionTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null" >
+        USER_ID = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mo != null" >
+        MO = #{record.mo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dest != null" >
+        DEST = #{record.dest,jdbcType=VARCHAR},
+      </if>
+      <if test="record.province != null" >
+        PROVINCE = #{record.province,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appId != null" >
+        APP_ID = #{record.appId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payCode != null" >
+        PAY_CODE = #{record.payCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null" >
+        PRICE = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.orderId != null" >
+        ORDER_ID = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cpParam != null" >
+        CP_PARAM = #{record.cpParam,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operator != null" >
+        OPERATOR = #{record.operator,jdbcType=DECIMAL},
+      </if>
+      <if test="record.hret != null" >
+        HRET = #{record.hret,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_ORDER_SYNC
+    set ID = #{record.id,jdbcType=DECIMAL},
+      TRANSACTION_ID = #{record.transactionId,jdbcType=VARCHAR},
+      RESULT = #{record.result,jdbcType=VARCHAR},
+      RESULT_DESC = #{record.resultDesc,jdbcType=VARCHAR},
+      ACTION_TIME = #{record.actionTime,jdbcType=VARCHAR},
+      USER_ID = #{record.userId,jdbcType=VARCHAR},
+      MO = #{record.mo,jdbcType=VARCHAR},
+      DEST = #{record.dest,jdbcType=VARCHAR},
+      PROVINCE = #{record.province,jdbcType=VARCHAR},
+      APP_ID = #{record.appId,jdbcType=VARCHAR},
+      PAY_CODE = #{record.payCode,jdbcType=VARCHAR},
+      PRICE = #{record.price,jdbcType=DECIMAL},
+      ORDER_ID = #{record.orderId,jdbcType=VARCHAR},
+      CP_PARAM = #{record.cpParam,jdbcType=VARCHAR},
+      OPERATOR = #{record.operator,jdbcType=DECIMAL},
+      HRET = #{record.hret,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.sync.OrderSync" >
+    update T_ORDER_SYNC
+    <set >
+      <if test="transactionId != null" >
+        TRANSACTION_ID = #{transactionId,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null" >
+        RESULT = #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="resultDesc != null" >
+        RESULT_DESC = #{resultDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="actionTime != null" >
+        ACTION_TIME = #{actionTime,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="mo != null" >
+        MO = #{mo,jdbcType=VARCHAR},
+      </if>
+      <if test="dest != null" >
+        DEST = #{dest,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        PROVINCE = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="appId != null" >
+        APP_ID = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="payCode != null" >
+        PAY_CODE = #{payCode,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        PRICE = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="cpParam != null" >
+        CP_PARAM = #{cpParam,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        OPERATOR = #{operator,jdbcType=DECIMAL},
+      </if>
+      <if test="hret != null" >
+        HRET = #{hret,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.sync.OrderSync" >
+    update T_ORDER_SYNC
+    set TRANSACTION_ID = #{transactionId,jdbcType=VARCHAR},
+      RESULT = #{result,jdbcType=VARCHAR},
+      RESULT_DESC = #{resultDesc,jdbcType=VARCHAR},
+      ACTION_TIME = #{actionTime,jdbcType=VARCHAR},
+      USER_ID = #{userId,jdbcType=VARCHAR},
+      MO = #{mo,jdbcType=VARCHAR},
+      DEST = #{dest,jdbcType=VARCHAR},
+      PROVINCE = #{province,jdbcType=VARCHAR},
+      APP_ID = #{appId,jdbcType=VARCHAR},
+      PAY_CODE = #{payCode,jdbcType=VARCHAR},
+      PRICE = #{price,jdbcType=DECIMAL},
+      ORDER_ID = #{orderId,jdbcType=VARCHAR},
+      CP_PARAM = #{cpParam,jdbcType=VARCHAR},
+      OPERATOR = #{operator,jdbcType=DECIMAL},
+      HRET = #{hret,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

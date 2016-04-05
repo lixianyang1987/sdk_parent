@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.baseConf.ex.PayPointMapperEx" >
+   <resultMap id="baseResultMap" type="com.hytx.model.baseConf.PayPoint" extends="com.hytx.dao.baseConf.ori.PayPointMapper.BaseResultMap" ></resultMap>
+   <select id="selectPayPointListByPage" resultMap="baseResultMap">
+     select * from (
+        select rownum rm,tb.* from(
+			SELECT u.* from T_PAY_POINT  u where 1=1 
+			<if test="findPayPoint.name!=null and findPayPoint.name!=''">
+				and name like '%${findPayPoint.name}%'
+			</if>
+		    <if test="findPayPoint.appId!=null and findPayPoint.appId &gt; 0">
+				and app_id=#{findPayPoint.appId,jdbcType=INTEGER}
+			</if>
+			<if test="findPayPoint.status!=null and findPayPoint.status &gt; 0">
+				and status=#{findPayPoint.status,jdbcType=INTEGER}
+			</if>
+		    <if test="findPayPoint.feeValue!=null and findPayPoint.feeValue &gt; 0">
+				and fee_value=#{findPayPoint.feeValue,jdbcType=INTEGER}
+			</if>
+			<if test="findPayPoint.serverType!=null and findPayPoint.serverType &gt; 0">
+				and server_type=#{findPayPoint.serverType,jdbcType=INTEGER}
+			</if>
+			 order by  app_id desc,server_type asc
+		 )tb
+		)t
+		where t.rm between #{page.pageStartIndex} and #{page.pageEndIndex}
+		order by  t.app_id desc,t.server_type asc
+	
+  </select>
+  
+  <select id="countPayPoint" resultType="java.lang.Integer">
+		SELECT count(1) from T_PAY_POINT  where 1=1  
+		<if test="findPayPoint.name!=null and findPayPoint.name!=''">
+			and name like '%${findPayPoint.name}%'
+		</if>
+		<if test="findPayPoint.status!=null and findPayPoint.status &gt; 0">
+			and status=#{findPayPoint.status,jdbcType=INTEGER}
+		</if>
+		<if test="findPayPoint.appId!=null and findPayPoint.appId &gt; 0">
+			and app_id=#{findPayPoint.appId,jdbcType=INTEGER}
+		</if>
+		<if test="findPayPoint.feeValue!=null and findPayPoint.feeValue &gt; 0">
+			and fee_value=#{findPayPoint.feeValue,jdbcType=INTEGER}
+		</if>
+		<if test="findPayPoint.serverType!=null and findPayPoint.serverType &gt; 0">
+			and server_type=#{findPayPoint.serverType,jdbcType=INTEGER}
+		</if>
+  </select>
+  
+  <select id="selectIllegePayPoints" resultMap="baseResultMap">
+      select * from T_PAY_POINT  where app_id!=#{appId,jdbcType=INTEGER}
+      and  server_type=#{serverType,jdbcType=INTEGER}
+      and id in( 
+         select paypoint_id from t_PAY_POINT_OPERATE where operate_id
+         in (select id from T_OPERATE  where app_id=#{appId,jdbcType=INTEGER}
+           and  server_type=#{serverType,jdbcType=INTEGER}
+         )
+      )
+  </select>
+  
+  
+  
+</mapper>

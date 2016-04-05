@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.sync.ori.TdxltMapper" >
+  <resultMap id="BaseResultMap" type="com.hytx.model.sync.Tdxlt" >
+    <id column="LINKID" property="linkid" jdbcType="VARCHAR" />
+    <result column="MSGTYPE" property="msgtype" jdbcType="VARCHAR" />
+    <result column="USERNUMBER" property="usernumber" jdbcType="VARCHAR" />
+    <result column="FEECODE" property="feecode" jdbcType="DECIMAL" />
+    <result column="STAT" property="stat" jdbcType="VARCHAR" />
+    <result column="REPORTTIME" property="reporttime" jdbcType="VARCHAR" />
+    <result column="GATEWAY" property="gateway" jdbcType="VARCHAR" />
+    <result column="MOMSG" property="momsg" jdbcType="VARCHAR" />
+    <result column="SPNUMBER" property="spnumber" jdbcType="VARCHAR" />
+    <result column="PRODUCTID" property="productid" jdbcType="VARCHAR" />
+    <result column="SERVICEID" property="serviceid" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="COOPID" property="coopid" jdbcType="DECIMAL" />
+    <result column="CHANNEL_APP_ID" property="channelAppId" jdbcType="DECIMAL" />
+    <result column="REDUCE_STATUS" property="reduceStatus" jdbcType="DECIMAL" />
+    <result column="SYNC_STATUS" property="syncStatus" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    LINKID, MSGTYPE, USERNUMBER, FEECODE, STAT, REPORTTIME, GATEWAY, MOMSG, SPNUMBER, 
+    PRODUCTID, SERVICEID, CREATETIME, COOPID, CHANNEL_APP_ID, REDUCE_STATUS, SYNC_STATUS
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hytx.model.sync.TdxltExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_DXLT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_DXLT
+    where LINKID = #{linkid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_DXLT
+    where LINKID = #{linkid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.sync.TdxltExample" >
+    delete from T_DXLT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.sync.Tdxlt" >
+    insert into T_DXLT (LINKID, MSGTYPE, USERNUMBER, 
+      FEECODE, STAT, REPORTTIME, 
+      GATEWAY, MOMSG, SPNUMBER, 
+      PRODUCTID, SERVICEID, CREATETIME, 
+      COOPID, CHANNEL_APP_ID, REDUCE_STATUS, 
+      SYNC_STATUS)
+    values (#{linkid,jdbcType=VARCHAR}, #{msgtype,jdbcType=VARCHAR}, #{usernumber,jdbcType=VARCHAR}, 
+      #{feecode,jdbcType=DECIMAL}, #{stat,jdbcType=VARCHAR}, #{reporttime,jdbcType=VARCHAR}, 
+      #{gateway,jdbcType=VARCHAR}, #{momsg,jdbcType=VARCHAR}, #{spnumber,jdbcType=VARCHAR}, 
+      #{productid,jdbcType=VARCHAR}, #{serviceid,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{coopid,jdbcType=DECIMAL}, #{channelAppId,jdbcType=DECIMAL}, #{reduceStatus,jdbcType=DECIMAL}, 
+      #{syncStatus,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.sync.Tdxlt" >
+    insert into T_DXLT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="linkid != null" >
+        LINKID,
+      </if>
+      <if test="msgtype != null" >
+        MSGTYPE,
+      </if>
+      <if test="usernumber != null" >
+        USERNUMBER,
+      </if>
+      <if test="feecode != null" >
+        FEECODE,
+      </if>
+      <if test="stat != null" >
+        STAT,
+      </if>
+      <if test="reporttime != null" >
+        REPORTTIME,
+      </if>
+      <if test="gateway != null" >
+        GATEWAY,
+      </if>
+      <if test="momsg != null" >
+        MOMSG,
+      </if>
+      <if test="spnumber != null" >
+        SPNUMBER,
+      </if>
+      <if test="productid != null" >
+        PRODUCTID,
+      </if>
+      <if test="serviceid != null" >
+        SERVICEID,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="coopid != null" >
+        COOPID,
+      </if>
+      <if test="channelAppId != null" >
+        CHANNEL_APP_ID,
+      </if>
+      <if test="reduceStatus != null" >
+        REDUCE_STATUS,
+      </if>
+      <if test="syncStatus != null" >
+        SYNC_STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="linkid != null" >
+        #{linkid,jdbcType=VARCHAR},
+      </if>
+      <if test="msgtype != null" >
+        #{msgtype,jdbcType=VARCHAR},
+      </if>
+      <if test="usernumber != null" >
+        #{usernumber,jdbcType=VARCHAR},
+      </if>
+      <if test="feecode != null" >
+        #{feecode,jdbcType=DECIMAL},
+      </if>
+      <if test="stat != null" >
+        #{stat,jdbcType=VARCHAR},
+      </if>
+      <if test="reporttime != null" >
+        #{reporttime,jdbcType=VARCHAR},
+      </if>
+      <if test="gateway != null" >
+        #{gateway,jdbcType=VARCHAR},
+      </if>
+      <if test="momsg != null" >
+        #{momsg,jdbcType=VARCHAR},
+      </if>
+      <if test="spnumber != null" >
+        #{spnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="productid != null" >
+        #{productid,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceid != null" >
+        #{serviceid,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="coopid != null" >
+        #{coopid,jdbcType=DECIMAL},
+      </if>
+      <if test="channelAppId != null" >
+        #{channelAppId,jdbcType=DECIMAL},
+      </if>
+      <if test="reduceStatus != null" >
+        #{reduceStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="syncStatus != null" >
+        #{syncStatus,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.sync.TdxltExample" resultType="java.lang.Integer" >
+    select count(*) from T_DXLT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_DXLT
+    <set >
+      <if test="record.linkid != null" >
+        LINKID = #{record.linkid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.msgtype != null" >
+        MSGTYPE = #{record.msgtype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usernumber != null" >
+        USERNUMBER = #{record.usernumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.feecode != null" >
+        FEECODE = #{record.feecode,jdbcType=DECIMAL},
+      </if>
+      <if test="record.stat != null" >
+        STAT = #{record.stat,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reporttime != null" >
+        REPORTTIME = #{record.reporttime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gateway != null" >
+        GATEWAY = #{record.gateway,jdbcType=VARCHAR},
+      </if>
+      <if test="record.momsg != null" >
+        MOMSG = #{record.momsg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.spnumber != null" >
+        SPNUMBER = #{record.spnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productid != null" >
+        PRODUCTID = #{record.productid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.serviceid != null" >
+        SERVICEID = #{record.serviceid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        CREATETIME = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.coopid != null" >
+        COOPID = #{record.coopid,jdbcType=DECIMAL},
+      </if>
+      <if test="record.channelAppId != null" >
+        CHANNEL_APP_ID = #{record.channelAppId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.reduceStatus != null" >
+        REDUCE_STATUS = #{record.reduceStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.syncStatus != null" >
+        SYNC_STATUS = #{record.syncStatus,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_DXLT
+    set LINKID = #{record.linkid,jdbcType=VARCHAR},
+      MSGTYPE = #{record.msgtype,jdbcType=VARCHAR},
+      USERNUMBER = #{record.usernumber,jdbcType=VARCHAR},
+      FEECODE = #{record.feecode,jdbcType=DECIMAL},
+      STAT = #{record.stat,jdbcType=VARCHAR},
+      REPORTTIME = #{record.reporttime,jdbcType=VARCHAR},
+      GATEWAY = #{record.gateway,jdbcType=VARCHAR},
+      MOMSG = #{record.momsg,jdbcType=VARCHAR},
+      SPNUMBER = #{record.spnumber,jdbcType=VARCHAR},
+      PRODUCTID = #{record.productid,jdbcType=VARCHAR},
+      SERVICEID = #{record.serviceid,jdbcType=VARCHAR},
+      CREATETIME = #{record.createtime,jdbcType=TIMESTAMP},
+      COOPID = #{record.coopid,jdbcType=DECIMAL},
+      CHANNEL_APP_ID = #{record.channelAppId,jdbcType=DECIMAL},
+      REDUCE_STATUS = #{record.reduceStatus,jdbcType=DECIMAL},
+      SYNC_STATUS = #{record.syncStatus,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.sync.Tdxlt" >
+    update T_DXLT
+    <set >
+      <if test="msgtype != null" >
+        MSGTYPE = #{msgtype,jdbcType=VARCHAR},
+      </if>
+      <if test="usernumber != null" >
+        USERNUMBER = #{usernumber,jdbcType=VARCHAR},
+      </if>
+      <if test="feecode != null" >
+        FEECODE = #{feecode,jdbcType=DECIMAL},
+      </if>
+      <if test="stat != null" >
+        STAT = #{stat,jdbcType=VARCHAR},
+      </if>
+      <if test="reporttime != null" >
+        REPORTTIME = #{reporttime,jdbcType=VARCHAR},
+      </if>
+      <if test="gateway != null" >
+        GATEWAY = #{gateway,jdbcType=VARCHAR},
+      </if>
+      <if test="momsg != null" >
+        MOMSG = #{momsg,jdbcType=VARCHAR},
+      </if>
+      <if test="spnumber != null" >
+        SPNUMBER = #{spnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="productid != null" >
+        PRODUCTID = #{productid,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceid != null" >
+        SERVICEID = #{serviceid,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="coopid != null" >
+        COOPID = #{coopid,jdbcType=DECIMAL},
+      </if>
+      <if test="channelAppId != null" >
+        CHANNEL_APP_ID = #{channelAppId,jdbcType=DECIMAL},
+      </if>
+      <if test="reduceStatus != null" >
+        REDUCE_STATUS = #{reduceStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="syncStatus != null" >
+        SYNC_STATUS = #{syncStatus,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where LINKID = #{linkid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.sync.Tdxlt" >
+    update T_DXLT
+    set MSGTYPE = #{msgtype,jdbcType=VARCHAR},
+      USERNUMBER = #{usernumber,jdbcType=VARCHAR},
+      FEECODE = #{feecode,jdbcType=DECIMAL},
+      STAT = #{stat,jdbcType=VARCHAR},
+      REPORTTIME = #{reporttime,jdbcType=VARCHAR},
+      GATEWAY = #{gateway,jdbcType=VARCHAR},
+      MOMSG = #{momsg,jdbcType=VARCHAR},
+      SPNUMBER = #{spnumber,jdbcType=VARCHAR},
+      PRODUCTID = #{productid,jdbcType=VARCHAR},
+      SERVICEID = #{serviceid,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      COOPID = #{coopid,jdbcType=DECIMAL},
+      CHANNEL_APP_ID = #{channelAppId,jdbcType=DECIMAL},
+      REDUCE_STATUS = #{reduceStatus,jdbcType=DECIMAL},
+      SYNC_STATUS = #{syncStatus,jdbcType=DECIMAL}
+    where LINKID = #{linkid,jdbcType=VARCHAR}
+  </update>
+</mapper>

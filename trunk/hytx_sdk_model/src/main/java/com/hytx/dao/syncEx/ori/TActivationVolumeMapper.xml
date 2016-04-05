@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.syncEx.ori.TActivationVolumeMapper" >
+  <resultMap id="BaseResultMap" type="com.hytx.model.syncEx.TActivationVolume" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="DAYTIME" property="daytime" jdbcType="TIMESTAMP" />
+    <result column="CHANNEL_NAME" property="channelName" jdbcType="VARCHAR" />
+    <result column="APP_NAME" property="appName" jdbcType="VARCHAR" />
+    <result column="COOPERATION_MODE" property="cooperationMode" jdbcType="VARCHAR" />
+    <result column="THE_ACTIVATION_NUMS" property="theActivationNums" jdbcType="DECIMAL" />
+    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, DAYTIME, CHANNEL_NAME, APP_NAME, COOPERATION_MODE, THE_ACTIVATION_NUMS, PRICE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hytx.model.syncEx.TActivationVolumeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_ACTIVATIONVOLUME
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_ACTIVATIONVOLUME
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_ACTIVATIONVOLUME
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.syncEx.TActivationVolumeExample" >
+    delete from T_ACTIVATIONVOLUME
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.syncEx.TActivationVolume" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      select SEQ_ACTIVATIONVOLUME_ID.nextval from dual
+    </selectKey>
+    insert into T_ACTIVATIONVOLUME (ID, DAYTIME, CHANNEL_NAME, 
+      APP_NAME, COOPERATION_MODE, THE_ACTIVATION_NUMS, 
+      PRICE)
+    values (#{id,jdbcType=DECIMAL}, #{daytime,jdbcType=TIMESTAMP}, #{channelName,jdbcType=VARCHAR}, 
+      #{appName,jdbcType=VARCHAR}, #{cooperationMode,jdbcType=VARCHAR}, #{theActivationNums,jdbcType=DECIMAL}, 
+      #{price,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.syncEx.TActivationVolume" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      select SEQ_ACTIVATIONVOLUME_ID.nextval from dual
+    </selectKey>
+    insert into T_ACTIVATIONVOLUME
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
+      <if test="daytime != null" >
+        DAYTIME,
+      </if>
+      <if test="channelName != null" >
+        CHANNEL_NAME,
+      </if>
+      <if test="appName != null" >
+        APP_NAME,
+      </if>
+      <if test="cooperationMode != null" >
+        COOPERATION_MODE,
+      </if>
+      <if test="theActivationNums != null" >
+        THE_ACTIVATION_NUMS,
+      </if>
+      <if test="price != null" >
+        PRICE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=DECIMAL},
+      <if test="daytime != null" >
+        #{daytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="channelName != null" >
+        #{channelName,jdbcType=VARCHAR},
+      </if>
+      <if test="appName != null" >
+        #{appName,jdbcType=VARCHAR},
+      </if>
+      <if test="cooperationMode != null" >
+        #{cooperationMode,jdbcType=VARCHAR},
+      </if>
+      <if test="theActivationNums != null" >
+        #{theActivationNums,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.syncEx.TActivationVolumeExample" resultType="java.lang.Integer" >
+    select count(*) from T_ACTIVATIONVOLUME
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_ACTIVATIONVOLUME
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.daytime != null" >
+        DAYTIME = #{record.daytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.channelName != null" >
+        CHANNEL_NAME = #{record.channelName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appName != null" >
+        APP_NAME = #{record.appName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cooperationMode != null" >
+        COOPERATION_MODE = #{record.cooperationMode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.theActivationNums != null" >
+        THE_ACTIVATION_NUMS = #{record.theActivationNums,jdbcType=DECIMAL},
+      </if>
+      <if test="record.price != null" >
+        PRICE = #{record.price,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_ACTIVATIONVOLUME
+    set ID = #{record.id,jdbcType=DECIMAL},
+      DAYTIME = #{record.daytime,jdbcType=TIMESTAMP},
+      CHANNEL_NAME = #{record.channelName,jdbcType=VARCHAR},
+      APP_NAME = #{record.appName,jdbcType=VARCHAR},
+      COOPERATION_MODE = #{record.cooperationMode,jdbcType=VARCHAR},
+      THE_ACTIVATION_NUMS = #{record.theActivationNums,jdbcType=DECIMAL},
+      PRICE = #{record.price,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.syncEx.TActivationVolume" >
+    update T_ACTIVATIONVOLUME
+    <set >
+      <if test="daytime != null" >
+        DAYTIME = #{daytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="channelName != null" >
+        CHANNEL_NAME = #{channelName,jdbcType=VARCHAR},
+      </if>
+      <if test="appName != null" >
+        APP_NAME = #{appName,jdbcType=VARCHAR},
+      </if>
+      <if test="cooperationMode != null" >
+        COOPERATION_MODE = #{cooperationMode,jdbcType=VARCHAR},
+      </if>
+      <if test="theActivationNums != null" >
+        THE_ACTIVATION_NUMS = #{theActivationNums,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null" >
+        PRICE = #{price,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.syncEx.TActivationVolume" >
+    update T_ACTIVATIONVOLUME
+    set DAYTIME = #{daytime,jdbcType=TIMESTAMP},
+      CHANNEL_NAME = #{channelName,jdbcType=VARCHAR},
+      APP_NAME = #{appName,jdbcType=VARCHAR},
+      COOPERATION_MODE = #{cooperationMode,jdbcType=VARCHAR},
+      THE_ACTIVATION_NUMS = #{theActivationNums,jdbcType=DECIMAL},
+      PRICE = #{price,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

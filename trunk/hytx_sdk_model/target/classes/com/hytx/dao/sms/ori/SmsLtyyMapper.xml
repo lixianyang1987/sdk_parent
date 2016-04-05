@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.sms.ori.SmsLtyyMapper" >
+  <resultMap id="BaseResultMap" type="com.hytx.model.sms.SmsLtyy" >
+    <id column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="UP_ORDER_ID" property="upOrderId" jdbcType="VARCHAR" />
+    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+    <result column="IMSI" property="imsi" jdbcType="VARCHAR" />
+    <result column="IMEI" property="imei" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="DECIMAL" />
+    <result column="TIME_STAMP" property="timeStamp" jdbcType="VARCHAR" />
+    <result column="VERSION" property="version" jdbcType="DECIMAL" />
+    <result column="RESULT" property="result" jdbcType="VARCHAR" />
+    <result column="IP" property="ip" jdbcType="VARCHAR" />
+    <result column="CHANNEL_APP_ID" property="channelAppId" jdbcType="DECIMAL" />
+    <result column="SEND_STATUS" property="sendStatus" jdbcType="VARCHAR" />
+    <result column="VERIFY_CODE" property="verifyCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ORDER_ID, UP_ORDER_ID, PRICE, IMSI, IMEI, PHONE, TIME_STAMP, VERSION, RESULT, IP, 
+    CHANNEL_APP_ID, SEND_STATUS, VERIFY_CODE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hytx.model.sms.SmsLtyyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_SMS_LTYY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SMS_LTYY
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_SMS_LTYY
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.sms.SmsLtyyExample" >
+    delete from T_SMS_LTYY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.sms.SmsLtyy" >
+    insert into T_SMS_LTYY (ORDER_ID, UP_ORDER_ID, PRICE, 
+      IMSI, IMEI, PHONE, 
+      TIME_STAMP, VERSION, RESULT, 
+      IP, CHANNEL_APP_ID, SEND_STATUS, 
+      VERIFY_CODE)
+    values (#{orderId,jdbcType=DECIMAL}, #{upOrderId,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
+      #{imsi,jdbcType=VARCHAR}, #{imei,jdbcType=VARCHAR}, #{phone,jdbcType=DECIMAL}, 
+      #{timeStamp,jdbcType=VARCHAR}, #{version,jdbcType=DECIMAL}, #{result,jdbcType=VARCHAR}, 
+      #{ip,jdbcType=VARCHAR}, #{channelAppId,jdbcType=DECIMAL}, #{sendStatus,jdbcType=VARCHAR}, 
+      #{verifyCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.sms.SmsLtyy" >
+    insert into T_SMS_LTYY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="upOrderId != null" >
+        UP_ORDER_ID,
+      </if>
+      <if test="price != null" >
+        PRICE,
+      </if>
+      <if test="imsi != null" >
+        IMSI,
+      </if>
+      <if test="imei != null" >
+        IMEI,
+      </if>
+      <if test="phone != null" >
+        PHONE,
+      </if>
+      <if test="timeStamp != null" >
+        TIME_STAMP,
+      </if>
+      <if test="version != null" >
+        VERSION,
+      </if>
+      <if test="result != null" >
+        RESULT,
+      </if>
+      <if test="ip != null" >
+        IP,
+      </if>
+      <if test="channelAppId != null" >
+        CHANNEL_APP_ID,
+      </if>
+      <if test="sendStatus != null" >
+        SEND_STATUS,
+      </if>
+      <if test="verifyCode != null" >
+        VERIFY_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="upOrderId != null" >
+        #{upOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="imsi != null" >
+        #{imsi,jdbcType=VARCHAR},
+      </if>
+      <if test="imei != null" >
+        #{imei,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=DECIMAL},
+      </if>
+      <if test="timeStamp != null" >
+        #{timeStamp,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=DECIMAL},
+      </if>
+      <if test="result != null" >
+        #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="channelAppId != null" >
+        #{channelAppId,jdbcType=DECIMAL},
+      </if>
+      <if test="sendStatus != null" >
+        #{sendStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="verifyCode != null" >
+        #{verifyCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.sms.SmsLtyyExample" resultType="java.lang.Integer" >
+    select count(*) from T_SMS_LTYY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_SMS_LTYY
+    <set >
+      <if test="record.orderId != null" >
+        ORDER_ID = #{record.orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.upOrderId != null" >
+        UP_ORDER_ID = #{record.upOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null" >
+        PRICE = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.imsi != null" >
+        IMSI = #{record.imsi,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imei != null" >
+        IMEI = #{record.imei,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null" >
+        PHONE = #{record.phone,jdbcType=DECIMAL},
+      </if>
+      <if test="record.timeStamp != null" >
+        TIME_STAMP = #{record.timeStamp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.version != null" >
+        VERSION = #{record.version,jdbcType=DECIMAL},
+      </if>
+      <if test="record.result != null" >
+        RESULT = #{record.result,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ip != null" >
+        IP = #{record.ip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.channelAppId != null" >
+        CHANNEL_APP_ID = #{record.channelAppId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sendStatus != null" >
+        SEND_STATUS = #{record.sendStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.verifyCode != null" >
+        VERIFY_CODE = #{record.verifyCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_SMS_LTYY
+    set ORDER_ID = #{record.orderId,jdbcType=DECIMAL},
+      UP_ORDER_ID = #{record.upOrderId,jdbcType=VARCHAR},
+      PRICE = #{record.price,jdbcType=DECIMAL},
+      IMSI = #{record.imsi,jdbcType=VARCHAR},
+      IMEI = #{record.imei,jdbcType=VARCHAR},
+      PHONE = #{record.phone,jdbcType=DECIMAL},
+      TIME_STAMP = #{record.timeStamp,jdbcType=VARCHAR},
+      VERSION = #{record.version,jdbcType=DECIMAL},
+      RESULT = #{record.result,jdbcType=VARCHAR},
+      IP = #{record.ip,jdbcType=VARCHAR},
+      CHANNEL_APP_ID = #{record.channelAppId,jdbcType=DECIMAL},
+      SEND_STATUS = #{record.sendStatus,jdbcType=VARCHAR},
+      VERIFY_CODE = #{record.verifyCode,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.sms.SmsLtyy" >
+    update T_SMS_LTYY
+    <set >
+      <if test="upOrderId != null" >
+        UP_ORDER_ID = #{upOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        PRICE = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="imsi != null" >
+        IMSI = #{imsi,jdbcType=VARCHAR},
+      </if>
+      <if test="imei != null" >
+        IMEI = #{imei,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        PHONE = #{phone,jdbcType=DECIMAL},
+      </if>
+      <if test="timeStamp != null" >
+        TIME_STAMP = #{timeStamp,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        VERSION = #{version,jdbcType=DECIMAL},
+      </if>
+      <if test="result != null" >
+        RESULT = #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null" >
+        IP = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="channelAppId != null" >
+        CHANNEL_APP_ID = #{channelAppId,jdbcType=DECIMAL},
+      </if>
+      <if test="sendStatus != null" >
+        SEND_STATUS = #{sendStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="verifyCode != null" >
+        VERIFY_CODE = #{verifyCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.sms.SmsLtyy" >
+    update T_SMS_LTYY
+    set UP_ORDER_ID = #{upOrderId,jdbcType=VARCHAR},
+      PRICE = #{price,jdbcType=DECIMAL},
+      IMSI = #{imsi,jdbcType=VARCHAR},
+      IMEI = #{imei,jdbcType=VARCHAR},
+      PHONE = #{phone,jdbcType=DECIMAL},
+      TIME_STAMP = #{timeStamp,jdbcType=VARCHAR},
+      VERSION = #{version,jdbcType=DECIMAL},
+      RESULT = #{result,jdbcType=VARCHAR},
+      IP = #{ip,jdbcType=VARCHAR},
+      CHANNEL_APP_ID = #{channelAppId,jdbcType=DECIMAL},
+      SEND_STATUS = #{sendStatus,jdbcType=VARCHAR},
+      VERIFY_CODE = #{verifyCode,jdbcType=VARCHAR}
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </update>
+</mapper>

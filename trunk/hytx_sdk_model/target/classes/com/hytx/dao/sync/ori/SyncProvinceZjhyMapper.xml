@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.sync.ori.SyncProvinceZjhyMapper" >
+  <resultMap id="BaseResultMap" type="com.hytx.model.sync.SyncProvinceZjhy" >
+    <id column="PROVINCEID" property="provinceid" jdbcType="DECIMAL" />
+    <result column="PROVINCENAME" property="provincename" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    PROVINCEID, PROVINCENAME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hytx.model.sync.SyncProvinceZjhyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_PROVINCE_ZJHY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_PROVINCE_ZJHY
+    where PROVINCEID = #{provinceid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_PROVINCE_ZJHY
+    where PROVINCEID = #{provinceid,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.sync.SyncProvinceZjhyExample" >
+    delete from T_PROVINCE_ZJHY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.sync.SyncProvinceZjhy" >
+    insert into T_PROVINCE_ZJHY (PROVINCEID, PROVINCENAME)
+    values (#{provinceid,jdbcType=DECIMAL}, #{provincename,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.sync.SyncProvinceZjhy" >
+    insert into T_PROVINCE_ZJHY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="provinceid != null" >
+        PROVINCEID,
+      </if>
+      <if test="provincename != null" >
+        PROVINCENAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="provinceid != null" >
+        #{provinceid,jdbcType=DECIMAL},
+      </if>
+      <if test="provincename != null" >
+        #{provincename,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.sync.SyncProvinceZjhyExample" resultType="java.lang.Integer" >
+    select count(*) from T_PROVINCE_ZJHY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_PROVINCE_ZJHY
+    <set >
+      <if test="record.provinceid != null" >
+        PROVINCEID = #{record.provinceid,jdbcType=DECIMAL},
+      </if>
+      <if test="record.provincename != null" >
+        PROVINCENAME = #{record.provincename,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_PROVINCE_ZJHY
+    set PROVINCEID = #{record.provinceid,jdbcType=DECIMAL},
+      PROVINCENAME = #{record.provincename,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.sync.SyncProvinceZjhy" >
+    update T_PROVINCE_ZJHY
+    <set >
+      <if test="provincename != null" >
+        PROVINCENAME = #{provincename,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PROVINCEID = #{provinceid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.sync.SyncProvinceZjhy" >
+    update T_PROVINCE_ZJHY
+    set PROVINCENAME = #{provincename,jdbcType=VARCHAR}
+    where PROVINCEID = #{provinceid,jdbcType=DECIMAL}
+  </update>
+</mapper>

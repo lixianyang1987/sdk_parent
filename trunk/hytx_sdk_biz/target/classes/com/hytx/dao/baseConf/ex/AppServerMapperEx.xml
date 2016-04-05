@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.baseConf.ex.AppServerMapperEx" >
+   <resultMap id="baseResultMap" type="com.hytx.model.baseConf.AppServer" extends="com.hytx.dao.baseConf.ori.AppServerMapper.BaseResultMap" ></resultMap>
+   <select id="selectAppServerListByPage" resultMap="baseResultMap">
+        select * from (
+        	select rownum rm,tb.* from(
+			    select u.* from T_APP_SERVER u where 1=1 
+			    <if test="findAppServer.appId!=null and findAppServer.appId &gt; 0">
+			       and app_id=#{findAppServer.appId,jdbcType=INTEGER}
+			    </if>
+			    order by  id desc
+		    )tb
+		)t
+		where t.rm between #{page.pageStartIndex} and #{page.pageEndIndex}
+		order by  t.id desc
+  </select>
+  
+  <select id="countAppServer" resultType="java.lang.Integer">
+		select count(1) from T_APP_SERVER  where 1=1
+		<if test="findAppServer.appId!=null and findAppServer.appId &gt; 0">
+	       and app_id=#{findAppServer.appId,jdbcType=INTEGER}
+	    </if>
+  </select>
+  
+  
+</mapper>

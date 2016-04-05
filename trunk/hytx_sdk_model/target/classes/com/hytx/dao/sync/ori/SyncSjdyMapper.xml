@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.sync.ori.SyncSjdyMapper" >
+  <resultMap id="BaseResultMap" type="com.hytx.model.sync.SyncSjdy" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="MOBILE" property="mobile" jdbcType="DECIMAL" />
+    <result column="SP_NUMBER" property="spNumber" jdbcType="VARCHAR" />
+    <result column="MO_CONTENT" property="moContent" jdbcType="VARCHAR" />
+    <result column="LINK_ID" property="linkId" jdbcType="VARCHAR" />
+    <result column="RPT_STAT" property="rptStat" jdbcType="VARCHAR" />
+    <result column="IP" property="ip" jdbcType="VARCHAR" />
+    <result column="SP_PARAM" property="spParam" jdbcType="VARCHAR" />
+    <result column="UPDATE_DT" property="updateDt" jdbcType="TIMESTAMP" />
+    <result column="SYNC_ALL_ID" property="syncAllId" jdbcType="DECIMAL" />
+    <result column="PROVINCE_NAME" property="provinceName" jdbcType="VARCHAR" />
+    <result column="CITY_NAME" property="cityName" jdbcType="VARCHAR" />
+    <result column="TEL_TYPE" property="telType" jdbcType="DECIMAL" />
+    <result column="FEE_CODE" property="feeCode" jdbcType="DECIMAL" />
+    <result column="RPT_TIME" property="rptTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, MOBILE, SP_NUMBER, MO_CONTENT, LINK_ID, RPT_STAT, IP, SP_PARAM, UPDATE_DT, SYNC_ALL_ID, 
+    PROVINCE_NAME, CITY_NAME, TEL_TYPE, FEE_CODE, RPT_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hytx.model.sync.SyncSjdyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_SYNC_SJDY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYNC_SJDY
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_SYNC_SJDY
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.sync.SyncSjdyExample" >
+    delete from T_SYNC_SJDY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.sync.SyncSjdy" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+      select SEQ_SYNC_SJDY_ID.nextval from dual
+    </selectKey>
+    insert into T_SYNC_SJDY (ID, MOBILE, SP_NUMBER, 
+      MO_CONTENT, LINK_ID, RPT_STAT, 
+      IP, SP_PARAM, UPDATE_DT, 
+      SYNC_ALL_ID, PROVINCE_NAME, CITY_NAME, 
+      TEL_TYPE, FEE_CODE, RPT_TIME
+      )
+    values (#{id,jdbcType=DECIMAL}, #{mobile,jdbcType=DECIMAL}, #{spNumber,jdbcType=VARCHAR}, 
+      #{moContent,jdbcType=VARCHAR}, #{linkId,jdbcType=VARCHAR}, #{rptStat,jdbcType=VARCHAR}, 
+      #{ip,jdbcType=VARCHAR}, #{spParam,jdbcType=VARCHAR}, #{updateDt,jdbcType=TIMESTAMP}, 
+      #{syncAllId,jdbcType=DECIMAL}, #{provinceName,jdbcType=VARCHAR}, #{cityName,jdbcType=VARCHAR}, 
+      #{telType,jdbcType=DECIMAL}, #{feeCode,jdbcType=DECIMAL}, #{rptTime,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.sync.SyncSjdy" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+      select SEQ_SYNC_SJDY_ID.nextval from dual
+    </selectKey>
+    insert into T_SYNC_SJDY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
+      <if test="mobile != null" >
+        MOBILE,
+      </if>
+      <if test="spNumber != null" >
+        SP_NUMBER,
+      </if>
+      <if test="moContent != null" >
+        MO_CONTENT,
+      </if>
+      <if test="linkId != null" >
+        LINK_ID,
+      </if>
+      <if test="rptStat != null" >
+        RPT_STAT,
+      </if>
+      <if test="ip != null" >
+        IP,
+      </if>
+      <if test="spParam != null" >
+        SP_PARAM,
+      </if>
+      <if test="updateDt != null" >
+        UPDATE_DT,
+      </if>
+      <if test="syncAllId != null" >
+        SYNC_ALL_ID,
+      </if>
+      <if test="provinceName != null" >
+        PROVINCE_NAME,
+      </if>
+      <if test="cityName != null" >
+        CITY_NAME,
+      </if>
+      <if test="telType != null" >
+        TEL_TYPE,
+      </if>
+      <if test="feeCode != null" >
+        FEE_CODE,
+      </if>
+      <if test="rptTime != null" >
+        RPT_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=DECIMAL},
+      <if test="mobile != null" >
+        #{mobile,jdbcType=DECIMAL},
+      </if>
+      <if test="spNumber != null" >
+        #{spNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="moContent != null" >
+        #{moContent,jdbcType=VARCHAR},
+      </if>
+      <if test="linkId != null" >
+        #{linkId,jdbcType=VARCHAR},
+      </if>
+      <if test="rptStat != null" >
+        #{rptStat,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="spParam != null" >
+        #{spParam,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDt != null" >
+        #{updateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="syncAllId != null" >
+        #{syncAllId,jdbcType=DECIMAL},
+      </if>
+      <if test="provinceName != null" >
+        #{provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityName != null" >
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="telType != null" >
+        #{telType,jdbcType=DECIMAL},
+      </if>
+      <if test="feeCode != null" >
+        #{feeCode,jdbcType=DECIMAL},
+      </if>
+      <if test="rptTime != null" >
+        #{rptTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.sync.SyncSjdyExample" resultType="java.lang.Integer" >
+    select count(*) from T_SYNC_SJDY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_SYNC_SJDY
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.mobile != null" >
+        MOBILE = #{record.mobile,jdbcType=DECIMAL},
+      </if>
+      <if test="record.spNumber != null" >
+        SP_NUMBER = #{record.spNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.moContent != null" >
+        MO_CONTENT = #{record.moContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkId != null" >
+        LINK_ID = #{record.linkId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rptStat != null" >
+        RPT_STAT = #{record.rptStat,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ip != null" >
+        IP = #{record.ip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.spParam != null" >
+        SP_PARAM = #{record.spParam,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDt != null" >
+        UPDATE_DT = #{record.updateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.syncAllId != null" >
+        SYNC_ALL_ID = #{record.syncAllId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.provinceName != null" >
+        PROVINCE_NAME = #{record.provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cityName != null" >
+        CITY_NAME = #{record.cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.telType != null" >
+        TEL_TYPE = #{record.telType,jdbcType=DECIMAL},
+      </if>
+      <if test="record.feeCode != null" >
+        FEE_CODE = #{record.feeCode,jdbcType=DECIMAL},
+      </if>
+      <if test="record.rptTime != null" >
+        RPT_TIME = #{record.rptTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_SYNC_SJDY
+    set ID = #{record.id,jdbcType=DECIMAL},
+      MOBILE = #{record.mobile,jdbcType=DECIMAL},
+      SP_NUMBER = #{record.spNumber,jdbcType=VARCHAR},
+      MO_CONTENT = #{record.moContent,jdbcType=VARCHAR},
+      LINK_ID = #{record.linkId,jdbcType=VARCHAR},
+      RPT_STAT = #{record.rptStat,jdbcType=VARCHAR},
+      IP = #{record.ip,jdbcType=VARCHAR},
+      SP_PARAM = #{record.spParam,jdbcType=VARCHAR},
+      UPDATE_DT = #{record.updateDt,jdbcType=TIMESTAMP},
+      SYNC_ALL_ID = #{record.syncAllId,jdbcType=DECIMAL},
+      PROVINCE_NAME = #{record.provinceName,jdbcType=VARCHAR},
+      CITY_NAME = #{record.cityName,jdbcType=VARCHAR},
+      TEL_TYPE = #{record.telType,jdbcType=DECIMAL},
+      FEE_CODE = #{record.feeCode,jdbcType=DECIMAL},
+      RPT_TIME = #{record.rptTime,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.sync.SyncSjdy" >
+    update T_SYNC_SJDY
+    <set >
+      <if test="mobile != null" >
+        MOBILE = #{mobile,jdbcType=DECIMAL},
+      </if>
+      <if test="spNumber != null" >
+        SP_NUMBER = #{spNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="moContent != null" >
+        MO_CONTENT = #{moContent,jdbcType=VARCHAR},
+      </if>
+      <if test="linkId != null" >
+        LINK_ID = #{linkId,jdbcType=VARCHAR},
+      </if>
+      <if test="rptStat != null" >
+        RPT_STAT = #{rptStat,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null" >
+        IP = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="spParam != null" >
+        SP_PARAM = #{spParam,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDt != null" >
+        UPDATE_DT = #{updateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="syncAllId != null" >
+        SYNC_ALL_ID = #{syncAllId,jdbcType=DECIMAL},
+      </if>
+      <if test="provinceName != null" >
+        PROVINCE_NAME = #{provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityName != null" >
+        CITY_NAME = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="telType != null" >
+        TEL_TYPE = #{telType,jdbcType=DECIMAL},
+      </if>
+      <if test="feeCode != null" >
+        FEE_CODE = #{feeCode,jdbcType=DECIMAL},
+      </if>
+      <if test="rptTime != null" >
+        RPT_TIME = #{rptTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.sync.SyncSjdy" >
+    update T_SYNC_SJDY
+    set MOBILE = #{mobile,jdbcType=DECIMAL},
+      SP_NUMBER = #{spNumber,jdbcType=VARCHAR},
+      MO_CONTENT = #{moContent,jdbcType=VARCHAR},
+      LINK_ID = #{linkId,jdbcType=VARCHAR},
+      RPT_STAT = #{rptStat,jdbcType=VARCHAR},
+      IP = #{ip,jdbcType=VARCHAR},
+      SP_PARAM = #{spParam,jdbcType=VARCHAR},
+      UPDATE_DT = #{updateDt,jdbcType=TIMESTAMP},
+      SYNC_ALL_ID = #{syncAllId,jdbcType=DECIMAL},
+      PROVINCE_NAME = #{provinceName,jdbcType=VARCHAR},
+      CITY_NAME = #{cityName,jdbcType=VARCHAR},
+      TEL_TYPE = #{telType,jdbcType=DECIMAL},
+      FEE_CODE = #{feeCode,jdbcType=DECIMAL},
+      RPT_TIME = #{rptTime,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

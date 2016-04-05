@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.sync.ori.SyncDdoMapper" >
+  <resultMap id="BaseResultMap" type="com.hytx.model.sync.SyncDdo" >
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="UUID" property="uuid" jdbcType="VARCHAR" />
+    <result column="TELNO" property="telno" jdbcType="VARCHAR" />
+    <result column="MO" property="mo" jdbcType="VARCHAR" />
+    <result column="DEST" property="dest" jdbcType="VARCHAR" />
+    <result column="STAT" property="stat" jdbcType="VARCHAR" />
+    <result column="ERRORCODE" property="errorcode" jdbcType="VARCHAR" />
+    <result column="LINKID" property="linkid" jdbcType="VARCHAR" />
+    <result column="MOTIME" property="motime" jdbcType="VARCHAR" />
+    <result column="ISREDUCE" property="isreduce" jdbcType="DECIMAL" />
+    <result column="COOPID" property="coopid" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="PAY_CODE" property="payCode" jdbcType="VARCHAR" />
+    <result column="APPID" property="appid" jdbcType="VARCHAR" />
+    <result column="CHANNEL_APP_ID" property="channelAppId" jdbcType="VARCHAR" />
+    <result column="SYNC_STATUS" property="syncStatus" jdbcType="DECIMAL" />
+    <result column="REDUCE_STATUS" property="reduceStatus" jdbcType="DECIMAL" />
+    <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+    <result column="CITY" property="city" jdbcType="VARCHAR" />
+    <result column="CPPARAM" property="cpparam" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, UUID, TELNO, MO, DEST, STAT, ERRORCODE, LINKID, MOTIME, ISREDUCE, COOPID, CREATETIME, 
+    PAY_CODE, APPID, CHANNEL_APP_ID, SYNC_STATUS, REDUCE_STATUS, PROVINCE, CITY, CPPARAM
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hytx.model.sync.SyncDdoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_SYNC_DDO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.hytx.model.sync.SyncDdoExample" >
+    delete from T_SYNC_DDO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.sync.SyncDdo" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+      select SEQ_SYNC_DDO_ID.nextval from dual
+    </selectKey>
+    insert into T_SYNC_DDO (ID, UUID, TELNO, 
+      MO, DEST, STAT, ERRORCODE, 
+      LINKID, MOTIME, ISREDUCE, 
+      COOPID, CREATETIME, PAY_CODE, 
+      APPID, CHANNEL_APP_ID, SYNC_STATUS, 
+      REDUCE_STATUS, PROVINCE, CITY, 
+      CPPARAM)
+    values (#{id,jdbcType=DECIMAL}, #{uuid,jdbcType=VARCHAR}, #{telno,jdbcType=VARCHAR}, 
+      #{mo,jdbcType=VARCHAR}, #{dest,jdbcType=VARCHAR}, #{stat,jdbcType=VARCHAR}, #{errorcode,jdbcType=VARCHAR}, 
+      #{linkid,jdbcType=VARCHAR}, #{motime,jdbcType=VARCHAR}, #{isreduce,jdbcType=DECIMAL}, 
+      #{coopid,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{payCode,jdbcType=VARCHAR}, 
+      #{appid,jdbcType=VARCHAR}, #{channelAppId,jdbcType=VARCHAR}, #{syncStatus,jdbcType=DECIMAL}, 
+      #{reduceStatus,jdbcType=DECIMAL}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+      #{cpparam,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.sync.SyncDdo" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+      select SEQ_SYNC_DDO_ID.nextval from dual
+    </selectKey>
+    insert into T_SYNC_DDO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
+      <if test="uuid != null" >
+        UUID,
+      </if>
+      <if test="telno != null" >
+        TELNO,
+      </if>
+      <if test="mo != null" >
+        MO,
+      </if>
+      <if test="dest != null" >
+        DEST,
+      </if>
+      <if test="stat != null" >
+        STAT,
+      </if>
+      <if test="errorcode != null" >
+        ERRORCODE,
+      </if>
+      <if test="linkid != null" >
+        LINKID,
+      </if>
+      <if test="motime != null" >
+        MOTIME,
+      </if>
+      <if test="isreduce != null" >
+        ISREDUCE,
+      </if>
+      <if test="coopid != null" >
+        COOPID,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="payCode != null" >
+        PAY_CODE,
+      </if>
+      <if test="appid != null" >
+        APPID,
+      </if>
+      <if test="channelAppId != null" >
+        CHANNEL_APP_ID,
+      </if>
+      <if test="syncStatus != null" >
+        SYNC_STATUS,
+      </if>
+      <if test="reduceStatus != null" >
+        REDUCE_STATUS,
+      </if>
+      <if test="province != null" >
+        PROVINCE,
+      </if>
+      <if test="city != null" >
+        CITY,
+      </if>
+      <if test="cpparam != null" >
+        CPPARAM,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=DECIMAL},
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="telno != null" >
+        #{telno,jdbcType=VARCHAR},
+      </if>
+      <if test="mo != null" >
+        #{mo,jdbcType=VARCHAR},
+      </if>
+      <if test="dest != null" >
+        #{dest,jdbcType=VARCHAR},
+      </if>
+      <if test="stat != null" >
+        #{stat,jdbcType=VARCHAR},
+      </if>
+      <if test="errorcode != null" >
+        #{errorcode,jdbcType=VARCHAR},
+      </if>
+      <if test="linkid != null" >
+        #{linkid,jdbcType=VARCHAR},
+      </if>
+      <if test="motime != null" >
+        #{motime,jdbcType=VARCHAR},
+      </if>
+      <if test="isreduce != null" >
+        #{isreduce,jdbcType=DECIMAL},
+      </if>
+      <if test="coopid != null" >
+        #{coopid,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payCode != null" >
+        #{payCode,jdbcType=VARCHAR},
+      </if>
+      <if test="appid != null" >
+        #{appid,jdbcType=VARCHAR},
+      </if>
+      <if test="channelAppId != null" >
+        #{channelAppId,jdbcType=VARCHAR},
+      </if>
+      <if test="syncStatus != null" >
+        #{syncStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="reduceStatus != null" >
+        #{reduceStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="cpparam != null" >
+        #{cpparam,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.sync.SyncDdoExample" resultType="java.lang.Integer" >
+    select count(*) from T_SYNC_DDO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_SYNC_DDO
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.uuid != null" >
+        UUID = #{record.uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.telno != null" >
+        TELNO = #{record.telno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mo != null" >
+        MO = #{record.mo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dest != null" >
+        DEST = #{record.dest,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stat != null" >
+        STAT = #{record.stat,jdbcType=VARCHAR},
+      </if>
+      <if test="record.errorcode != null" >
+        ERRORCODE = #{record.errorcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkid != null" >
+        LINKID = #{record.linkid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.motime != null" >
+        MOTIME = #{record.motime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isreduce != null" >
+        ISREDUCE = #{record.isreduce,jdbcType=DECIMAL},
+      </if>
+      <if test="record.coopid != null" >
+        COOPID = #{record.coopid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        CREATETIME = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.payCode != null" >
+        PAY_CODE = #{record.payCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appid != null" >
+        APPID = #{record.appid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.channelAppId != null" >
+        CHANNEL_APP_ID = #{record.channelAppId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.syncStatus != null" >
+        SYNC_STATUS = #{record.syncStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.reduceStatus != null" >
+        REDUCE_STATUS = #{record.reduceStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.province != null" >
+        PROVINCE = #{record.province,jdbcType=VARCHAR},
+      </if>
+      <if test="record.city != null" >
+        CITY = #{record.city,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cpparam != null" >
+        CPPARAM = #{record.cpparam,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_SYNC_DDO
+    set ID = #{record.id,jdbcType=DECIMAL},
+      UUID = #{record.uuid,jdbcType=VARCHAR},
+      TELNO = #{record.telno,jdbcType=VARCHAR},
+      MO = #{record.mo,jdbcType=VARCHAR},
+      DEST = #{record.dest,jdbcType=VARCHAR},
+      STAT = #{record.stat,jdbcType=VARCHAR},
+      ERRORCODE = #{record.errorcode,jdbcType=VARCHAR},
+      LINKID = #{record.linkid,jdbcType=VARCHAR},
+      MOTIME = #{record.motime,jdbcType=VARCHAR},
+      ISREDUCE = #{record.isreduce,jdbcType=DECIMAL},
+      COOPID = #{record.coopid,jdbcType=VARCHAR},
+      CREATETIME = #{record.createtime,jdbcType=TIMESTAMP},
+      PAY_CODE = #{record.payCode,jdbcType=VARCHAR},
+      APPID = #{record.appid,jdbcType=VARCHAR},
+      CHANNEL_APP_ID = #{record.channelAppId,jdbcType=VARCHAR},
+      SYNC_STATUS = #{record.syncStatus,jdbcType=DECIMAL},
+      REDUCE_STATUS = #{record.reduceStatus,jdbcType=DECIMAL},
+      PROVINCE = #{record.province,jdbcType=VARCHAR},
+      CITY = #{record.city,jdbcType=VARCHAR},
+      CPPARAM = #{record.cpparam,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.xzf.ori.XzfWxBillResultMapper" >
+  <resultMap id="BaseResultMap" type="com.hytx.model.xzf.XzfWxBillResult" >
+    <id column="TRANSACTION_ID" property="transactionId" jdbcType="VARCHAR" />
+    <result column="RETURN_CODE" property="returnCode" jdbcType="VARCHAR" />
+    <result column="ORDER_ID" property="orderId" jdbcType="VARCHAR" />
+    <result column="RETURN_MSG" property="returnMsg" jdbcType="VARCHAR" />
+    <result column="APPID" property="appid" jdbcType="VARCHAR" />
+    <result column="MCH_ID" property="mchId" jdbcType="VARCHAR" />
+    <result column="NONCE_STR" property="nonceStr" jdbcType="VARCHAR" />
+    <result column="RESULT_CODE" property="resultCode" jdbcType="VARCHAR" />
+    <result column="ERR_CODE_DES" property="errCodeDes" jdbcType="VARCHAR" />
+    <result column="ERR_CODE" property="errCode" jdbcType="VARCHAR" />
+    <result column="IS_SUBSCRIBE" property="isSubscribe" jdbcType="VARCHAR" />
+    <result column="OPENID" property="openid" jdbcType="VARCHAR" />
+    <result column="TRADE_TYPE" property="tradeType" jdbcType="VARCHAR" />
+    <result column="DEVICE_INFO" property="deviceInfo" jdbcType="VARCHAR" />
+    <result column="BANK_TYPE" property="bankType" jdbcType="VARCHAR" />
+    <result column="TOTAL_FEE" property="totalFee" jdbcType="DECIMAL" />
+    <result column="FEE_TYPE" property="feeType" jdbcType="VARCHAR" />
+    <result column="CASH_FEE" property="cashFee" jdbcType="DECIMAL" />
+    <result column="CASH_FEE_TYPE" property="cashFeeType" jdbcType="VARCHAR" />
+    <result column="TIME_END" property="timeEnd" jdbcType="VARCHAR" />
+    <result column="COUPON_FEE" property="couponFee" jdbcType="DECIMAL" />
+    <result column="COUPON_COUNT" property="couponCount" jdbcType="DECIMAL" />
+    <result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+    <result column="SIGN" property="sign" jdbcType="VARCHAR" />
+    <result column="CREATE_DT" property="createDt" jdbcType="TIMESTAMP" />
+    <result column="TRADE_STATE" property="tradeState" jdbcType="VARCHAR" />
+    <result column="TRADE_STATE_DESC" property="tradeStateDesc" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    TRANSACTION_ID, RETURN_CODE, ORDER_ID, RETURN_MSG, APPID, MCH_ID, NONCE_STR, RESULT_CODE, 
+    ERR_CODE_DES, ERR_CODE, IS_SUBSCRIBE, OPENID, TRADE_TYPE, DEVICE_INFO, BANK_TYPE, 
+    TOTAL_FEE, FEE_TYPE, CASH_FEE, CASH_FEE_TYPE, TIME_END, COUPON_FEE, COUPON_COUNT, 
+    ATTACH, SIGN, CREATE_DT, TRADE_STATE, TRADE_STATE_DESC
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hytx.model.xzf.XzfWxBillResultExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_XZF_WX_BILL_RESULT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_XZF_WX_BILL_RESULT
+    where TRANSACTION_ID = #{transactionId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_XZF_WX_BILL_RESULT
+    where TRANSACTION_ID = #{transactionId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.xzf.XzfWxBillResultExample" >
+    delete from T_XZF_WX_BILL_RESULT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.xzf.XzfWxBillResult" >
+    insert into T_XZF_WX_BILL_RESULT (TRANSACTION_ID, RETURN_CODE, ORDER_ID, 
+      RETURN_MSG, APPID, MCH_ID, 
+      NONCE_STR, RESULT_CODE, ERR_CODE_DES, 
+      ERR_CODE, IS_SUBSCRIBE, OPENID, 
+      TRADE_TYPE, DEVICE_INFO, BANK_TYPE, 
+      TOTAL_FEE, FEE_TYPE, CASH_FEE, 
+      CASH_FEE_TYPE, TIME_END, COUPON_FEE, 
+      COUPON_COUNT, ATTACH, SIGN, 
+      CREATE_DT, TRADE_STATE, TRADE_STATE_DESC
+      )
+    values (#{transactionId,jdbcType=VARCHAR}, #{returnCode,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, 
+      #{returnMsg,jdbcType=VARCHAR}, #{appid,jdbcType=VARCHAR}, #{mchId,jdbcType=VARCHAR}, 
+      #{nonceStr,jdbcType=VARCHAR}, #{resultCode,jdbcType=VARCHAR}, #{errCodeDes,jdbcType=VARCHAR}, 
+      #{errCode,jdbcType=VARCHAR}, #{isSubscribe,jdbcType=VARCHAR}, #{openid,jdbcType=VARCHAR}, 
+      #{tradeType,jdbcType=VARCHAR}, #{deviceInfo,jdbcType=VARCHAR}, #{bankType,jdbcType=VARCHAR}, 
+      #{totalFee,jdbcType=DECIMAL}, #{feeType,jdbcType=VARCHAR}, #{cashFee,jdbcType=DECIMAL}, 
+      #{cashFeeType,jdbcType=VARCHAR}, #{timeEnd,jdbcType=VARCHAR}, #{couponFee,jdbcType=DECIMAL}, 
+      #{couponCount,jdbcType=DECIMAL}, #{attach,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR}, 
+      #{createDt,jdbcType=TIMESTAMP}, #{tradeState,jdbcType=VARCHAR}, #{tradeStateDesc,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.xzf.XzfWxBillResult" >
+    insert into T_XZF_WX_BILL_RESULT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="transactionId != null" >
+        TRANSACTION_ID,
+      </if>
+      <if test="returnCode != null" >
+        RETURN_CODE,
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="returnMsg != null" >
+        RETURN_MSG,
+      </if>
+      <if test="appid != null" >
+        APPID,
+      </if>
+      <if test="mchId != null" >
+        MCH_ID,
+      </if>
+      <if test="nonceStr != null" >
+        NONCE_STR,
+      </if>
+      <if test="resultCode != null" >
+        RESULT_CODE,
+      </if>
+      <if test="errCodeDes != null" >
+        ERR_CODE_DES,
+      </if>
+      <if test="errCode != null" >
+        ERR_CODE,
+      </if>
+      <if test="isSubscribe != null" >
+        IS_SUBSCRIBE,
+      </if>
+      <if test="openid != null" >
+        OPENID,
+      </if>
+      <if test="tradeType != null" >
+        TRADE_TYPE,
+      </if>
+      <if test="deviceInfo != null" >
+        DEVICE_INFO,
+      </if>
+      <if test="bankType != null" >
+        BANK_TYPE,
+      </if>
+      <if test="totalFee != null" >
+        TOTAL_FEE,
+      </if>
+      <if test="feeType != null" >
+        FEE_TYPE,
+      </if>
+      <if test="cashFee != null" >
+        CASH_FEE,
+      </if>
+      <if test="cashFeeType != null" >
+        CASH_FEE_TYPE,
+      </if>
+      <if test="timeEnd != null" >
+        TIME_END,
+      </if>
+      <if test="couponFee != null" >
+        COUPON_FEE,
+      </if>
+      <if test="couponCount != null" >
+        COUPON_COUNT,
+      </if>
+      <if test="attach != null" >
+        ATTACH,
+      </if>
+      <if test="sign != null" >
+        SIGN,
+      </if>
+      <if test="createDt != null" >
+        CREATE_DT,
+      </if>
+      <if test="tradeState != null" >
+        TRADE_STATE,
+      </if>
+      <if test="tradeStateDesc != null" >
+        TRADE_STATE_DESC,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="transactionId != null" >
+        #{transactionId,jdbcType=VARCHAR},
+      </if>
+      <if test="returnCode != null" >
+        #{returnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="returnMsg != null" >
+        #{returnMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="appid != null" >
+        #{appid,jdbcType=VARCHAR},
+      </if>
+      <if test="mchId != null" >
+        #{mchId,jdbcType=VARCHAR},
+      </if>
+      <if test="nonceStr != null" >
+        #{nonceStr,jdbcType=VARCHAR},
+      </if>
+      <if test="resultCode != null" >
+        #{resultCode,jdbcType=VARCHAR},
+      </if>
+      <if test="errCodeDes != null" >
+        #{errCodeDes,jdbcType=VARCHAR},
+      </if>
+      <if test="errCode != null" >
+        #{errCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isSubscribe != null" >
+        #{isSubscribe,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeType != null" >
+        #{tradeType,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceInfo != null" >
+        #{deviceInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="bankType != null" >
+        #{bankType,jdbcType=VARCHAR},
+      </if>
+      <if test="totalFee != null" >
+        #{totalFee,jdbcType=DECIMAL},
+      </if>
+      <if test="feeType != null" >
+        #{feeType,jdbcType=VARCHAR},
+      </if>
+      <if test="cashFee != null" >
+        #{cashFee,jdbcType=DECIMAL},
+      </if>
+      <if test="cashFeeType != null" >
+        #{cashFeeType,jdbcType=VARCHAR},
+      </if>
+      <if test="timeEnd != null" >
+        #{timeEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="couponFee != null" >
+        #{couponFee,jdbcType=DECIMAL},
+      </if>
+      <if test="couponCount != null" >
+        #{couponCount,jdbcType=DECIMAL},
+      </if>
+      <if test="attach != null" >
+        #{attach,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null" >
+        #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="createDt != null" >
+        #{createDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tradeState != null" >
+        #{tradeState,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeStateDesc != null" >
+        #{tradeStateDesc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.xzf.XzfWxBillResultExample" resultType="java.lang.Integer" >
+    select count(*) from T_XZF_WX_BILL_RESULT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_XZF_WX_BILL_RESULT
+    <set >
+      <if test="record.transactionId != null" >
+        TRANSACTION_ID = #{record.transactionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.returnCode != null" >
+        RETURN_CODE = #{record.returnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderId != null" >
+        ORDER_ID = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.returnMsg != null" >
+        RETURN_MSG = #{record.returnMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appid != null" >
+        APPID = #{record.appid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mchId != null" >
+        MCH_ID = #{record.mchId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nonceStr != null" >
+        NONCE_STR = #{record.nonceStr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resultCode != null" >
+        RESULT_CODE = #{record.resultCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.errCodeDes != null" >
+        ERR_CODE_DES = #{record.errCodeDes,jdbcType=VARCHAR},
+      </if>
+      <if test="record.errCode != null" >
+        ERR_CODE = #{record.errCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isSubscribe != null" >
+        IS_SUBSCRIBE = #{record.isSubscribe,jdbcType=VARCHAR},
+      </if>
+      <if test="record.openid != null" >
+        OPENID = #{record.openid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tradeType != null" >
+        TRADE_TYPE = #{record.tradeType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deviceInfo != null" >
+        DEVICE_INFO = #{record.deviceInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankType != null" >
+        BANK_TYPE = #{record.bankType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalFee != null" >
+        TOTAL_FEE = #{record.totalFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.feeType != null" >
+        FEE_TYPE = #{record.feeType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cashFee != null" >
+        CASH_FEE = #{record.cashFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cashFeeType != null" >
+        CASH_FEE_TYPE = #{record.cashFeeType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.timeEnd != null" >
+        TIME_END = #{record.timeEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.couponFee != null" >
+        COUPON_FEE = #{record.couponFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.couponCount != null" >
+        COUPON_COUNT = #{record.couponCount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.attach != null" >
+        ATTACH = #{record.attach,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sign != null" >
+        SIGN = #{record.sign,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDt != null" >
+        CREATE_DT = #{record.createDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.tradeState != null" >
+        TRADE_STATE = #{record.tradeState,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tradeStateDesc != null" >
+        TRADE_STATE_DESC = #{record.tradeStateDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_XZF_WX_BILL_RESULT
+    set TRANSACTION_ID = #{record.transactionId,jdbcType=VARCHAR},
+      RETURN_CODE = #{record.returnCode,jdbcType=VARCHAR},
+      ORDER_ID = #{record.orderId,jdbcType=VARCHAR},
+      RETURN_MSG = #{record.returnMsg,jdbcType=VARCHAR},
+      APPID = #{record.appid,jdbcType=VARCHAR},
+      MCH_ID = #{record.mchId,jdbcType=VARCHAR},
+      NONCE_STR = #{record.nonceStr,jdbcType=VARCHAR},
+      RESULT_CODE = #{record.resultCode,jdbcType=VARCHAR},
+      ERR_CODE_DES = #{record.errCodeDes,jdbcType=VARCHAR},
+      ERR_CODE = #{record.errCode,jdbcType=VARCHAR},
+      IS_SUBSCRIBE = #{record.isSubscribe,jdbcType=VARCHAR},
+      OPENID = #{record.openid,jdbcType=VARCHAR},
+      TRADE_TYPE = #{record.tradeType,jdbcType=VARCHAR},
+      DEVICE_INFO = #{record.deviceInfo,jdbcType=VARCHAR},
+      BANK_TYPE = #{record.bankType,jdbcType=VARCHAR},
+      TOTAL_FEE = #{record.totalFee,jdbcType=DECIMAL},
+      FEE_TYPE = #{record.feeType,jdbcType=VARCHAR},
+      CASH_FEE = #{record.cashFee,jdbcType=DECIMAL},
+      CASH_FEE_TYPE = #{record.cashFeeType,jdbcType=VARCHAR},
+      TIME_END = #{record.timeEnd,jdbcType=VARCHAR},
+      COUPON_FEE = #{record.couponFee,jdbcType=DECIMAL},
+      COUPON_COUNT = #{record.couponCount,jdbcType=DECIMAL},
+      ATTACH = #{record.attach,jdbcType=VARCHAR},
+      SIGN = #{record.sign,jdbcType=VARCHAR},
+      CREATE_DT = #{record.createDt,jdbcType=TIMESTAMP},
+      TRADE_STATE = #{record.tradeState,jdbcType=VARCHAR},
+      TRADE_STATE_DESC = #{record.tradeStateDesc,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.xzf.XzfWxBillResult" >
+    update T_XZF_WX_BILL_RESULT
+    <set >
+      <if test="returnCode != null" >
+        RETURN_CODE = #{returnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="returnMsg != null" >
+        RETURN_MSG = #{returnMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="appid != null" >
+        APPID = #{appid,jdbcType=VARCHAR},
+      </if>
+      <if test="mchId != null" >
+        MCH_ID = #{mchId,jdbcType=VARCHAR},
+      </if>
+      <if test="nonceStr != null" >
+        NONCE_STR = #{nonceStr,jdbcType=VARCHAR},
+      </if>
+      <if test="resultCode != null" >
+        RESULT_CODE = #{resultCode,jdbcType=VARCHAR},
+      </if>
+      <if test="errCodeDes != null" >
+        ERR_CODE_DES = #{errCodeDes,jdbcType=VARCHAR},
+      </if>
+      <if test="errCode != null" >
+        ERR_CODE = #{errCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isSubscribe != null" >
+        IS_SUBSCRIBE = #{isSubscribe,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null" >
+        OPENID = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeType != null" >
+        TRADE_TYPE = #{tradeType,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceInfo != null" >
+        DEVICE_INFO = #{deviceInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="bankType != null" >
+        BANK_TYPE = #{bankType,jdbcType=VARCHAR},
+      </if>
+      <if test="totalFee != null" >
+        TOTAL_FEE = #{totalFee,jdbcType=DECIMAL},
+      </if>
+      <if test="feeType != null" >
+        FEE_TYPE = #{feeType,jdbcType=VARCHAR},
+      </if>
+      <if test="cashFee != null" >
+        CASH_FEE = #{cashFee,jdbcType=DECIMAL},
+      </if>
+      <if test="cashFeeType != null" >
+        CASH_FEE_TYPE = #{cashFeeType,jdbcType=VARCHAR},
+      </if>
+      <if test="timeEnd != null" >
+        TIME_END = #{timeEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="couponFee != null" >
+        COUPON_FEE = #{couponFee,jdbcType=DECIMAL},
+      </if>
+      <if test="couponCount != null" >
+        COUPON_COUNT = #{couponCount,jdbcType=DECIMAL},
+      </if>
+      <if test="attach != null" >
+        ATTACH = #{attach,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null" >
+        SIGN = #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="createDt != null" >
+        CREATE_DT = #{createDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tradeState != null" >
+        TRADE_STATE = #{tradeState,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeStateDesc != null" >
+        TRADE_STATE_DESC = #{tradeStateDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where TRANSACTION_ID = #{transactionId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.xzf.XzfWxBillResult" >
+    update T_XZF_WX_BILL_RESULT
+    set RETURN_CODE = #{returnCode,jdbcType=VARCHAR},
+      ORDER_ID = #{orderId,jdbcType=VARCHAR},
+      RETURN_MSG = #{returnMsg,jdbcType=VARCHAR},
+      APPID = #{appid,jdbcType=VARCHAR},
+      MCH_ID = #{mchId,jdbcType=VARCHAR},
+      NONCE_STR = #{nonceStr,jdbcType=VARCHAR},
+      RESULT_CODE = #{resultCode,jdbcType=VARCHAR},
+      ERR_CODE_DES = #{errCodeDes,jdbcType=VARCHAR},
+      ERR_CODE = #{errCode,jdbcType=VARCHAR},
+      IS_SUBSCRIBE = #{isSubscribe,jdbcType=VARCHAR},
+      OPENID = #{openid,jdbcType=VARCHAR},
+      TRADE_TYPE = #{tradeType,jdbcType=VARCHAR},
+      DEVICE_INFO = #{deviceInfo,jdbcType=VARCHAR},
+      BANK_TYPE = #{bankType,jdbcType=VARCHAR},
+      TOTAL_FEE = #{totalFee,jdbcType=DECIMAL},
+      FEE_TYPE = #{feeType,jdbcType=VARCHAR},
+      CASH_FEE = #{cashFee,jdbcType=DECIMAL},
+      CASH_FEE_TYPE = #{cashFeeType,jdbcType=VARCHAR},
+      TIME_END = #{timeEnd,jdbcType=VARCHAR},
+      COUPON_FEE = #{couponFee,jdbcType=DECIMAL},
+      COUPON_COUNT = #{couponCount,jdbcType=DECIMAL},
+      ATTACH = #{attach,jdbcType=VARCHAR},
+      SIGN = #{sign,jdbcType=VARCHAR},
+      CREATE_DT = #{createDt,jdbcType=TIMESTAMP},
+      TRADE_STATE = #{tradeState,jdbcType=VARCHAR},
+      TRADE_STATE_DESC = #{tradeStateDesc,jdbcType=VARCHAR}
+    where TRANSACTION_ID = #{transactionId,jdbcType=VARCHAR}
+  </update>
+</mapper>

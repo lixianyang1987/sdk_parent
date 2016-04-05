@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.count.ex.SyncAllCountMapperEx" >
+  <resultMap type="com.hytx.dto.count.SyncAllCountDto" id="baseResultMap">
+      <result column="update_dt" property="date" jdbcType="VARCHAR"/>
+      <result column="province_name" property="provinceName" jdbcType="VARCHAR"/>
+      <result column="channel_name" property="channelName" jdbcType="VARCHAR"/>
+      <result column="app_name" property="appName" jdbcType="VARCHAR"/>
+      <result column="server_type" property="serverType" jdbcType="INTEGER"/>
+      <result column="fee_value" property="feeValue" jdbcType="INTEGER"/>
+      <result column="suc_fee" property="sucFee" jdbcType="BIGINT"/>
+      <result column="fail_fee" property="failFee" jdbcType="BIGINT"/>
+      <result column="cn_suc_fee" property="cnSucFee" jdbcType="BIGINT"/>
+      <result column="cn_fail_fee" property="cnFailFee" jdbcType="BIGINT"/>
+      <result column="all_fee" property="allFee" jdbcType="BIGINT"/>
+      <result column="ensure_count" property="ensureCount" jdbcType="BIGINT"/>
+      <result column="ensure_suc_count" property="ensureSucCount" jdbcType="BIGINT"/>
+      <result column="ensure_fail_count" property="ensureFailCount" jdbcType="BIGINT"/>
+  </resultMap>
+  <select id="countSyncAll" resultMap="baseResultMap">
+       select * from (
+       select rownum rm,tb.* from (
+		select t.*,p.province_name,a.app_name,h.channel_name,v.cn_suc_fee,v.cn_fail_fee from (
+		select to_char(r.update_dt,'yyyy-mm-dd') update_dt,c.province_id,c.server_type,r.channel_id,c.app_id
+		,c.fee_value,sum(decode(c.send_status,1,1,0)) suc_fee,sum(decode(c.send_status,-1,1,0)) fail_fee
+		,sum(1) all_fee,
+		sum(decode(c.ensure_status,null,0,1)) ensure_count,
+		sum(decode(c.ensure_status,1,1,0)) ensure_suc_count,
+		sum(decode(c.ensure_status,-1,1,0)) ensure_fail_count
+		 from T_REQ_SMS_COMMAND c 
+		 inner join T_REQ_SMS r
+		 on r.order_id =c.order_id
+	     <if test="findDto.channelId!=null and findDto.channelId &gt; 0">
+			 and r.channel_id=#{findDto.channelId,jdbcType=INTEGER}
+		 </if>
+	     <if test="findDto.serverType!=null and findDto.serverType &gt; 0">
+			 and c.server_type=#{findDto.serverType,jdbcType=INTEGER}
+		 </if>
+		 <choose> 
+			   <when test="findDto.appId!=null and findDto.appId &gt; 0">
+			       and c.app_id=#{findDto.appId,jdbcType=INTEGER}
+			   </when>
+			   <when test="findDto.cpId!=null and findDto.cpId &gt; 0">
+			       and c.app_id  in (
+			           select id from T_APP c where c.cp_id=#{findDto.cpId,jdbcType=INTEGER}
+			         )
+			   </when>
+		</choose>
+		 and  to_char(r.update_dt,'yyyy-mm-dd') between #{findDto.startDate,jdbcType=VARCHAR} and #{findDto.endDate,jdbcType=VARCHAR}	
+		 group by  to_char(r.update_dt,'yyyy-mm-dd'),c.province_id,c.server_type,r.channel_id,c.app_id,c.fee_value
+		)t 
+		left outer join T_PROVINCE p 
+		on p.id=t.province_id
+		left outer join 
+		(
+		select to_char(s.create_dt,'yyyy-mm-dd') create_dt,s.province_name,s.server_type,s.channel_id,s.op_app_id
+		,s.fee_value,sum(decode(s.status,1,1,0)) cn_suc_fee,sum(decode(s.status,1,0,1)) cn_fail_fee
+		 from T_SYNC_ALL s 
+		 where   to_char(s.create_dt,'yyyy-mm-dd') between #{findDto.startDate,jdbcType=VARCHAR} and #{findDto.endDate,jdbcType=VARCHAR}	
+		 <if test="findDto.channelId!=null and findDto.channelId &gt; 0">
+			 and s.channel_id=#{findDto.channelId,jdbcType=INTEGER}
+		 </if>
+		 <if test="findDto.serverType!=null and findDto.serverType &gt; 0">
+			 and s.server_type=#{findDto.serverType,jdbcType=INTEGER}
+		 </if>
+		 <choose> 
+			   <when test="findDto.appId!=null and findDto.appId &gt; 0">
+			       and s.op_app_id=#{findDto.appId,jdbcType=INTEGER}
+			   </when>
+			   <when test="findDto.cpId!=null and findDto.cpId &gt; 0">
+			       and s.op_app_id  in (
+			           select id from T_APP  where  cp_id=#{findDto.cpId,jdbcType=INTEGER}
+			         )
+			   </when>
+		 </choose>
+		 group by to_char(s.create_dt,'yyyy-mm-dd'),s.province_name,s.server_type,s.channel_id,s.op_app_id
+		,s.fee_value
+		) v
+		on  t.update_dt=v.create_dt
+		and (p.province_name=v.province_name or (p.province_name is null and v.province_name='未知'))
+		and t.server_type=v.server_type
+		and t.channel_id=v.channel_id
+		and t.app_id=v.op_app_id
+		and t.fee_value=v.fee_value
+		left outer join T_APP a on a.id=t.app_id
+		left outer join T_CHANNEL h on h.id=t.channel_id
+		order by t.update_dt asc,t.province_id asc,t.server_type asc,t.channel_id asc
+		) tb) where rm between #{page.pageStartIndex} and #{page.pageEndIndex}
+  </select>
+  
+    <select id="countSyncAllTotal" resultType="java.lang.Integer">
+       select count(1) from (
+		 select distinct to_char(r.update_dt,'yyyy-mm-dd') update_dt,c.province_id,c.server_type,r.channel_id,c.app_id,c.fee_value 
+		 from T_REQ_SMS_COMMAND c 
+		 inner join T_REQ_SMS r
+		 on r.order_id =c.order_id
+	     <if test="findDto.channelId!=null and findDto.channelId &gt; 0">
+			 and r.channel_id=#{findDto.channelId,jdbcType=INTEGER}
+		 </if>
+	     <if test="findDto.serverType!=null and findDto.serverType &gt; 0">
+			 and c.server_type=#{findDto.serverType,jdbcType=INTEGER}
+		 </if>
+		 <choose> 
+			   <when test="findDto.appId!=null and findDto.appId &gt; 0">
+			       and c.app_id=#{findDto.appId,jdbcType=INTEGER}
+			   </when>
+			   <when test="findDto.cpId!=null and findDto.cpId &gt; 0">
+			       and c.app_id  in (
+			           select id from T_APP c where c.cp_id=#{findDto.cpId,jdbcType=INTEGER}
+			         )
+			   </when>
+		</choose>
+		 and  to_char(r.update_dt,'yyyy-mm-dd') between #{findDto.startDate,jdbcType=VARCHAR} and #{findDto.endDate,jdbcType=VARCHAR}	
+		)t 		
+  </select>
+  
+  
+  <select id="countSyncApp" resultMap="baseResultMap">
+        select * from (
+       select rownum rm,tb.* from (
+		select t.*,a.app_name,v.cn_suc_fee,v.cn_fail_fee from (
+		select to_char(r.update_dt,'yyyy-mm-dd') update_dt,c.app_id
+		,c.fee_value,sum(decode(c.send_status,1,1,0)) suc_fee,sum(decode(c.send_status,-1,1,0)) fail_fee
+		,sum(1) all_fee,
+		sum(decode(c.ensure_status,null,0,1)) ensure_count,
+		sum(decode(c.ensure_status,1,1,0)) ensure_suc_count,
+		sum(decode(c.ensure_status,-1,1,0)) ensure_fail_count
+		 from T_REQ_SMS_COMMAND c 
+		 inner join T_REQ_SMS r
+		 on r.order_id =c.order_id
+		 <choose> 
+			   <when test="findDto.appId!=null and findDto.appId &gt; 0">
+			       and c.app_id=#{findDto.appId,jdbcType=INTEGER}
+			   </when>
+			   <when test="findDto.cpId!=null and findDto.cpId &gt; 0">
+			       and c.app_id  in (
+			           select id from T_APP c where c.cp_id=#{findDto.cpId,jdbcType=INTEGER}
+			         )
+			   </when>
+		</choose>
+		 and  to_char(r.update_dt,'yyyy-mm-dd') between #{findDto.startDate,jdbcType=VARCHAR} and #{findDto.endDate,jdbcType=VARCHAR}	
+		 group by  to_char(r.update_dt,'yyyy-mm-dd'),c.app_id,c.fee_value
+		)t 
+		left outer join 
+		(
+		select to_char(s.order_dt,'yyyy-mm-dd') create_dt,s.app_id
+		,s.fee_value,sum(decode(s.status,0,1,0)) cn_suc_fee,sum(decode(s.status,1,1,0)) cn_fail_fee
+		 from V_SYNC_INFO s 
+		 where   to_char(s.order_dt,'yyyy-mm-dd') between #{findDto.startDate,jdbcType=VARCHAR} and #{findDto.endDate,jdbcType=VARCHAR}	
+		 <choose> 
+			   <when test="findDto.appId!=null and findDto.appId &gt; 0">
+			       and s.app_id=#{findDto.appId,jdbcType=INTEGER}
+			   </when>
+			   <when test="findDto.cpId!=null and findDto.cpId &gt; 0">
+			       and s.app_id  in (
+			           select id from T_APP  where  cp_id=#{findDto.cpId,jdbcType=INTEGER}
+			         )
+			   </when>
+		 </choose>
+		 group by to_char(s.order_dt,'yyyy-mm-dd'),s.app_id,s.fee_value
+		) v
+		on  t.update_dt=v.create_dt
+		and t.app_id=v.app_id
+		and t.fee_value=v.fee_value
+		left outer join T_APP a on a.id=t.app_id
+		order by t.update_dt asc,t.app_id asc,t.fee_value asc
+		) tb) where rm between #{page.pageStartIndex} and #{page.pageEndIndex}
+  </select>
+  
+  <select id="countSyncAppTotal" resultType="java.lang.Integer">
+     select count(1) from (
+		select distinct to_char(r.update_dt,'yyyy-mm-dd') update_dt,c.app_id,c.fee_value
+		 from T_REQ_SMS_COMMAND c 
+		 inner join T_REQ_SMS r
+		 on r.order_id =c.order_id
+		 <choose> 
+			   <when test="findDto.appId!=null and findDto.appId &gt; 0">
+			       and c.app_id=#{findDto.appId,jdbcType=INTEGER}
+			   </when>
+			   <when test="findDto.cpId!=null and findDto.cpId &gt; 0">
+			       and c.app_id  in (
+			           select id from T_APP c where c.cp_id=#{findDto.cpId,jdbcType=INTEGER}
+			         )
+			   </when>
+		</choose>
+		 and  to_char(r.update_dt,'yyyy-mm-dd') between #{findDto.startDate,jdbcType=VARCHAR} and #{findDto.endDate,jdbcType=VARCHAR}	
+		)t 
+  </select>
+</mapper>

@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.client.ori.ReqSmsMapper" >
+  <resultMap id="BaseResultMap" type="com.hytx.model.client.ReqSms" >
+    <id column="ORDER_ID" property="orderId" jdbcType="VARCHAR" />
+    <result column="SDK_VERSION" property="sdkVersion" jdbcType="VARCHAR" />
+    <result column="CHANNEL_ID" property="channelId" jdbcType="DECIMAL" />
+    <result column="APP_ID" property="appId" jdbcType="DECIMAL" />
+    <result column="CHANNEL_APP_KEY" property="channelAppKey" jdbcType="VARCHAR" />
+    <result column="PAY_CODE" property="payCode" jdbcType="VARCHAR" />
+    <result column="FEE_VALUE" property="feeValue" jdbcType="DECIMAL" />
+    <result column="FEE_TYPE" property="feeType" jdbcType="DECIMAL" />
+    <result column="IMSI" property="imsi" jdbcType="VARCHAR" />
+    <result column="EXTRA_INFO" property="extraInfo" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="UPDATE_DT" property="updateDt" jdbcType="TIMESTAMP" />
+    <result column="PROVINCE_ID" property="provinceId" jdbcType="DECIMAL" />
+    <result column="PAY_POINT_ID" property="payPointId" jdbcType="DECIMAL" />
+    <result column="IP" property="ip" jdbcType="VARCHAR" />
+    <result column="ICCID" property="iccid" jdbcType="VARCHAR" />
+    <result column="SERVER_TYPE" property="serverType" jdbcType="DECIMAL" />
+    <result column="UA" property="ua" jdbcType="VARCHAR" />
+    <result column="HAS_LAYOUT" property="hasLayout" jdbcType="DECIMAL" />
+    <result column="EXT" property="ext" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ORDER_ID, SDK_VERSION, CHANNEL_ID, APP_ID, CHANNEL_APP_KEY, PAY_CODE, FEE_VALUE, 
+    FEE_TYPE, IMSI, EXTRA_INFO, STATUS, UPDATE_DT, PROVINCE_ID, PAY_POINT_ID, IP, ICCID, 
+    SERVER_TYPE, UA, HAS_LAYOUT, EXT
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hytx.model.client.ReqSmsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_REQ_SMS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_REQ_SMS
+    where ORDER_ID = #{orderId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_REQ_SMS
+    where ORDER_ID = #{orderId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.client.ReqSmsExample" >
+    delete from T_REQ_SMS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.client.ReqSms" >
+    insert into T_REQ_SMS (ORDER_ID, SDK_VERSION, CHANNEL_ID, 
+      APP_ID, CHANNEL_APP_KEY, PAY_CODE, 
+      FEE_VALUE, FEE_TYPE, IMSI, 
+      EXTRA_INFO, STATUS, UPDATE_DT, 
+      PROVINCE_ID, PAY_POINT_ID, IP, 
+      ICCID, SERVER_TYPE, UA, 
+      HAS_LAYOUT, EXT)
+    values (#{orderId,jdbcType=VARCHAR}, #{sdkVersion,jdbcType=VARCHAR}, #{channelId,jdbcType=DECIMAL}, 
+      #{appId,jdbcType=DECIMAL}, #{channelAppKey,jdbcType=VARCHAR}, #{payCode,jdbcType=VARCHAR}, 
+      #{feeValue,jdbcType=DECIMAL}, #{feeType,jdbcType=DECIMAL}, #{imsi,jdbcType=VARCHAR}, 
+      #{extraInfo,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, #{updateDt,jdbcType=TIMESTAMP}, 
+      #{provinceId,jdbcType=DECIMAL}, #{payPointId,jdbcType=DECIMAL}, #{ip,jdbcType=VARCHAR}, 
+      #{iccid,jdbcType=VARCHAR}, #{serverType,jdbcType=DECIMAL}, #{ua,jdbcType=VARCHAR}, 
+      #{hasLayout,jdbcType=DECIMAL}, #{ext,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.client.ReqSms" >
+    insert into T_REQ_SMS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="sdkVersion != null" >
+        SDK_VERSION,
+      </if>
+      <if test="channelId != null" >
+        CHANNEL_ID,
+      </if>
+      <if test="appId != null" >
+        APP_ID,
+      </if>
+      <if test="channelAppKey != null" >
+        CHANNEL_APP_KEY,
+      </if>
+      <if test="payCode != null" >
+        PAY_CODE,
+      </if>
+      <if test="feeValue != null" >
+        FEE_VALUE,
+      </if>
+      <if test="feeType != null" >
+        FEE_TYPE,
+      </if>
+      <if test="imsi != null" >
+        IMSI,
+      </if>
+      <if test="extraInfo != null" >
+        EXTRA_INFO,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="updateDt != null" >
+        UPDATE_DT,
+      </if>
+      <if test="provinceId != null" >
+        PROVINCE_ID,
+      </if>
+      <if test="payPointId != null" >
+        PAY_POINT_ID,
+      </if>
+      <if test="ip != null" >
+        IP,
+      </if>
+      <if test="iccid != null" >
+        ICCID,
+      </if>
+      <if test="serverType != null" >
+        SERVER_TYPE,
+      </if>
+      <if test="ua != null" >
+        UA,
+      </if>
+      <if test="hasLayout != null" >
+        HAS_LAYOUT,
+      </if>
+      <if test="ext != null" >
+        EXT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="sdkVersion != null" >
+        #{sdkVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="channelId != null" >
+        #{channelId,jdbcType=DECIMAL},
+      </if>
+      <if test="appId != null" >
+        #{appId,jdbcType=DECIMAL},
+      </if>
+      <if test="channelAppKey != null" >
+        #{channelAppKey,jdbcType=VARCHAR},
+      </if>
+      <if test="payCode != null" >
+        #{payCode,jdbcType=VARCHAR},
+      </if>
+      <if test="feeValue != null" >
+        #{feeValue,jdbcType=DECIMAL},
+      </if>
+      <if test="feeType != null" >
+        #{feeType,jdbcType=DECIMAL},
+      </if>
+      <if test="imsi != null" >
+        #{imsi,jdbcType=VARCHAR},
+      </if>
+      <if test="extraInfo != null" >
+        #{extraInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="updateDt != null" >
+        #{updateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="provinceId != null" >
+        #{provinceId,jdbcType=DECIMAL},
+      </if>
+      <if test="payPointId != null" >
+        #{payPointId,jdbcType=DECIMAL},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="iccid != null" >
+        #{iccid,jdbcType=VARCHAR},
+      </if>
+      <if test="serverType != null" >
+        #{serverType,jdbcType=DECIMAL},
+      </if>
+      <if test="ua != null" >
+        #{ua,jdbcType=VARCHAR},
+      </if>
+      <if test="hasLayout != null" >
+        #{hasLayout,jdbcType=DECIMAL},
+      </if>
+      <if test="ext != null" >
+        #{ext,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.client.ReqSmsExample" resultType="java.lang.Integer" >
+    select count(*) from T_REQ_SMS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_REQ_SMS
+    <set >
+      <if test="record.orderId != null" >
+        ORDER_ID = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sdkVersion != null" >
+        SDK_VERSION = #{record.sdkVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.channelId != null" >
+        CHANNEL_ID = #{record.channelId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.appId != null" >
+        APP_ID = #{record.appId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.channelAppKey != null" >
+        CHANNEL_APP_KEY = #{record.channelAppKey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payCode != null" >
+        PAY_CODE = #{record.payCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.feeValue != null" >
+        FEE_VALUE = #{record.feeValue,jdbcType=DECIMAL},
+      </if>
+      <if test="record.feeType != null" >
+        FEE_TYPE = #{record.feeType,jdbcType=DECIMAL},
+      </if>
+      <if test="record.imsi != null" >
+        IMSI = #{record.imsi,jdbcType=VARCHAR},
+      </if>
+      <if test="record.extraInfo != null" >
+        EXTRA_INFO = #{record.extraInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=DECIMAL},
+      </if>
+      <if test="record.updateDt != null" >
+        UPDATE_DT = #{record.updateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.provinceId != null" >
+        PROVINCE_ID = #{record.provinceId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.payPointId != null" >
+        PAY_POINT_ID = #{record.payPointId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ip != null" >
+        IP = #{record.ip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.iccid != null" >
+        ICCID = #{record.iccid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.serverType != null" >
+        SERVER_TYPE = #{record.serverType,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ua != null" >
+        UA = #{record.ua,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hasLayout != null" >
+        HAS_LAYOUT = #{record.hasLayout,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ext != null" >
+        EXT = #{record.ext,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_REQ_SMS
+    set ORDER_ID = #{record.orderId,jdbcType=VARCHAR},
+      SDK_VERSION = #{record.sdkVersion,jdbcType=VARCHAR},
+      CHANNEL_ID = #{record.channelId,jdbcType=DECIMAL},
+      APP_ID = #{record.appId,jdbcType=DECIMAL},
+      CHANNEL_APP_KEY = #{record.channelAppKey,jdbcType=VARCHAR},
+      PAY_CODE = #{record.payCode,jdbcType=VARCHAR},
+      FEE_VALUE = #{record.feeValue,jdbcType=DECIMAL},
+      FEE_TYPE = #{record.feeType,jdbcType=DECIMAL},
+      IMSI = #{record.imsi,jdbcType=VARCHAR},
+      EXTRA_INFO = #{record.extraInfo,jdbcType=VARCHAR},
+      STATUS = #{record.status,jdbcType=DECIMAL},
+      UPDATE_DT = #{record.updateDt,jdbcType=TIMESTAMP},
+      PROVINCE_ID = #{record.provinceId,jdbcType=DECIMAL},
+      PAY_POINT_ID = #{record.payPointId,jdbcType=DECIMAL},
+      IP = #{record.ip,jdbcType=VARCHAR},
+      ICCID = #{record.iccid,jdbcType=VARCHAR},
+      SERVER_TYPE = #{record.serverType,jdbcType=DECIMAL},
+      UA = #{record.ua,jdbcType=VARCHAR},
+      HAS_LAYOUT = #{record.hasLayout,jdbcType=DECIMAL},
+      EXT = #{record.ext,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.client.ReqSms" >
+    update T_REQ_SMS
+    <set >
+      <if test="sdkVersion != null" >
+        SDK_VERSION = #{sdkVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="channelId != null" >
+        CHANNEL_ID = #{channelId,jdbcType=DECIMAL},
+      </if>
+      <if test="appId != null" >
+        APP_ID = #{appId,jdbcType=DECIMAL},
+      </if>
+      <if test="channelAppKey != null" >
+        CHANNEL_APP_KEY = #{channelAppKey,jdbcType=VARCHAR},
+      </if>
+      <if test="payCode != null" >
+        PAY_CODE = #{payCode,jdbcType=VARCHAR},
+      </if>
+      <if test="feeValue != null" >
+        FEE_VALUE = #{feeValue,jdbcType=DECIMAL},
+      </if>
+      <if test="feeType != null" >
+        FEE_TYPE = #{feeType,jdbcType=DECIMAL},
+      </if>
+      <if test="imsi != null" >
+        IMSI = #{imsi,jdbcType=VARCHAR},
+      </if>
+      <if test="extraInfo != null" >
+        EXTRA_INFO = #{extraInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="updateDt != null" >
+        UPDATE_DT = #{updateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="provinceId != null" >
+        PROVINCE_ID = #{provinceId,jdbcType=DECIMAL},
+      </if>
+      <if test="payPointId != null" >
+        PAY_POINT_ID = #{payPointId,jdbcType=DECIMAL},
+      </if>
+      <if test="ip != null" >
+        IP = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="iccid != null" >
+        ICCID = #{iccid,jdbcType=VARCHAR},
+      </if>
+      <if test="serverType != null" >
+        SERVER_TYPE = #{serverType,jdbcType=DECIMAL},
+      </if>
+      <if test="ua != null" >
+        UA = #{ua,jdbcType=VARCHAR},
+      </if>
+      <if test="hasLayout != null" >
+        HAS_LAYOUT = #{hasLayout,jdbcType=DECIMAL},
+      </if>
+      <if test="ext != null" >
+        EXT = #{ext,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ORDER_ID = #{orderId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.client.ReqSms" >
+    update T_REQ_SMS
+    set SDK_VERSION = #{sdkVersion,jdbcType=VARCHAR},
+      CHANNEL_ID = #{channelId,jdbcType=DECIMAL},
+      APP_ID = #{appId,jdbcType=DECIMAL},
+      CHANNEL_APP_KEY = #{channelAppKey,jdbcType=VARCHAR},
+      PAY_CODE = #{payCode,jdbcType=VARCHAR},
+      FEE_VALUE = #{feeValue,jdbcType=DECIMAL},
+      FEE_TYPE = #{feeType,jdbcType=DECIMAL},
+      IMSI = #{imsi,jdbcType=VARCHAR},
+      EXTRA_INFO = #{extraInfo,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=DECIMAL},
+      UPDATE_DT = #{updateDt,jdbcType=TIMESTAMP},
+      PROVINCE_ID = #{provinceId,jdbcType=DECIMAL},
+      PAY_POINT_ID = #{payPointId,jdbcType=DECIMAL},
+      IP = #{ip,jdbcType=VARCHAR},
+      ICCID = #{iccid,jdbcType=VARCHAR},
+      SERVER_TYPE = #{serverType,jdbcType=DECIMAL},
+      UA = #{ua,jdbcType=VARCHAR},
+      HAS_LAYOUT = #{hasLayout,jdbcType=DECIMAL},
+      EXT = #{ext,jdbcType=VARCHAR}
+    where ORDER_ID = #{orderId,jdbcType=VARCHAR}
+  </update>
+</mapper>

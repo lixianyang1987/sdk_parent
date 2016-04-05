@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.client.ori.SdkLoadMapper" >
+  <resultMap id="BaseResultMap" type="com.hytx.model.client.SdkLoad" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="SDK_VERSION" property="sdkVersion" jdbcType="VARCHAR" />
+    <result column="CHANNEL_ID" property="channelId" jdbcType="DECIMAL" />
+    <result column="APP_ID" property="appId" jdbcType="DECIMAL" />
+    <result column="CHANNEL_APP_KEY" property="channelAppKey" jdbcType="VARCHAR" />
+    <result column="IMSI" property="imsi" jdbcType="VARCHAR" />
+    <result column="CREATE_DT" property="createDt" jdbcType="TIMESTAMP" />
+    <result column="PROVINCE_ID" property="provinceId" jdbcType="DECIMAL" />
+    <result column="ICCID" property="iccid" jdbcType="VARCHAR" />
+    <result column="SERVER_TYPE" property="serverType" jdbcType="DECIMAL" />
+    <result column="IP" property="ip" jdbcType="VARCHAR" />
+    <result column="PROVINCE_NAME" property="provinceName" jdbcType="VARCHAR" />
+    <result column="UA" property="ua" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, SDK_VERSION, CHANNEL_ID, APP_ID, CHANNEL_APP_KEY, IMSI, CREATE_DT, PROVINCE_ID, 
+    ICCID, SERVER_TYPE, IP, PROVINCE_NAME, UA
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hytx.model.client.SdkLoadExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_SDK_LOAD
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SDK_LOAD
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SDK_LOAD
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.client.SdkLoadExample" >
+    delete from T_SDK_LOAD
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.client.SdkLoad" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      select SEQ_SDK_LOAD_ID.nextval from dual
+    </selectKey>
+    insert into T_SDK_LOAD (ID, SDK_VERSION, CHANNEL_ID, 
+      APP_ID, CHANNEL_APP_KEY, IMSI, 
+      CREATE_DT, PROVINCE_ID, ICCID, 
+      SERVER_TYPE, IP, PROVINCE_NAME, 
+      UA)
+    values (#{id,jdbcType=DECIMAL}, #{sdkVersion,jdbcType=VARCHAR}, #{channelId,jdbcType=DECIMAL}, 
+      #{appId,jdbcType=DECIMAL}, #{channelAppKey,jdbcType=VARCHAR}, #{imsi,jdbcType=VARCHAR}, 
+      #{createDt,jdbcType=TIMESTAMP}, #{provinceId,jdbcType=DECIMAL}, #{iccid,jdbcType=VARCHAR}, 
+      #{serverType,jdbcType=DECIMAL}, #{ip,jdbcType=VARCHAR}, #{provinceName,jdbcType=VARCHAR}, 
+      #{ua,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.client.SdkLoad" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      select SEQ_SDK_LOAD_ID.nextval from dual
+    </selectKey>
+    insert into T_SDK_LOAD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
+      <if test="sdkVersion != null" >
+        SDK_VERSION,
+      </if>
+      <if test="channelId != null" >
+        CHANNEL_ID,
+      </if>
+      <if test="appId != null" >
+        APP_ID,
+      </if>
+      <if test="channelAppKey != null" >
+        CHANNEL_APP_KEY,
+      </if>
+      <if test="imsi != null" >
+        IMSI,
+      </if>
+      <if test="createDt != null" >
+        CREATE_DT,
+      </if>
+      <if test="provinceId != null" >
+        PROVINCE_ID,
+      </if>
+      <if test="iccid != null" >
+        ICCID,
+      </if>
+      <if test="serverType != null" >
+        SERVER_TYPE,
+      </if>
+      <if test="ip != null" >
+        IP,
+      </if>
+      <if test="provinceName != null" >
+        PROVINCE_NAME,
+      </if>
+      <if test="ua != null" >
+        UA,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=DECIMAL},
+      <if test="sdkVersion != null" >
+        #{sdkVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="channelId != null" >
+        #{channelId,jdbcType=DECIMAL},
+      </if>
+      <if test="appId != null" >
+        #{appId,jdbcType=DECIMAL},
+      </if>
+      <if test="channelAppKey != null" >
+        #{channelAppKey,jdbcType=VARCHAR},
+      </if>
+      <if test="imsi != null" >
+        #{imsi,jdbcType=VARCHAR},
+      </if>
+      <if test="createDt != null" >
+        #{createDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="provinceId != null" >
+        #{provinceId,jdbcType=DECIMAL},
+      </if>
+      <if test="iccid != null" >
+        #{iccid,jdbcType=VARCHAR},
+      </if>
+      <if test="serverType != null" >
+        #{serverType,jdbcType=DECIMAL},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceName != null" >
+        #{provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="ua != null" >
+        #{ua,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.client.SdkLoadExample" resultType="java.lang.Integer" >
+    select count(*) from T_SDK_LOAD
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_SDK_LOAD
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sdkVersion != null" >
+        SDK_VERSION = #{record.sdkVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.channelId != null" >
+        CHANNEL_ID = #{record.channelId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.appId != null" >
+        APP_ID = #{record.appId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.channelAppKey != null" >
+        CHANNEL_APP_KEY = #{record.channelAppKey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imsi != null" >
+        IMSI = #{record.imsi,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDt != null" >
+        CREATE_DT = #{record.createDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.provinceId != null" >
+        PROVINCE_ID = #{record.provinceId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.iccid != null" >
+        ICCID = #{record.iccid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.serverType != null" >
+        SERVER_TYPE = #{record.serverType,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ip != null" >
+        IP = #{record.ip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provinceName != null" >
+        PROVINCE_NAME = #{record.provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ua != null" >
+        UA = #{record.ua,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_SDK_LOAD
+    set ID = #{record.id,jdbcType=DECIMAL},
+      SDK_VERSION = #{record.sdkVersion,jdbcType=VARCHAR},
+      CHANNEL_ID = #{record.channelId,jdbcType=DECIMAL},
+      APP_ID = #{record.appId,jdbcType=DECIMAL},
+      CHANNEL_APP_KEY = #{record.channelAppKey,jdbcType=VARCHAR},
+      IMSI = #{record.imsi,jdbcType=VARCHAR},
+      CREATE_DT = #{record.createDt,jdbcType=TIMESTAMP},
+      PROVINCE_ID = #{record.provinceId,jdbcType=DECIMAL},
+      ICCID = #{record.iccid,jdbcType=VARCHAR},
+      SERVER_TYPE = #{record.serverType,jdbcType=DECIMAL},
+      IP = #{record.ip,jdbcType=VARCHAR},
+      PROVINCE_NAME = #{record.provinceName,jdbcType=VARCHAR},
+      UA = #{record.ua,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.client.SdkLoad" >
+    update T_SDK_LOAD
+    <set >
+      <if test="sdkVersion != null" >
+        SDK_VERSION = #{sdkVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="channelId != null" >
+        CHANNEL_ID = #{channelId,jdbcType=DECIMAL},
+      </if>
+      <if test="appId != null" >
+        APP_ID = #{appId,jdbcType=DECIMAL},
+      </if>
+      <if test="channelAppKey != null" >
+        CHANNEL_APP_KEY = #{channelAppKey,jdbcType=VARCHAR},
+      </if>
+      <if test="imsi != null" >
+        IMSI = #{imsi,jdbcType=VARCHAR},
+      </if>
+      <if test="createDt != null" >
+        CREATE_DT = #{createDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="provinceId != null" >
+        PROVINCE_ID = #{provinceId,jdbcType=DECIMAL},
+      </if>
+      <if test="iccid != null" >
+        ICCID = #{iccid,jdbcType=VARCHAR},
+      </if>
+      <if test="serverType != null" >
+        SERVER_TYPE = #{serverType,jdbcType=DECIMAL},
+      </if>
+      <if test="ip != null" >
+        IP = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceName != null" >
+        PROVINCE_NAME = #{provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="ua != null" >
+        UA = #{ua,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.client.SdkLoad" >
+    update T_SDK_LOAD
+    set SDK_VERSION = #{sdkVersion,jdbcType=VARCHAR},
+      CHANNEL_ID = #{channelId,jdbcType=DECIMAL},
+      APP_ID = #{appId,jdbcType=DECIMAL},
+      CHANNEL_APP_KEY = #{channelAppKey,jdbcType=VARCHAR},
+      IMSI = #{imsi,jdbcType=VARCHAR},
+      CREATE_DT = #{createDt,jdbcType=TIMESTAMP},
+      PROVINCE_ID = #{provinceId,jdbcType=DECIMAL},
+      ICCID = #{iccid,jdbcType=VARCHAR},
+      SERVER_TYPE = #{serverType,jdbcType=DECIMAL},
+      IP = #{ip,jdbcType=VARCHAR},
+      PROVINCE_NAME = #{provinceName,jdbcType=VARCHAR},
+      UA = #{ua,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

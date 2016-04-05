@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.xzf.ori.XzfHuafeiBillMapper" >
+  <resultMap id="BaseResultMap" type="com.hytx.model.xzf.XzfHuafeiBill" >
+    <id column="ORDER_ID" property="orderId" jdbcType="VARCHAR" />
+    <result column="IMSI" property="imsi" jdbcType="VARCHAR" />
+    <result column="CHANNEL_APP_ID" property="channelAppId" jdbcType="DECIMAL" />
+    <result column="FEE_VALUE" property="feeValue" jdbcType="DECIMAL" />
+    <result column="CREATE_DT" property="createDt" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="FEE_TYPE" property="feeType" jdbcType="DECIMAL" />
+    <result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+    <result column="STEP" property="step" jdbcType="DECIMAL" />
+    <result column="IMEI" property="imei" jdbcType="VARCHAR" />
+    <result column="OP_TYPE" property="opType" jdbcType="DECIMAL" />
+    <result column="EFFECTIVE_DT" property="effectiveDt" jdbcType="TIMESTAMP" />
+    <result column="EXPIRE_DT" property="expireDt" jdbcType="TIMESTAMP" />
+    <result column="PRODUCT_CODE" property="productCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ORDER_ID, IMSI, CHANNEL_APP_ID, FEE_VALUE, CREATE_DT, STATUS, FEE_TYPE, MOBILE, STEP, 
+    IMEI, OP_TYPE, EFFECTIVE_DT, EXPIRE_DT, PRODUCT_CODE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hytx.model.xzf.XzfHuafeiBillExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_XZF_HUAFEI_BILL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_XZF_HUAFEI_BILL
+    where ORDER_ID = #{orderId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_XZF_HUAFEI_BILL
+    where ORDER_ID = #{orderId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.xzf.XzfHuafeiBillExample" >
+    delete from T_XZF_HUAFEI_BILL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.xzf.XzfHuafeiBill" >
+    insert into T_XZF_HUAFEI_BILL (ORDER_ID, IMSI, CHANNEL_APP_ID, 
+      FEE_VALUE, CREATE_DT, STATUS, 
+      FEE_TYPE, MOBILE, STEP, 
+      IMEI, OP_TYPE, EFFECTIVE_DT, 
+      EXPIRE_DT, PRODUCT_CODE)
+    values (#{orderId,jdbcType=VARCHAR}, #{imsi,jdbcType=VARCHAR}, #{channelAppId,jdbcType=DECIMAL}, 
+      #{feeValue,jdbcType=DECIMAL}, #{createDt,jdbcType=TIMESTAMP}, #{status,jdbcType=DECIMAL}, 
+      #{feeType,jdbcType=DECIMAL}, #{mobile,jdbcType=VARCHAR}, #{step,jdbcType=DECIMAL}, 
+      #{imei,jdbcType=VARCHAR}, #{opType,jdbcType=DECIMAL}, #{effectiveDt,jdbcType=TIMESTAMP}, 
+      #{expireDt,jdbcType=TIMESTAMP}, #{productCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.xzf.XzfHuafeiBill" >
+    insert into T_XZF_HUAFEI_BILL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="imsi != null" >
+        IMSI,
+      </if>
+      <if test="channelAppId != null" >
+        CHANNEL_APP_ID,
+      </if>
+      <if test="feeValue != null" >
+        FEE_VALUE,
+      </if>
+      <if test="createDt != null" >
+        CREATE_DT,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="feeType != null" >
+        FEE_TYPE,
+      </if>
+      <if test="mobile != null" >
+        MOBILE,
+      </if>
+      <if test="step != null" >
+        STEP,
+      </if>
+      <if test="imei != null" >
+        IMEI,
+      </if>
+      <if test="opType != null" >
+        OP_TYPE,
+      </if>
+      <if test="effectiveDt != null" >
+        EFFECTIVE_DT,
+      </if>
+      <if test="expireDt != null" >
+        EXPIRE_DT,
+      </if>
+      <if test="productCode != null" >
+        PRODUCT_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="imsi != null" >
+        #{imsi,jdbcType=VARCHAR},
+      </if>
+      <if test="channelAppId != null" >
+        #{channelAppId,jdbcType=DECIMAL},
+      </if>
+      <if test="feeValue != null" >
+        #{feeValue,jdbcType=DECIMAL},
+      </if>
+      <if test="createDt != null" >
+        #{createDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="feeType != null" >
+        #{feeType,jdbcType=DECIMAL},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="step != null" >
+        #{step,jdbcType=DECIMAL},
+      </if>
+      <if test="imei != null" >
+        #{imei,jdbcType=VARCHAR},
+      </if>
+      <if test="opType != null" >
+        #{opType,jdbcType=DECIMAL},
+      </if>
+      <if test="effectiveDt != null" >
+        #{effectiveDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expireDt != null" >
+        #{expireDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productCode != null" >
+        #{productCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.xzf.XzfHuafeiBillExample" resultType="java.lang.Integer" >
+    select count(*) from T_XZF_HUAFEI_BILL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_XZF_HUAFEI_BILL
+    <set >
+      <if test="record.orderId != null" >
+        ORDER_ID = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imsi != null" >
+        IMSI = #{record.imsi,jdbcType=VARCHAR},
+      </if>
+      <if test="record.channelAppId != null" >
+        CHANNEL_APP_ID = #{record.channelAppId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.feeValue != null" >
+        FEE_VALUE = #{record.feeValue,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createDt != null" >
+        CREATE_DT = #{record.createDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=DECIMAL},
+      </if>
+      <if test="record.feeType != null" >
+        FEE_TYPE = #{record.feeType,jdbcType=DECIMAL},
+      </if>
+      <if test="record.mobile != null" >
+        MOBILE = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.step != null" >
+        STEP = #{record.step,jdbcType=DECIMAL},
+      </if>
+      <if test="record.imei != null" >
+        IMEI = #{record.imei,jdbcType=VARCHAR},
+      </if>
+      <if test="record.opType != null" >
+        OP_TYPE = #{record.opType,jdbcType=DECIMAL},
+      </if>
+      <if test="record.effectiveDt != null" >
+        EFFECTIVE_DT = #{record.effectiveDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.expireDt != null" >
+        EXPIRE_DT = #{record.expireDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.productCode != null" >
+        PRODUCT_CODE = #{record.productCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_XZF_HUAFEI_BILL
+    set ORDER_ID = #{record.orderId,jdbcType=VARCHAR},
+      IMSI = #{record.imsi,jdbcType=VARCHAR},
+      CHANNEL_APP_ID = #{record.channelAppId,jdbcType=DECIMAL},
+      FEE_VALUE = #{record.feeValue,jdbcType=DECIMAL},
+      CREATE_DT = #{record.createDt,jdbcType=TIMESTAMP},
+      STATUS = #{record.status,jdbcType=DECIMAL},
+      FEE_TYPE = #{record.feeType,jdbcType=DECIMAL},
+      MOBILE = #{record.mobile,jdbcType=VARCHAR},
+      STEP = #{record.step,jdbcType=DECIMAL},
+      IMEI = #{record.imei,jdbcType=VARCHAR},
+      OP_TYPE = #{record.opType,jdbcType=DECIMAL},
+      EFFECTIVE_DT = #{record.effectiveDt,jdbcType=TIMESTAMP},
+      EXPIRE_DT = #{record.expireDt,jdbcType=TIMESTAMP},
+      PRODUCT_CODE = #{record.productCode,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.xzf.XzfHuafeiBill" >
+    update T_XZF_HUAFEI_BILL
+    <set >
+      <if test="imsi != null" >
+        IMSI = #{imsi,jdbcType=VARCHAR},
+      </if>
+      <if test="channelAppId != null" >
+        CHANNEL_APP_ID = #{channelAppId,jdbcType=DECIMAL},
+      </if>
+      <if test="feeValue != null" >
+        FEE_VALUE = #{feeValue,jdbcType=DECIMAL},
+      </if>
+      <if test="createDt != null" >
+        CREATE_DT = #{createDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="feeType != null" >
+        FEE_TYPE = #{feeType,jdbcType=DECIMAL},
+      </if>
+      <if test="mobile != null" >
+        MOBILE = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="step != null" >
+        STEP = #{step,jdbcType=DECIMAL},
+      </if>
+      <if test="imei != null" >
+        IMEI = #{imei,jdbcType=VARCHAR},
+      </if>
+      <if test="opType != null" >
+        OP_TYPE = #{opType,jdbcType=DECIMAL},
+      </if>
+      <if test="effectiveDt != null" >
+        EFFECTIVE_DT = #{effectiveDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expireDt != null" >
+        EXPIRE_DT = #{expireDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productCode != null" >
+        PRODUCT_CODE = #{productCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ORDER_ID = #{orderId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.xzf.XzfHuafeiBill" >
+    update T_XZF_HUAFEI_BILL
+    set IMSI = #{imsi,jdbcType=VARCHAR},
+      CHANNEL_APP_ID = #{channelAppId,jdbcType=DECIMAL},
+      FEE_VALUE = #{feeValue,jdbcType=DECIMAL},
+      CREATE_DT = #{createDt,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=DECIMAL},
+      FEE_TYPE = #{feeType,jdbcType=DECIMAL},
+      MOBILE = #{mobile,jdbcType=VARCHAR},
+      STEP = #{step,jdbcType=DECIMAL},
+      IMEI = #{imei,jdbcType=VARCHAR},
+      OP_TYPE = #{opType,jdbcType=DECIMAL},
+      EFFECTIVE_DT = #{effectiveDt,jdbcType=TIMESTAMP},
+      EXPIRE_DT = #{expireDt,jdbcType=TIMESTAMP},
+      PRODUCT_CODE = #{productCode,jdbcType=VARCHAR}
+    where ORDER_ID = #{orderId,jdbcType=VARCHAR}
+  </update>
+</mapper>

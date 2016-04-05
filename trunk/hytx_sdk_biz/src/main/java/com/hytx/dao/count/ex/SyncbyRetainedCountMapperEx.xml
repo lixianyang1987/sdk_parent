@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.count.ex.SyncbyRetainedCountMapperEx" >
+   <resultMap id="BaseResultMap" type="com.hytx.model.syncEx.SyncByRetained">
+    <id column="LINKID" jdbcType="VARCHAR" property="linkid" />
+    <result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
+    <result column="ORDER_TIME" jdbcType="VARCHAR" property="orderTime" />
+    <result column="PAY_FEE" jdbcType="DECIMAL" property="payFee" />
+    <result column="APP_ID" jdbcType="VARCHAR" property="appId" />
+    <result column="REDUCE_STATUS" jdbcType="DECIMAL" property="reduceStatus" />
+    <result column="PORT" jdbcType="VARCHAR" property="port" />
+    <result column="MSG" jdbcType="VARCHAR" property="msg" />
+    <result column="CHANNEL_APP_ID" jdbcType="DECIMAL" property="channelAppId" />
+    <result column="RESERVE_ONE" jdbcType="VARCHAR" property="reserveOne" />
+    <result column="RESERVE_TWO" jdbcType="VARCHAR" property="reserveTwo" />
+  </resultMap>
+   <select id="selectSyncRetainedListByPage" resultMap="BaseResultMap">
+   select  t.*  from (
+          select rownum rm,tb.* from(
+        select  r.* from t_Sync_By_Retained r  where 1=1 
+        <if test="findDto.reduceStatus!=null and findDto.reduceStatus &gt; 0"> 
+        and  r.reduce_status =0
+        </if>
+        <if test="findDto.appId!=null and findDto.appId != '-1' ">
+        and r.app_id =#{findDto.appId,jdbcType=VARCHAR}
+        </if>
+        <if test="findDto.channelAppId!=null and findDto.channelAppId &gt; 0 ">
+        and r.channel_app_id =#{findDto.channelAppId,jdbcType=INTEGER}
+        </if>
+        
+        
+      )tb
+    )t  
+   where t.rm between #{page.pageStartIndex} and #{page.pageEndIndex}
+
+  </select>
+  
+  <select id="countSyncbyRetained" resultType="java.lang.Integer">
+		select  count(*) from t_Sync_By_Retained r  where 1=1 
+        <if test="findDto.reduceStatus!=null and findDto.reduceStatus &gt; 0"> 
+         and  r.reduce_status =0 
+        </if>
+        <if test="findDto.appId!=null and findDto.appId != '-1' ">
+         and r.app_id =#{findDto.appId,jdbcType=VARCHAR}
+        </if>
+        <if test="findDto.channelAppId!=null and findDto.channelAppId &gt; 0 ">
+         and r.channel_app_id =#{findDto.channelAppId,jdbcType=INTEGER}
+        </if>
+  </select>
+</mapper>

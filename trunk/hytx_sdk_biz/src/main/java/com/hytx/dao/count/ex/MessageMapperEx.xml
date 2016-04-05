@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.count.ex.MessageMapperEx" >
+   <resultMap id="baseResultMap" type="com.hytx.dto.count.DayLimitDto">
+      <result column="id" property="id" jdbcType="INTEGER"/>
+      <result column="name" property="name" jdbcType="VARCHAR"/>
+      <result column="province_name" property="provinceName" jdbcType="VARCHAR"/>
+      <result column="day_limit" property="dayLimit" jdbcType="INTEGER"/>
+      <result column="consumer" property="consumer" jdbcType="INTEGER"/>
+   </resultMap>
+   <select id="selectChannelAppMessage" resultMap="baseResultMap">
+        select t.id,t.name,p.province_name,t.day_limit,v.consumer from (
+		select r.province_id,c.id,c.channel_id,c.app_id,r.day_limit,cn.channel_name||'-'||a.app_name as name from T_PROVINCE_REF r 
+		inner join T_CHANNEL_APP c on 
+		r.ref_type=1 and 
+		r.record_id=c.id
+		and r.day_limit>0
+		inner join T_CHANNEL cn
+		on cn.id=c.channel_id
+		inner join T_APP a
+		on a.id=c.app_id
+		)t inner join T_PROVINCE p
+		  on t.province_id=p.id
+		 inner join
+		 (
+		 select r.province_id,r.channel_id,r.app_id ,sum(fee_value) consumer
+		 from T_REQ_SMS r where  r.status=1000  
+		 and to_char(r.update_dt,'yyyy-mm-dd')=to_char(sysdate,'yyyy-mm-dd')
+		 group by r.province_id,r.channel_id,r.app_id
+		)v on t.province_id=v.PROVINCE_ID
+		 and t.channel_id=v.CHANNEL_ID
+		 and t.app_id=v.app_id
+		 and t.day_limit/v.consumer &gt; 0.8
+   </select>
+   <select id="selectAppMessage" resultMap="baseResultMap">
+        select t.id,t.name,p.province_name,t.day_limit,v.consumer from (
+		select r.province_id,c.id,r.day_limit,c.app_name name from T_PROVINCE_REF r 
+		inner join T_APP c on 
+		r.REF_TYPE=3 and 
+		r.RECORD_ID=c.id
+		and r.DAY_LIMIT>0
+		)t inner join T_PROVINCE p
+		 on t.province_id=p.id
+		 inner join
+		 (
+		 select r.province_id,c.app_id,sum(c.fee_value)consumer from T_REQ_SMS_COMMAND c
+		 inner join T_REQ_SMS r
+		 on  r.order_id=c.order_id
+		 and to_char(c.update_dt,'yyyy-mm-dd')=to_char(sysdate,'yyyy-mm-dd')
+		 group by r.province_id,c.app_id
+		)v on t.province_id=v.province_id
+		 and t.id=v.app_id
+		 and v.consumer/t.day_limit &gt; 0.8
+   </select>
+  
+  
+  
+</mapper>

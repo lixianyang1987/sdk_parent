@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hytx.dao.sync.ori.SyncWydFMapper">
+  <resultMap id="BaseResultMap" type="com.hytx.model.sync.SyncWydF">
+    <result column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="PHONE_NUM" jdbcType="DECIMAL" property="phoneNum" />
+    <result column="PAY_FEE" jdbcType="DECIMAL" property="payFee" />
+    <result column="ORDER_TIME" jdbcType="VARCHAR" property="orderTime" />
+    <result column="HRET" jdbcType="DECIMAL" property="hret" />
+    <result column="UPDATE_DT" jdbcType="TIMESTAMP" property="updateDt" />
+    <result column="SYNC_ALL_ID" jdbcType="DECIMAL" property="syncAllId" />
+    <result column="IP" jdbcType="VARCHAR" property="ip" />
+    <result column="APP_INFO" jdbcType="VARCHAR" property="appInfo" />
+    <result column="EXT" jdbcType="VARCHAR" property="ext" />
+    <result column="SERVER_TYPE" jdbcType="DECIMAL" property="serverType" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="CHANNEL_APP_ID" jdbcType="DECIMAL" property="channelAppId" />
+    <result column="REDUCE_STATUS" jdbcType="DECIMAL" property="reduceStatus" />
+    <result column="SYNC_STATUS" jdbcType="DECIMAL" property="syncStatus" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, PHONE_NUM, PAY_FEE, ORDER_TIME, HRET, UPDATE_DT, SYNC_ALL_ID, IP, APP_INFO, EXT, 
+    SERVER_TYPE, STATUS, CHANNEL_APP_ID, REDUCE_STATUS, SYNC_STATUS
+  </sql>
+  <select id="selectByExample" parameterType="com.hytx.model.sync.SyncWydFExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_SYNC_WYD
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.hytx.model.sync.SyncWydFExample">
+    delete from T_SYNC_WYD
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.sync.SyncWydF">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+      select SEQ_SYNC_WYD_ID.nextval from dual
+    </selectKey>
+    insert into T_SYNC_WYD (ID, PHONE_NUM, PAY_FEE, 
+      ORDER_TIME, HRET, UPDATE_DT, 
+      SYNC_ALL_ID, IP, APP_INFO, 
+      EXT, SERVER_TYPE, STATUS, 
+      CHANNEL_APP_ID, REDUCE_STATUS, SYNC_STATUS
+      )
+    values (#{id,jdbcType=DECIMAL}, #{phoneNum,jdbcType=DECIMAL}, #{payFee,jdbcType=DECIMAL}, 
+      #{orderTime,jdbcType=VARCHAR}, #{hret,jdbcType=DECIMAL}, #{updateDt,jdbcType=TIMESTAMP}, 
+      #{syncAllId,jdbcType=DECIMAL}, #{ip,jdbcType=VARCHAR}, #{appInfo,jdbcType=VARCHAR}, 
+      #{ext,jdbcType=VARCHAR}, #{serverType,jdbcType=DECIMAL}, #{status,jdbcType=VARCHAR}, 
+      #{channelAppId,jdbcType=DECIMAL}, #{reduceStatus,jdbcType=DECIMAL}, #{syncStatus,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.sync.SyncWydF">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+      select SEQ_SYNC_WYD_ID.nextval from dual
+    </selectKey>
+    insert into T_SYNC_WYD
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      ID,
+      <if test="phoneNum != null">
+        PHONE_NUM,
+      </if>
+      <if test="payFee != null">
+        PAY_FEE,
+      </if>
+      <if test="orderTime != null">
+        ORDER_TIME,
+      </if>
+      <if test="hret != null">
+        HRET,
+      </if>
+      <if test="updateDt != null">
+        UPDATE_DT,
+      </if>
+      <if test="syncAllId != null">
+        SYNC_ALL_ID,
+      </if>
+      <if test="ip != null">
+        IP,
+      </if>
+      <if test="appInfo != null">
+        APP_INFO,
+      </if>
+      <if test="ext != null">
+        EXT,
+      </if>
+      <if test="serverType != null">
+        SERVER_TYPE,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="channelAppId != null">
+        CHANNEL_APP_ID,
+      </if>
+      <if test="reduceStatus != null">
+        REDUCE_STATUS,
+      </if>
+      <if test="syncStatus != null">
+        SYNC_STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{id,jdbcType=DECIMAL},
+      <if test="phoneNum != null">
+        #{phoneNum,jdbcType=DECIMAL},
+      </if>
+      <if test="payFee != null">
+        #{payFee,jdbcType=DECIMAL},
+      </if>
+      <if test="orderTime != null">
+        #{orderTime,jdbcType=VARCHAR},
+      </if>
+      <if test="hret != null">
+        #{hret,jdbcType=DECIMAL},
+      </if>
+      <if test="updateDt != null">
+        #{updateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="syncAllId != null">
+        #{syncAllId,jdbcType=DECIMAL},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="appInfo != null">
+        #{appInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="ext != null">
+        #{ext,jdbcType=VARCHAR},
+      </if>
+      <if test="serverType != null">
+        #{serverType,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="channelAppId != null">
+        #{channelAppId,jdbcType=DECIMAL},
+      </if>
+      <if test="reduceStatus != null">
+        #{reduceStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="syncStatus != null">
+        #{syncStatus,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.sync.SyncWydFExample" resultType="java.lang.Integer">
+    select count(*) from T_SYNC_WYD
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update T_SYNC_WYD
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.phoneNum != null">
+        PHONE_NUM = #{record.phoneNum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.payFee != null">
+        PAY_FEE = #{record.payFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.orderTime != null">
+        ORDER_TIME = #{record.orderTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hret != null">
+        HRET = #{record.hret,jdbcType=DECIMAL},
+      </if>
+      <if test="record.updateDt != null">
+        UPDATE_DT = #{record.updateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.syncAllId != null">
+        SYNC_ALL_ID = #{record.syncAllId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ip != null">
+        IP = #{record.ip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appInfo != null">
+        APP_INFO = #{record.appInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext != null">
+        EXT = #{record.ext,jdbcType=VARCHAR},
+      </if>
+      <if test="record.serverType != null">
+        SERVER_TYPE = #{record.serverType,jdbcType=DECIMAL},
+      </if>
+      <if test="record.status != null">
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.channelAppId != null">
+        CHANNEL_APP_ID = #{record.channelAppId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.reduceStatus != null">
+        REDUCE_STATUS = #{record.reduceStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.syncStatus != null">
+        SYNC_STATUS = #{record.syncStatus,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update T_SYNC_WYD
+    set ID = #{record.id,jdbcType=DECIMAL},
+      PHONE_NUM = #{record.phoneNum,jdbcType=DECIMAL},
+      PAY_FEE = #{record.payFee,jdbcType=DECIMAL},
+      ORDER_TIME = #{record.orderTime,jdbcType=VARCHAR},
+      HRET = #{record.hret,jdbcType=DECIMAL},
+      UPDATE_DT = #{record.updateDt,jdbcType=TIMESTAMP},
+      SYNC_ALL_ID = #{record.syncAllId,jdbcType=DECIMAL},
+      IP = #{record.ip,jdbcType=VARCHAR},
+      APP_INFO = #{record.appInfo,jdbcType=VARCHAR},
+      EXT = #{record.ext,jdbcType=VARCHAR},
+      SERVER_TYPE = #{record.serverType,jdbcType=DECIMAL},
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      CHANNEL_APP_ID = #{record.channelAppId,jdbcType=DECIMAL},
+      REDUCE_STATUS = #{record.reduceStatus,jdbcType=DECIMAL},
+      SYNC_STATUS = #{record.syncStatus,jdbcType=DECIMAL}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  
+</mapper>

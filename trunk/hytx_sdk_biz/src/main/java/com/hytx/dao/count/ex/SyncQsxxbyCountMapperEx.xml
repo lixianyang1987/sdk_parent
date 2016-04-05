@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.count.ex.SyncQsxxbyCountMapperEx" >
+   <resultMap id="baseResultMap" type="com.hytx.dto.count.SyncQsxxbyDto" extends="com.hytx.dao.sync.ori.SyncQsxxbyMapper.BaseResultMap" ></resultMap>
+   <select id="selectSyncQsxxbyListByPage" resultMap="baseResultMap">
+        select  t.*  from (
+	        select rownum rm,tb.* from(
+				select  r.* from T_SYNC_QSXXBY r  where 1=1  
+				and  to_char(r.create_time,'yyyy-mm-dd') between #{findDto.startDate,jdbcType=VARCHAR} and #{findDto.endDate,jdbcType=VARCHAR}	
+				order by modat_receive asc
+			)tb
+		)t  
+		where t.rm between #{page.pageStartIndex} and #{page.pageEndIndex}
+  </select>
+  
+  <select id="countSyncQsxxby" resultType="java.lang.Integer">
+		select count(1) from T_SYNC_QSXXBY r  where 1=1   
+		and  to_char(r.create_time,'yyyy-mm-dd') between #{findDto.startDate,jdbcType=VARCHAR} and #{findDto.endDate,jdbcType=VARCHAR}	
+  </select>
+</mapper>

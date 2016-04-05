@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.baseConf.ori.OperateKeywordMapper" >
+  <resultMap id="BaseResultMap" type="com.hytx.model.baseConf.OperateKeyword" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="OPERATE_ID" property="operateId" jdbcType="DECIMAL" />
+    <result column="MT_NUM" property="mtNum" jdbcType="VARCHAR" />
+    <result column="MT_CONTENT" property="mtContent" jdbcType="VARCHAR" />
+    <result column="UPDATE_DT" property="updateDt" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, OPERATE_ID, MT_NUM, MT_CONTENT, UPDATE_DT, STATUS
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hytx.model.baseConf.OperateKeywordExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_OPERATE_KEYWORD
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_OPERATE_KEYWORD
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_OPERATE_KEYWORD
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.baseConf.OperateKeywordExample" >
+    delete from T_OPERATE_KEYWORD
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.baseConf.OperateKeyword" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      select SEQ_OPERATE_KEYWORD_ID.nextval from dual
+    </selectKey>
+    insert into T_OPERATE_KEYWORD (ID, OPERATE_ID, MT_NUM, 
+      MT_CONTENT, UPDATE_DT, STATUS
+      )
+    values (#{id,jdbcType=DECIMAL}, #{operateId,jdbcType=DECIMAL}, #{mtNum,jdbcType=VARCHAR}, 
+      #{mtContent,jdbcType=VARCHAR}, #{updateDt,jdbcType=TIMESTAMP}, #{status,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.baseConf.OperateKeyword" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      select SEQ_OPERATE_KEYWORD_ID.nextval from dual
+    </selectKey>
+    insert into T_OPERATE_KEYWORD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
+      <if test="operateId != null" >
+        OPERATE_ID,
+      </if>
+      <if test="mtNum != null" >
+        MT_NUM,
+      </if>
+      <if test="mtContent != null" >
+        MT_CONTENT,
+      </if>
+      <if test="updateDt != null" >
+        UPDATE_DT,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=DECIMAL},
+      <if test="operateId != null" >
+        #{operateId,jdbcType=DECIMAL},
+      </if>
+      <if test="mtNum != null" >
+        #{mtNum,jdbcType=VARCHAR},
+      </if>
+      <if test="mtContent != null" >
+        #{mtContent,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDt != null" >
+        #{updateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.baseConf.OperateKeywordExample" resultType="java.lang.Integer" >
+    select count(*) from T_OPERATE_KEYWORD
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_OPERATE_KEYWORD
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.operateId != null" >
+        OPERATE_ID = #{record.operateId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.mtNum != null" >
+        MT_NUM = #{record.mtNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mtContent != null" >
+        MT_CONTENT = #{record.mtContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDt != null" >
+        UPDATE_DT = #{record.updateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_OPERATE_KEYWORD
+    set ID = #{record.id,jdbcType=DECIMAL},
+      OPERATE_ID = #{record.operateId,jdbcType=DECIMAL},
+      MT_NUM = #{record.mtNum,jdbcType=VARCHAR},
+      MT_CONTENT = #{record.mtContent,jdbcType=VARCHAR},
+      UPDATE_DT = #{record.updateDt,jdbcType=TIMESTAMP},
+      STATUS = #{record.status,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.baseConf.OperateKeyword" >
+    update T_OPERATE_KEYWORD
+    <set >
+      <if test="operateId != null" >
+        OPERATE_ID = #{operateId,jdbcType=DECIMAL},
+      </if>
+      <if test="mtNum != null" >
+        MT_NUM = #{mtNum,jdbcType=VARCHAR},
+      </if>
+      <if test="mtContent != null" >
+        MT_CONTENT = #{mtContent,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDt != null" >
+        UPDATE_DT = #{updateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.baseConf.OperateKeyword" >
+    update T_OPERATE_KEYWORD
+    set OPERATE_ID = #{operateId,jdbcType=DECIMAL},
+      MT_NUM = #{mtNum,jdbcType=VARCHAR},
+      MT_CONTENT = #{mtContent,jdbcType=VARCHAR},
+      UPDATE_DT = #{updateDt,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

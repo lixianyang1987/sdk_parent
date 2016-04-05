@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.sync.ori.SyncHddxMapper" >
+  <resultMap id="BaseResultMap" type="com.hytx.model.sync.SyncHddx" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="FROMPHONE" property="fromphone" jdbcType="VARCHAR" />
+    <result column="TOPHONE" property="tophone" jdbcType="VARCHAR" />
+    <result column="MSG" property="msg" jdbcType="VARCHAR" />
+    <result column="LINKID" property="linkid" jdbcType="VARCHAR" />
+    <result column="SERVICEID" property="serviceid" jdbcType="VARCHAR" />
+    <result column="BACKURL" property="backurl" jdbcType="VARCHAR" />
+    <result column="MSGTYPE" property="msgtype" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="SYNC_ALL_ID" property="syncAllId" jdbcType="VARCHAR" />
+    <result column="PROVINCENAME" property="provincename" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, FROMPHONE, TOPHONE, MSG, LINKID, SERVICEID, BACKURL, MSGTYPE, CREATETIME, SYNC_ALL_ID, 
+    PROVINCENAME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hytx.model.sync.SyncHddxExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_SYNC_HDDX
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYNC_HDDX
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_SYNC_HDDX
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.sync.SyncHddxExample" >
+    delete from T_SYNC_HDDX
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.sync.SyncHddx" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+      select SEQ_SYNC_HDDX_ID.nextval from dual
+    </selectKey>
+    insert into T_SYNC_HDDX (ID, FROMPHONE, TOPHONE, 
+      MSG, LINKID, SERVICEID, 
+      BACKURL, MSGTYPE, CREATETIME, 
+      SYNC_ALL_ID, PROVINCENAME)
+    values (#{id,jdbcType=DECIMAL}, #{fromphone,jdbcType=VARCHAR}, #{tophone,jdbcType=VARCHAR}, 
+      #{msg,jdbcType=VARCHAR}, #{linkid,jdbcType=VARCHAR}, #{serviceid,jdbcType=VARCHAR}, 
+      #{backurl,jdbcType=VARCHAR}, #{msgtype,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{syncAllId,jdbcType=VARCHAR}, #{provincename,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.sync.SyncHddx" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+      select SEQ_SYNC_HDDX_ID.nextval from dual
+    </selectKey>
+    insert into T_SYNC_HDDX
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
+      <if test="fromphone != null" >
+        FROMPHONE,
+      </if>
+      <if test="tophone != null" >
+        TOPHONE,
+      </if>
+      <if test="msg != null" >
+        MSG,
+      </if>
+      <if test="linkid != null" >
+        LINKID,
+      </if>
+      <if test="serviceid != null" >
+        SERVICEID,
+      </if>
+      <if test="backurl != null" >
+        BACKURL,
+      </if>
+      <if test="msgtype != null" >
+        MSGTYPE,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="syncAllId != null" >
+        SYNC_ALL_ID,
+      </if>
+      <if test="provincename != null" >
+        PROVINCENAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=DECIMAL},
+      <if test="fromphone != null" >
+        #{fromphone,jdbcType=VARCHAR},
+      </if>
+      <if test="tophone != null" >
+        #{tophone,jdbcType=VARCHAR},
+      </if>
+      <if test="msg != null" >
+        #{msg,jdbcType=VARCHAR},
+      </if>
+      <if test="linkid != null" >
+        #{linkid,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceid != null" >
+        #{serviceid,jdbcType=VARCHAR},
+      </if>
+      <if test="backurl != null" >
+        #{backurl,jdbcType=VARCHAR},
+      </if>
+      <if test="msgtype != null" >
+        #{msgtype,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="syncAllId != null" >
+        #{syncAllId,jdbcType=VARCHAR},
+      </if>
+      <if test="provincename != null" >
+        #{provincename,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.sync.SyncHddxExample" resultType="java.lang.Integer" >
+    select count(*) from T_SYNC_HDDX
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_SYNC_HDDX
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.fromphone != null" >
+        FROMPHONE = #{record.fromphone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tophone != null" >
+        TOPHONE = #{record.tophone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.msg != null" >
+        MSG = #{record.msg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkid != null" >
+        LINKID = #{record.linkid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.serviceid != null" >
+        SERVICEID = #{record.serviceid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.backurl != null" >
+        BACKURL = #{record.backurl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.msgtype != null" >
+        MSGTYPE = #{record.msgtype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        CREATETIME = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.syncAllId != null" >
+        SYNC_ALL_ID = #{record.syncAllId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provincename != null" >
+        PROVINCENAME = #{record.provincename,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_SYNC_HDDX
+    set ID = #{record.id,jdbcType=DECIMAL},
+      FROMPHONE = #{record.fromphone,jdbcType=VARCHAR},
+      TOPHONE = #{record.tophone,jdbcType=VARCHAR},
+      MSG = #{record.msg,jdbcType=VARCHAR},
+      LINKID = #{record.linkid,jdbcType=VARCHAR},
+      SERVICEID = #{record.serviceid,jdbcType=VARCHAR},
+      BACKURL = #{record.backurl,jdbcType=VARCHAR},
+      MSGTYPE = #{record.msgtype,jdbcType=VARCHAR},
+      CREATETIME = #{record.createtime,jdbcType=TIMESTAMP},
+      SYNC_ALL_ID = #{record.syncAllId,jdbcType=VARCHAR},
+      PROVINCENAME = #{record.provincename,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.sync.SyncHddx" >
+    update T_SYNC_HDDX
+    <set >
+      <if test="fromphone != null" >
+        FROMPHONE = #{fromphone,jdbcType=VARCHAR},
+      </if>
+      <if test="tophone != null" >
+        TOPHONE = #{tophone,jdbcType=VARCHAR},
+      </if>
+      <if test="msg != null" >
+        MSG = #{msg,jdbcType=VARCHAR},
+      </if>
+      <if test="linkid != null" >
+        LINKID = #{linkid,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceid != null" >
+        SERVICEID = #{serviceid,jdbcType=VARCHAR},
+      </if>
+      <if test="backurl != null" >
+        BACKURL = #{backurl,jdbcType=VARCHAR},
+      </if>
+      <if test="msgtype != null" >
+        MSGTYPE = #{msgtype,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="syncAllId != null" >
+        SYNC_ALL_ID = #{syncAllId,jdbcType=VARCHAR},
+      </if>
+      <if test="provincename != null" >
+        PROVINCENAME = #{provincename,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.sync.SyncHddx" >
+    update T_SYNC_HDDX
+    set FROMPHONE = #{fromphone,jdbcType=VARCHAR},
+      TOPHONE = #{tophone,jdbcType=VARCHAR},
+      MSG = #{msg,jdbcType=VARCHAR},
+      LINKID = #{linkid,jdbcType=VARCHAR},
+      SERVICEID = #{serviceid,jdbcType=VARCHAR},
+      BACKURL = #{backurl,jdbcType=VARCHAR},
+      MSGTYPE = #{msgtype,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      SYNC_ALL_ID = #{syncAllId,jdbcType=VARCHAR},
+      PROVINCENAME = #{provincename,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.client.ori.ReqSmsCommandMapper" >
+  <resultMap id="BaseResultMap" type="com.hytx.model.client.ReqSmsCommand" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="ORDER_ID" property="orderId" jdbcType="VARCHAR" />
+    <result column="OPERATE_ID" property="operateId" jdbcType="DECIMAL" />
+    <result column="MO_NUM" property="moNum" jdbcType="VARCHAR" />
+    <result column="MO_CONTENT" property="moContent" jdbcType="VARCHAR" />
+    <result column="SEND_STATUS" property="sendStatus" jdbcType="DECIMAL" />
+    <result column="SEND_TIMES" property="sendTimes" jdbcType="DECIMAL" />
+    <result column="UPDATE_DT" property="updateDt" jdbcType="TIMESTAMP" />
+    <result column="FEE_VALUE" property="feeValue" jdbcType="DECIMAL" />
+    <result column="APP_ID" property="appId" jdbcType="DECIMAL" />
+    <result column="PAY_POINT_ID" property="payPointId" jdbcType="DECIMAL" />
+    <result column="WAIT_SECONDS" property="waitSeconds" jdbcType="DECIMAL" />
+    <result column="CONTROL_FLAG" property="controlFlag" jdbcType="DECIMAL" />
+    <result column="TWO_ENSURE" property="twoEnsure" jdbcType="VARCHAR" />
+    <result column="SERVER_TYPE" property="serverType" jdbcType="DECIMAL" />
+    <result column="PROVINCE_ID" property="provinceId" jdbcType="DECIMAL" />
+    <result column="ENSURE_NUM" property="ensureNum" jdbcType="DECIMAL" />
+    <result column="SERIAL_NUM" property="serialNum" jdbcType="DECIMAL" />
+    <result column="ENSURE_STATUS" property="ensureStatus" jdbcType="DECIMAL" />
+    <result column="HAS_LAYOUT" property="hasLayout" jdbcType="DECIMAL" />
+    <result column="EXT" property="ext" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, ORDER_ID, OPERATE_ID, MO_NUM, MO_CONTENT, SEND_STATUS, SEND_TIMES, UPDATE_DT, 
+    FEE_VALUE, APP_ID, PAY_POINT_ID, WAIT_SECONDS, CONTROL_FLAG, TWO_ENSURE, SERVER_TYPE, 
+    PROVINCE_ID, ENSURE_NUM, SERIAL_NUM, ENSURE_STATUS, HAS_LAYOUT, EXT
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hytx.model.client.ReqSmsCommandExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_REQ_SMS_COMMAND
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_REQ_SMS_COMMAND
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_REQ_SMS_COMMAND
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.client.ReqSmsCommandExample" >
+    delete from T_REQ_SMS_COMMAND
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.client.ReqSmsCommand" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+      select SEQ_REQ_SMS_COMMAND_ID.nextval from dual
+    </selectKey>
+    insert into T_REQ_SMS_COMMAND (ID, ORDER_ID, OPERATE_ID, 
+      MO_NUM, MO_CONTENT, SEND_STATUS, 
+      SEND_TIMES, UPDATE_DT, FEE_VALUE, 
+      APP_ID, PAY_POINT_ID, WAIT_SECONDS, 
+      CONTROL_FLAG, TWO_ENSURE, SERVER_TYPE, 
+      PROVINCE_ID, ENSURE_NUM, SERIAL_NUM, 
+      ENSURE_STATUS, HAS_LAYOUT, EXT
+      )
+    values (#{id,jdbcType=DECIMAL}, #{orderId,jdbcType=VARCHAR}, #{operateId,jdbcType=DECIMAL}, 
+      #{moNum,jdbcType=VARCHAR}, #{moContent,jdbcType=VARCHAR}, #{sendStatus,jdbcType=DECIMAL}, 
+      #{sendTimes,jdbcType=DECIMAL}, #{updateDt,jdbcType=TIMESTAMP}, #{feeValue,jdbcType=DECIMAL}, 
+      #{appId,jdbcType=DECIMAL}, #{payPointId,jdbcType=DECIMAL}, #{waitSeconds,jdbcType=DECIMAL}, 
+      #{controlFlag,jdbcType=DECIMAL}, #{twoEnsure,jdbcType=VARCHAR}, #{serverType,jdbcType=DECIMAL}, 
+      #{provinceId,jdbcType=DECIMAL}, #{ensureNum,jdbcType=DECIMAL}, #{serialNum,jdbcType=DECIMAL}, 
+      #{ensureStatus,jdbcType=DECIMAL}, #{hasLayout,jdbcType=DECIMAL}, #{ext,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.client.ReqSmsCommand" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="BEFORE" >
+      select SEQ_REQ_SMS_COMMAND_ID.nextval from dual
+    </selectKey>
+    insert into T_REQ_SMS_COMMAND
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="operateId != null" >
+        OPERATE_ID,
+      </if>
+      <if test="moNum != null" >
+        MO_NUM,
+      </if>
+      <if test="moContent != null" >
+        MO_CONTENT,
+      </if>
+      <if test="sendStatus != null" >
+        SEND_STATUS,
+      </if>
+      <if test="sendTimes != null" >
+        SEND_TIMES,
+      </if>
+      <if test="updateDt != null" >
+        UPDATE_DT,
+      </if>
+      <if test="feeValue != null" >
+        FEE_VALUE,
+      </if>
+      <if test="appId != null" >
+        APP_ID,
+      </if>
+      <if test="payPointId != null" >
+        PAY_POINT_ID,
+      </if>
+      <if test="waitSeconds != null" >
+        WAIT_SECONDS,
+      </if>
+      <if test="controlFlag != null" >
+        CONTROL_FLAG,
+      </if>
+      <if test="twoEnsure != null" >
+        TWO_ENSURE,
+      </if>
+      <if test="serverType != null" >
+        SERVER_TYPE,
+      </if>
+      <if test="provinceId != null" >
+        PROVINCE_ID,
+      </if>
+      <if test="ensureNum != null" >
+        ENSURE_NUM,
+      </if>
+      <if test="serialNum != null" >
+        SERIAL_NUM,
+      </if>
+      <if test="ensureStatus != null" >
+        ENSURE_STATUS,
+      </if>
+      <if test="hasLayout != null" >
+        HAS_LAYOUT,
+      </if>
+      <if test="ext != null" >
+        EXT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=DECIMAL},
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="operateId != null" >
+        #{operateId,jdbcType=DECIMAL},
+      </if>
+      <if test="moNum != null" >
+        #{moNum,jdbcType=VARCHAR},
+      </if>
+      <if test="moContent != null" >
+        #{moContent,jdbcType=VARCHAR},
+      </if>
+      <if test="sendStatus != null" >
+        #{sendStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="sendTimes != null" >
+        #{sendTimes,jdbcType=DECIMAL},
+      </if>
+      <if test="updateDt != null" >
+        #{updateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="feeValue != null" >
+        #{feeValue,jdbcType=DECIMAL},
+      </if>
+      <if test="appId != null" >
+        #{appId,jdbcType=DECIMAL},
+      </if>
+      <if test="payPointId != null" >
+        #{payPointId,jdbcType=DECIMAL},
+      </if>
+      <if test="waitSeconds != null" >
+        #{waitSeconds,jdbcType=DECIMAL},
+      </if>
+      <if test="controlFlag != null" >
+        #{controlFlag,jdbcType=DECIMAL},
+      </if>
+      <if test="twoEnsure != null" >
+        #{twoEnsure,jdbcType=VARCHAR},
+      </if>
+      <if test="serverType != null" >
+        #{serverType,jdbcType=DECIMAL},
+      </if>
+      <if test="provinceId != null" >
+        #{provinceId,jdbcType=DECIMAL},
+      </if>
+      <if test="ensureNum != null" >
+        #{ensureNum,jdbcType=DECIMAL},
+      </if>
+      <if test="serialNum != null" >
+        #{serialNum,jdbcType=DECIMAL},
+      </if>
+      <if test="ensureStatus != null" >
+        #{ensureStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="hasLayout != null" >
+        #{hasLayout,jdbcType=DECIMAL},
+      </if>
+      <if test="ext != null" >
+        #{ext,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.client.ReqSmsCommandExample" resultType="java.lang.Integer" >
+    select count(*) from T_REQ_SMS_COMMAND
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_REQ_SMS_COMMAND
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.orderId != null" >
+        ORDER_ID = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operateId != null" >
+        OPERATE_ID = #{record.operateId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.moNum != null" >
+        MO_NUM = #{record.moNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.moContent != null" >
+        MO_CONTENT = #{record.moContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sendStatus != null" >
+        SEND_STATUS = #{record.sendStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sendTimes != null" >
+        SEND_TIMES = #{record.sendTimes,jdbcType=DECIMAL},
+      </if>
+      <if test="record.updateDt != null" >
+        UPDATE_DT = #{record.updateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.feeValue != null" >
+        FEE_VALUE = #{record.feeValue,jdbcType=DECIMAL},
+      </if>
+      <if test="record.appId != null" >
+        APP_ID = #{record.appId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.payPointId != null" >
+        PAY_POINT_ID = #{record.payPointId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.waitSeconds != null" >
+        WAIT_SECONDS = #{record.waitSeconds,jdbcType=DECIMAL},
+      </if>
+      <if test="record.controlFlag != null" >
+        CONTROL_FLAG = #{record.controlFlag,jdbcType=DECIMAL},
+      </if>
+      <if test="record.twoEnsure != null" >
+        TWO_ENSURE = #{record.twoEnsure,jdbcType=VARCHAR},
+      </if>
+      <if test="record.serverType != null" >
+        SERVER_TYPE = #{record.serverType,jdbcType=DECIMAL},
+      </if>
+      <if test="record.provinceId != null" >
+        PROVINCE_ID = #{record.provinceId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ensureNum != null" >
+        ENSURE_NUM = #{record.ensureNum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.serialNum != null" >
+        SERIAL_NUM = #{record.serialNum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ensureStatus != null" >
+        ENSURE_STATUS = #{record.ensureStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.hasLayout != null" >
+        HAS_LAYOUT = #{record.hasLayout,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ext != null" >
+        EXT = #{record.ext,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_REQ_SMS_COMMAND
+    set ID = #{record.id,jdbcType=DECIMAL},
+      ORDER_ID = #{record.orderId,jdbcType=VARCHAR},
+      OPERATE_ID = #{record.operateId,jdbcType=DECIMAL},
+      MO_NUM = #{record.moNum,jdbcType=VARCHAR},
+      MO_CONTENT = #{record.moContent,jdbcType=VARCHAR},
+      SEND_STATUS = #{record.sendStatus,jdbcType=DECIMAL},
+      SEND_TIMES = #{record.sendTimes,jdbcType=DECIMAL},
+      UPDATE_DT = #{record.updateDt,jdbcType=TIMESTAMP},
+      FEE_VALUE = #{record.feeValue,jdbcType=DECIMAL},
+      APP_ID = #{record.appId,jdbcType=DECIMAL},
+      PAY_POINT_ID = #{record.payPointId,jdbcType=DECIMAL},
+      WAIT_SECONDS = #{record.waitSeconds,jdbcType=DECIMAL},
+      CONTROL_FLAG = #{record.controlFlag,jdbcType=DECIMAL},
+      TWO_ENSURE = #{record.twoEnsure,jdbcType=VARCHAR},
+      SERVER_TYPE = #{record.serverType,jdbcType=DECIMAL},
+      PROVINCE_ID = #{record.provinceId,jdbcType=DECIMAL},
+      ENSURE_NUM = #{record.ensureNum,jdbcType=DECIMAL},
+      SERIAL_NUM = #{record.serialNum,jdbcType=DECIMAL},
+      ENSURE_STATUS = #{record.ensureStatus,jdbcType=DECIMAL},
+      HAS_LAYOUT = #{record.hasLayout,jdbcType=DECIMAL},
+      EXT = #{record.ext,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.client.ReqSmsCommand" >
+    update T_REQ_SMS_COMMAND
+    <set >
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="operateId != null" >
+        OPERATE_ID = #{operateId,jdbcType=DECIMAL},
+      </if>
+      <if test="moNum != null" >
+        MO_NUM = #{moNum,jdbcType=VARCHAR},
+      </if>
+      <if test="moContent != null" >
+        MO_CONTENT = #{moContent,jdbcType=VARCHAR},
+      </if>
+      <if test="sendStatus != null" >
+        SEND_STATUS = #{sendStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="sendTimes != null" >
+        SEND_TIMES = #{sendTimes,jdbcType=DECIMAL},
+      </if>
+      <if test="updateDt != null" >
+        UPDATE_DT = #{updateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="feeValue != null" >
+        FEE_VALUE = #{feeValue,jdbcType=DECIMAL},
+      </if>
+      <if test="appId != null" >
+        APP_ID = #{appId,jdbcType=DECIMAL},
+      </if>
+      <if test="payPointId != null" >
+        PAY_POINT_ID = #{payPointId,jdbcType=DECIMAL},
+      </if>
+      <if test="waitSeconds != null" >
+        WAIT_SECONDS = #{waitSeconds,jdbcType=DECIMAL},
+      </if>
+      <if test="controlFlag != null" >
+        CONTROL_FLAG = #{controlFlag,jdbcType=DECIMAL},
+      </if>
+      <if test="twoEnsure != null" >
+        TWO_ENSURE = #{twoEnsure,jdbcType=VARCHAR},
+      </if>
+      <if test="serverType != null" >
+        SERVER_TYPE = #{serverType,jdbcType=DECIMAL},
+      </if>
+      <if test="provinceId != null" >
+        PROVINCE_ID = #{provinceId,jdbcType=DECIMAL},
+      </if>
+      <if test="ensureNum != null" >
+        ENSURE_NUM = #{ensureNum,jdbcType=DECIMAL},
+      </if>
+      <if test="serialNum != null" >
+        SERIAL_NUM = #{serialNum,jdbcType=DECIMAL},
+      </if>
+      <if test="ensureStatus != null" >
+        ENSURE_STATUS = #{ensureStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="hasLayout != null" >
+        HAS_LAYOUT = #{hasLayout,jdbcType=DECIMAL},
+      </if>
+      <if test="ext != null" >
+        EXT = #{ext,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.client.ReqSmsCommand" >
+    update T_REQ_SMS_COMMAND
+    set ORDER_ID = #{orderId,jdbcType=VARCHAR},
+      OPERATE_ID = #{operateId,jdbcType=DECIMAL},
+      MO_NUM = #{moNum,jdbcType=VARCHAR},
+      MO_CONTENT = #{moContent,jdbcType=VARCHAR},
+      SEND_STATUS = #{sendStatus,jdbcType=DECIMAL},
+      SEND_TIMES = #{sendTimes,jdbcType=DECIMAL},
+      UPDATE_DT = #{updateDt,jdbcType=TIMESTAMP},
+      FEE_VALUE = #{feeValue,jdbcType=DECIMAL},
+      APP_ID = #{appId,jdbcType=DECIMAL},
+      PAY_POINT_ID = #{payPointId,jdbcType=DECIMAL},
+      WAIT_SECONDS = #{waitSeconds,jdbcType=DECIMAL},
+      CONTROL_FLAG = #{controlFlag,jdbcType=DECIMAL},
+      TWO_ENSURE = #{twoEnsure,jdbcType=VARCHAR},
+      SERVER_TYPE = #{serverType,jdbcType=DECIMAL},
+      PROVINCE_ID = #{provinceId,jdbcType=DECIMAL},
+      ENSURE_NUM = #{ensureNum,jdbcType=DECIMAL},
+      SERIAL_NUM = #{serialNum,jdbcType=DECIMAL},
+      ENSURE_STATUS = #{ensureStatus,jdbcType=DECIMAL},
+      HAS_LAYOUT = #{hasLayout,jdbcType=DECIMAL},
+      EXT = #{ext,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

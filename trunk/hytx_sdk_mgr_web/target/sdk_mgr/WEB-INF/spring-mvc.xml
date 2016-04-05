@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+	<!-- 自动扫描且只扫描@Controller -->
+	<context:component-scan base-package="com.hytx.web.**" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+		<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>  
+	</context:component-scan>
+
+	<annotation-driven validator="validator" ignoreDefaultModelOnRedirect="true"/>
+    <resources location="/" mapping="/resources/**"/>
+    
+    <beans:bean class="org.springframework.context.support.ReloadableResourceBundleMessageSource" id="messageSource" p:basenames="WEB-INF/i18n/messages,WEB-INF/i18n/application" p:fallbackToSystemLocale="false"/>
+    
+	<default-servlet-handler />
+    
+	<!-- 定义首页 -->
+	<view-controller path="/" view-name="redirect:/login/" /> 
+    <interceptors>  
+        <!-- 使用bean定义一个Interceptor，直接定义在mvc:interceptors根下面的Interceptor将拦截所有的请求 -->
+        <beans:bean class="com.hytx.intercepter.LoginCheckInterceptor"/> 
+        <beans:bean class="com.hytx.intercepter.AuthCheckInterceptor"/> 
+    </interceptors>   
+ 
+	<!-- 定义viewResolver -->
+	<beans:bean class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="2" />
+
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	    <beans:property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+		<beans:property name="order" value="3" />
+	</beans:bean>
+	
+	<beans:bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<beans:property name="order" value="1" />
+		<beans:property name="mediaTypes">
+			<beans:map>
+				<beans:entry key="json" value="application/json" />
+				<beans:entry key="xml" value="application/xml" />
+			</beans:map>
+		</beans:property>
+		<beans:property name="defaultViews">
+			<beans:list>
+				<!-- 配置对json格式的数据解析 -->
+				<beans:bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
+					<beans:property name="objectMapper" ref="obMapper" />
+				</beans:bean>
+				<!-- 配置对xml格式的数据解析 -->
+				<beans:bean class="org.springframework.web.servlet.view.xml.MarshallingView">
+					<beans:property name="marshaller">
+						<beans:ref bean="jaxbMarshaller" />
+					</beans:property>
+				</beans:bean>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+
+	<beans:bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		   <beans:property name="messageConverters">
+		       <beans:list>
+		           <beans:ref bean="jsonConverter" />
+				   <beans:ref bean="marshallingConverter" />
+				   <beans:ref bean="stringHttpMessageConverter" />
+		       </beans:list>
+		   </beans:property>
+	</beans:bean>	
+	<beans:bean id="jsonConverter"  class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+		   <beans:property name="supportedMediaTypes">
+		        <beans:list>
+		            <beans:value>application/json</beans:value>
+		            <beans:value>application/json;charset=UTF-8</beans:value>
+		        </beans:list>
+		   </beans:property>
+		  <beans:property name="objectMapper" ref="obMapper"></beans:property>
+	</beans:bean>
+	<beans:bean id="marshallingConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+	    <beans:constructor-arg ref="jaxbMarshaller" />
+	    <beans:property name="supportedMediaTypes" value="application/xml"/>
+	</beans:bean>
+    <beans:bean id="jaxbMarshaller"  class="org.springframework.oxm.jaxb.Jaxb2Marshaller">   
+	    <beans:property name="classesToBeBound">
+		  <beans:list>
+		     <beans:value>com.hytx.model.system.User</beans:value>
+		  </beans:list>   
+	    </beans:property> 
+	</beans:bean>
+	
+	<beans:bean name="jsonView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
+	    <beans:property name="encoding">
+			<beans:value type="org.codehaus.jackson.JsonEncoding">UTF8</beans:value>
+	    </beans:property>
+	</beans:bean>
+	<beans:bean name="jaxb2MarshallingView" class="org.springframework.web.servlet.view.xml.MarshallingView">
+	    <beans:constructor-arg>
+			<beans:bean class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+			    <beans:property name="classesToBeBound">
+					<beans:array>
+				    	 <beans:value>com.hytx.model.system.User</beans:value>
+					</beans:array>
+			    </beans:property> 
+			</beans:bean>
+	    </beans:constructor-arg>
+    </beans:bean>
+	<beans:bean id="stringHttpMessageConverter"
+		class="org.springframework.http.converter.StringHttpMessageConverter" >
+		   <beans:constructor-arg name="defaultCharset" value="UTF-8"/>
+	</beans:bean>
+
+    <beans:bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <beans:property name="validationMessageSource" ref="messageSource"/>
+    </beans:bean>  
+    
+    <beans:bean class="org.codehaus.jackson.map.ObjectMapper" id="obMapper">
+		<!-- 设置objectMapper的serializationConfig的serializationInclusion属性，以忽略null对象 -->
+		<beans:property name="serializationConfig.serializationInclusion">
+			<beans:value type="org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion">NON_NULL</beans:value>
+		</beans:property>
+		 <beans:property name="dateFormat">
+             <beans:bean class="java.text.SimpleDateFormat">
+                 <beans:constructor-arg type="java.lang.String"  value="yyyy-MM-dd HH:mm:ss"/>
+             </beans:bean>
+         </beans:property>
+	</beans:bean>
+    
+	<!-- 支持上传文件 -->
+ 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+</beans:beans>

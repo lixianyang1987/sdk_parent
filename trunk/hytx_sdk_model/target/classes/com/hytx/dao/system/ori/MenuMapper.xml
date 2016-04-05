@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hytx.dao.system.ori.MenuMapper" >
+  <resultMap id="BaseResultMap" type="com.hytx.model.system.Menu" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="PID" property="pid" jdbcType="DECIMAL" />
+    <result column="MENU_TYPE" property="menuType" jdbcType="DECIMAL" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
+    <result column="IS_LEAF" property="isLeaf" jdbcType="DECIMAL" />
+    <result column="PARENT_IDS" property="parentIds" jdbcType="VARCHAR" />
+    <result column="TIER" property="tier" jdbcType="DECIMAL" />
+    <result column="ORDERNUM" property="ordernum" jdbcType="DECIMAL" />
+    <result column="update_dt" property="updateDt" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, NAME, PID, MENU_TYPE, URL, IS_LEAF, PARENT_IDS, TIER, ORDERNUM, update_dt, update_by
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hytx.model.system.MenuExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_SYS_MENU
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_MENU
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SYS_MENU
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hytx.model.system.MenuExample" >
+    delete from T_SYS_MENU
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hytx.model.system.Menu" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      select seq_sys_menu_id.nextval from dual
+    </selectKey>
+    insert into T_SYS_MENU (ID, NAME, PID, 
+      MENU_TYPE, URL, IS_LEAF, 
+      PARENT_IDS, TIER, ORDERNUM, 
+      update_dt, update_by)
+    values (#{id,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR}, #{pid,jdbcType=DECIMAL}, 
+      #{menuType,jdbcType=DECIMAL}, #{url,jdbcType=VARCHAR}, #{isLeaf,jdbcType=DECIMAL}, 
+      #{parentIds,jdbcType=VARCHAR}, #{tier,jdbcType=DECIMAL}, #{ordernum,jdbcType=DECIMAL}, 
+      #{updateDt,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hytx.model.system.Menu" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      select seq_sys_menu_id.nextval from dual
+    </selectKey>
+    insert into T_SYS_MENU
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="pid != null" >
+        PID,
+      </if>
+      <if test="menuType != null" >
+        MENU_TYPE,
+      </if>
+      <if test="url != null" >
+        URL,
+      </if>
+      <if test="isLeaf != null" >
+        IS_LEAF,
+      </if>
+      <if test="parentIds != null" >
+        PARENT_IDS,
+      </if>
+      <if test="tier != null" >
+        TIER,
+      </if>
+      <if test="ordernum != null" >
+        ORDERNUM,
+      </if>
+      <if test="updateDt != null" >
+        update_dt,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=DECIMAL},
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null" >
+        #{pid,jdbcType=DECIMAL},
+      </if>
+      <if test="menuType != null" >
+        #{menuType,jdbcType=DECIMAL},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="isLeaf != null" >
+        #{isLeaf,jdbcType=DECIMAL},
+      </if>
+      <if test="parentIds != null" >
+        #{parentIds,jdbcType=VARCHAR},
+      </if>
+      <if test="tier != null" >
+        #{tier,jdbcType=DECIMAL},
+      </if>
+      <if test="ordernum != null" >
+        #{ordernum,jdbcType=DECIMAL},
+      </if>
+      <if test="updateDt != null" >
+        #{updateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hytx.model.system.MenuExample" resultType="java.lang.Integer" >
+    select count(*) from T_SYS_MENU
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_SYS_MENU
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.name != null" >
+        NAME = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pid != null" >
+        PID = #{record.pid,jdbcType=DECIMAL},
+      </if>
+      <if test="record.menuType != null" >
+        MENU_TYPE = #{record.menuType,jdbcType=DECIMAL},
+      </if>
+      <if test="record.url != null" >
+        URL = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isLeaf != null" >
+        IS_LEAF = #{record.isLeaf,jdbcType=DECIMAL},
+      </if>
+      <if test="record.parentIds != null" >
+        PARENT_IDS = #{record.parentIds,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tier != null" >
+        TIER = #{record.tier,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ordernum != null" >
+        ORDERNUM = #{record.ordernum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.updateDt != null" >
+        update_dt = #{record.updateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateBy != null" >
+        update_by = #{record.updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_SYS_MENU
+    set ID = #{record.id,jdbcType=DECIMAL},
+      NAME = #{record.name,jdbcType=VARCHAR},
+      PID = #{record.pid,jdbcType=DECIMAL},
+      MENU_TYPE = #{record.menuType,jdbcType=DECIMAL},
+      URL = #{record.url,jdbcType=VARCHAR},
+      IS_LEAF = #{record.isLeaf,jdbcType=DECIMAL},
+      PARENT_IDS = #{record.parentIds,jdbcType=VARCHAR},
+      TIER = #{record.tier,jdbcType=DECIMAL},
+      ORDERNUM = #{record.ordernum,jdbcType=DECIMAL},
+      update_dt = #{record.updateDt,jdbcType=TIMESTAMP},
+      update_by = #{record.updateBy,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hytx.model.system.Menu" >
+    update T_SYS_MENU
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null" >
+        PID = #{pid,jdbcType=DECIMAL},
+      </if>
+      <if test="menuType != null" >
+        MENU_TYPE = #{menuType,jdbcType=DECIMAL},
+      </if>
+      <if test="url != null" >
+        URL = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="isLeaf != null" >
+        IS_LEAF = #{isLeaf,jdbcType=DECIMAL},
+      </if>
+      <if test="parentIds != null" >
+        PARENT_IDS = #{parentIds,jdbcType=VARCHAR},
+      </if>
+      <if test="tier != null" >
+        TIER = #{tier,jdbcType=DECIMAL},
+      </if>
+      <if test="ordernum != null" >
+        ORDERNUM = #{ordernum,jdbcType=DECIMAL},
+      </if>
+      <if test="updateDt != null" >
+        update_dt = #{updateDt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hytx.model.system.Menu" >
+    update T_SYS_MENU
+    set NAME = #{name,jdbcType=VARCHAR},
+      PID = #{pid,jdbcType=DECIMAL},
+      MENU_TYPE = #{menuType,jdbcType=DECIMAL},
+      URL = #{url,jdbcType=VARCHAR},
+      IS_LEAF = #{isLeaf,jdbcType=DECIMAL},
+      PARENT_IDS = #{parentIds,jdbcType=VARCHAR},
+      TIER = #{tier,jdbcType=DECIMAL},
+      ORDERNUM = #{ordernum,jdbcType=DECIMAL},
+      update_dt = #{updateDt,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>
