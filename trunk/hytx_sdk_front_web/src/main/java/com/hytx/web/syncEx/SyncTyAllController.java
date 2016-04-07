@@ -192,7 +192,7 @@ public class SyncTyAllController {
 			tyall.setMsg(msg);
 			tyall.setStatus(statu);
 			tyall.setReserveTwo(product_id);// 产品编号
-			tyall.setProvince(URLDecoder.decode(province,"utf-8"));
+			tyall.setProvince(province);
 			syncTyAllService.addTyAll(tyall);
 
 			// 给下游渠道同步
@@ -216,6 +216,15 @@ public class SyncTyAllController {
 	public String Syncall(HttpServletRequest request) {
 		syncTyAllService.SyncAll();
 		return "ok";
+	}
+	
+	public static void main(String[] args) {
+		try {
+			System.out.println(URLDecoder.decode("%E5%B9%BF%E4%B8%9C", "utf-8"));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
