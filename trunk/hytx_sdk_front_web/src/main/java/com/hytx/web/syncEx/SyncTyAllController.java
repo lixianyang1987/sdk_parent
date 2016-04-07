@@ -1,5 +1,8 @@
 package com.hytx.web.syncEx;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.URLEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -98,12 +102,12 @@ public class SyncTyAllController {
 				syncTyAllService.UpdateTyAll(tyall, example);
 			} else if (ty == null && (statu.equals("0") || statu.equals("3"))) {
 				Dict dict = dictService.selectActiviteDictByKey("dxby_" + zl);
-				// 0 为计费金额 1 为 渠道包
+				// 0 为计费金额 1 为 渠道包2为appid
 				String[] str = dict.getVal().split("_");
 				int channelappId = Integer.parseInt(str[1]);
 				tyall.setChannelAppId(channelappId); // 下游渠道编号
 				tyall.setPayFee(Integer.parseInt(str[0]));
-				tyall.setAppId("1001");
+				tyall.setAppId(str[2]);
 				tyall.setLinkid(tranid);
 				tyall.setMobile(mobile);
 				tyall.setPort(lnum);
@@ -158,6 +162,8 @@ public class SyncTyAllController {
 					.getParameter("spnumber") : ""; // 长号
 			String statu = request.getParameter("status") != null ? request
 					.getParameter("status") : "";
+			String province = request.getParameter("province") != null ? request
+					.getParameter("province") : "";
 			if (statu.equals("DELIVERED_TO_TERMINAL")) {
 				statu = "DELIVRD";
 			}
@@ -173,20 +179,20 @@ public class SyncTyAllController {
 			// 获取字典配置参数
 			Dict dict = dictService.selectActiviteDictByKey("dxdb_" + strmsg);
 
-			// 0 为计费金额 1 为 渠道包 2为 appid
-			String str = dict.getVal();
+			// 0  为 渠道包1 为 appid
+			String[] str = dict.getVal().split("_");
 
-			int channelappId = Integer.parseInt(str);
+			int channelappId = Integer.parseInt(str[0]);
 			tyall.setChannelAppId(channelappId); // 下游渠道包编号
 			tyall.setPayFee(Integer.parseInt(feecode));
-			tyall.setAppId("1000");
+			tyall.setAppId(str[1]);
 			tyall.setLinkid(tranid);
 			tyall.setMobile(mobile);
 			tyall.setPort(lnum);
 			tyall.setMsg(msg);
 			tyall.setStatus(statu);
 			tyall.setReserveTwo(product_id);// 产品编号
-
+			tyall.setProvince(URLDecoder.decode(province,"utf-8"));
 			syncTyAllService.addTyAll(tyall);
 
 			// 给下游渠道同步
