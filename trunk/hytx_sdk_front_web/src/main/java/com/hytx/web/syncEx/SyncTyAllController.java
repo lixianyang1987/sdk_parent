@@ -1,10 +1,9 @@
 package com.hytx.web.syncEx;
 
-import java.net.URLDecoder;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-
-import net.sf.json.JSONObject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,60 +44,87 @@ public class SyncTyAllController {
 	public String zxjmbysmsSync(HttpServletRequest request) {
 		String status = "failure";
 		try {
-			logger.info("电信包月短信-订单同步上行信息开始，订单信息为：\n{}",
-					request.getQueryString());
+			logger.info("电信包月短信-订单同步上行信息开始，订单信息为：\n{}", request
+					.getQueryString().trim());
 			SyncTyAll tyall = new SyncTyAll();
-			String tranid = request.getParameter("streaming_no") != null ? request
-					.getParameter("streaming_no") : ""; // 计费流水号
+			String tranid = request.getParameter("stream_no") != null ? request
+					.getParameter("stream_no") : ""; // 计费流水号
 			String productId = request.getParameter("productId") != null ? request
 					.getParameter("productId") : ""; // 上行内容
 			String mobile = request.getParameter("mobile") != null ? request
 					.getParameter("mobile") : "";
 			String feecode = request.getParameter("order") != null ? request
-					.getParameter("order").toLowerCase() : ""; // 订购指令
+					.getParameter("order").trim().toLowerCase() : ""; // 订购指令
 			String lnum = request.getParameter("spnumber") != null ? request
 					.getParameter("spnumber") : ""; // 长号
 			String statu = request.getParameter("status") != null ? request
 					.getParameter("status") : "";
-
-			Dict dict = dictService.selectActiviteDictByKey(feecode);
-			// 0 为计费金额 1 为 渠道包
-			String[] str = dict.getVal().split("_");
-
-			int channelappId = Integer.parseInt(str[1]);
-			tyall.setChannelAppId(channelappId); // 下游渠道编号
-			tyall.setPayFee(Integer.parseInt(str[0]));
-			if (feecode.equals("d1"))
-				tyall.setAppId("840"); // 电信d1包月-10元的应用id
-			else if (feecode.equals("dy2"))
-				tyall.setAppId("841"); // 电信dy2包月-15元的应用id
-			else
-				tyall.setAppId("");
-			tyall.setLinkid(tranid);
-			tyall.setMobile(mobile);
-			tyall.setPort(lnum);
-			tyall.setMsg(feecode);
-			if (statu.equals("0")) {
-				statu = "DELIVRD";
+			String zl = "";
+			if (statu.equals("3")) {
+				switch (feecode) {
+				case "td1":
+					zl = "kxyy";
+					break;
+				case "td2":
+					zl = "hlyy";
+					break;
+				case "td3":
+					zl = "dzys";
+					break;
+				case "td4":
+					zl = "pmdy";
+					break;
+				case "td5":
+					zl = "fc";
+					break;
+				case "td6":
+					zl = "zx";
+					break;
+				case "td7":
+					zl = "yltd";
+					break;
+				}
+			} else if (statu.equals("0")) {
+				zl = feecode;
 			}
-			tyall.setStatus(statu);
-			// 订购
-			if (statu.equals("DELIVRD")) {
-				syncTyAllService.addTyAll(tyall);
-			} else if (statu.equals("3")) {
-				// 退订
-				SyncTyAllExample example = new SyncTyAllExample();
-				example.createCriteria().andLinkidEqualTo(tyall.getLinkid())
-						.andMobileEqualTo(tyall.getMobile());
-				SyncTyAll ty = syncTyAllService.SelectSyncTyAll(example);
+			SyncTyAllExample example = new SyncTyAllExample();
+			example.createCriteria().andMobileEqualTo(mobile).andMsgEqualTo(zl)
+					.andStatusEqualTo("DELIVRD");
+			SyncTyAll ty = syncTyAllService.SelectSyncTyAll(example);
+			if (ty != null && statu.equals("3")) {
+				tyall = ty;
+				tyall.setMsg(feecode);
+				tyall.setStatus("3");
 				syncTyAllService.UpdateTyAll(tyall, example);
-			}
+			} else if (ty == null && (statu.equals("0") || statu.equals("3"))) {
+				Dict dict = dictService.selectActiviteDictByKey("dxby_" + zl);
+				// 0 为计费金额 1 为 渠道包
+				String[] str = dict.getVal().split("_");
+				int channelappId = Integer.parseInt(str[1]);
+				tyall.setChannelAppId(channelappId); // 下游渠道编号
+				tyall.setPayFee(Integer.parseInt(str[0]));
+				tyall.setAppId("1001");
+				tyall.setLinkid(tranid);
+				tyall.setMobile(mobile);
+				tyall.setPort(lnum);
+				tyall.setMsg(feecode);
+				tyall.setReserveTwo(productId);
+				if (statu.equals("0")) {
+					statu = "DELIVRD";
+				}
+				tyall.setStatus(statu);
+				// 订购
+				syncTyAllService.addTyAll(tyall);
 
+			} else {
+				logger.info("电信包月短信-error：{}", "重复订单");
+				return status;
+			}
 			// 给下游渠道同步
 			if (tyall.getReduceStatus() != 1) {
 				syncTyAllService.syncToTyAll(tyall);
 			}
-			status = "ok";
+			status = "0";
 		} catch (Exception e) {
 			logger.info("电信包月短信-error：{}", e.getMessage());
 			status = "failure";
@@ -119,47 +145,58 @@ public class SyncTyAllController {
 
 			String tranid = request.getParameter("linkid") != null ? request
 					.getParameter("linkid") : ""; // 计费流水号
-			String msg = request.getParameter("msg") != null ? request
-					.getParameter("msg") : ""; // 上行内容
+			String msg = request.getParameter("momsg") != null ? request
+					.getParameter("momsg") : ""; // 上行内容
 
 			String mobile = request.getParameter("mobile") != null ? request
 					.getParameter("mobile") : "";
-			String feecode = request.getParameter("product_id") != null ? request
+			String product_id = request.getParameter("product_id") != null ? request
 					.getParameter("product_id").toLowerCase() : ""; // 业务代码
+			String feecode = request.getParameter("feecode") != null ? request
+					.getParameter("feecode").toLowerCase() : ""; // 业务代码
 			String lnum = request.getParameter("spnumber") != null ? request
 					.getParameter("spnumber") : ""; // 长号
-			String statu = request.getParameter("report") != null ? request
-					.getParameter("report") : "";
-			if (statu.equals("0")) {
+			String statu = request.getParameter("status") != null ? request
+					.getParameter("status") : "";
+			if (statu.equals("DELIVERED_TO_TERMINAL")) {
 				statu = "DELIVRD";
 			}
+			// 判断上量代码是否模糊
+			String strmsg = "";
+			if (msg.indexOf("_") > -1) {
+				String[] strs = msg.split("_");
+				strmsg = strs[0];
+			} else {
+				strmsg = msg;
+			}
 
-			Dict dict = dictService.selectActiviteDictByKey(msg);
+			// 获取字典配置参数
+			Dict dict = dictService.selectActiviteDictByKey("dxdb_" + strmsg);
+
 			// 0 为计费金额 1 为 渠道包 2为 appid
-			String[] str = dict.getVal().split("_");
+			String str = dict.getVal();
 
-			int channelappId = Integer.parseInt(str[1]);
-			tyall.setChannelAppId(channelappId); // 下游渠道编号
-			tyall.setPayFee(Integer.parseInt(str[0]));
-
-			tyall.setAppId(str[2]); //
-
+			int channelappId = Integer.parseInt(str);
+			tyall.setChannelAppId(channelappId); // 下游渠道包编号
+			tyall.setPayFee(Integer.parseInt(feecode));
+			tyall.setAppId("1000");
 			tyall.setLinkid(tranid);
 			tyall.setMobile(mobile);
 			tyall.setPort(lnum);
 			tyall.setMsg(msg);
 			tyall.setStatus(statu);
-			tyall.setReserveTwo(feecode);
+			tyall.setReserveTwo(product_id);// 产品编号
+
 			syncTyAllService.addTyAll(tyall);
 
 			// 给下游渠道同步
 			if (tyall.getReduceStatus() != 1) {
 				syncTyAllService.syncToTyAll(tyall);
 			}
-			status = "{\"ret\":0, \"desc\":\"OK\"}";
+			status = "0";
 		} catch (Exception e) {
 			logger.info("电信MO-error：{}", e.getMessage());
-			status = "{\"ret\":1, \"desc\":\"ERROR\"}";
+			status = "1";
 		}
 		logger.info("电信点播-订单同步上行状态为：{}", status);
 		return status;

@@ -25,7 +25,7 @@
 	    <div style="display:inline-block;font-size:14px;color:#4A708B;text-align:center;width:570px;position: absolute;margin-left:28%;" id="versionTip">
 		   请使用火狐或谷歌浏览器浏览此系统，对其它浏览器未做适配,不能很好的支持,点击隐藏。
 		</div>
-		<div style="font-size:18px;margin-left:10px;width:200px;display:inline-block;">合游天下科技有限公司</div>  
+		<div style="font-size:18px;margin-left:10px;width:200px;display:inline-block;">管理后台</div>  
 		<div style="float:right;margin-right:20px;display:inline-block;" >
 			<button id="modifyPwdBtn">修改密码</button>
 			<button  onclick="loginOut();">退出系统</button>

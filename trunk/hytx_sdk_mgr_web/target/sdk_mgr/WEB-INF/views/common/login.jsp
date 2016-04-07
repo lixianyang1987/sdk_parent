@@ -2,7 +2,9 @@
 <%@include file="../common/top.jsp" %>
 <style type="text/css">
   body{
-    background-color:#8600ff;
+    
+    background-image: url("${basePath}/images/Login.png");
+    
   }
   #loginDiv{
      width:400px;
@@ -20,8 +22,8 @@
     font-size: 24px;
     font-weight: normal;
     text-align: center;
-    margin-top:22px;
-    font-family: "微软雅黑";
+    margin-top:36px;
+    font-family: "宋体";
   }
   .loginForm{
      bottom: 125px;
@@ -52,17 +54,19 @@
      vertical-align: middle;
   }
   .loginForm .btn{
-     background-color:#ff0000;
+     background-image: url("${basePath}/images/Login_Btn.png");
      border-radius:5px;
      font-weight: normal;
-     font-family: "微软雅黑";
-     font-size:16px;
+     font-family: "楷体";
+     font-weight:bold;
+     font-size:18px;
      margin-top:8px;
+     width: 180px;
   }
 </style>
  <div id="loginDiv">
 		<div id="tit">后台管理系统</div>
-		<div style="color:#ff0000;text-align: center;" id="tip">${msg}</div>
+		<div style="color:#53ff53;text-align: center;" id="tip">${msg}</div>
 		<div class="loginForm">
 		   <form action="login" method="post" id="toLogin">
 			     <table  style="">
@@ -83,7 +87,7 @@
 			    	</tr>
 			    	<tr>
 			    		<td></td>
-			    		<td><input class="btn"  type="button" value="登   录" onclick="validSub();" /></td>
+			    		<td><input class="btn"  type="button" value="登    录" onclick="validSub();" /></td>
 			    	</tr>
 			    </table> 
 			</form>

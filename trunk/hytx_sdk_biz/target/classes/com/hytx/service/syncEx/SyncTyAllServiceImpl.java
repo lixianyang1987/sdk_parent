@@ -31,6 +31,7 @@ public class SyncTyAllServiceImpl implements ISyncTyAllService {
 
 	private ChannelApp channelApp;
 	private Random random = new Random();
+	
 
 	@Override
 	public int addTyAll(SyncTyAll synctyall) {
@@ -56,10 +57,10 @@ public class SyncTyAllServiceImpl implements ISyncTyAllService {
 	public int UpdateTyAll(SyncTyAll synctyall, SyncTyAllExample example) {
 		// TODO Auto-generated method stub
 		
-		if (synctyall.getMobile().length() == 11) {
-			root r = XmlRootUtil.getroot(synctyall.getMobile());
-			synctyall.setProvince(r.getProvince());
-		}
+//		if (synctyall.getMobile().length() == 11) {
+//			root r = XmlRootUtil.getroot(synctyall.getMobile());
+//			synctyall.setProvince(r.getProvince());
+//		}
 		return tyAllMapper.updateByExampleSelective(synctyall, example);
 	}
 
@@ -194,8 +195,13 @@ public class SyncTyAllServiceImpl implements ISyncTyAllService {
 	@Override
 	public SyncTyAll SelectSyncTyAll(SyncTyAllExample sk) {
 		// TODO Auto-generated method stub
+		List<SyncTyAll> tyalls=tyAllMapper.selectByExample(sk);
+		System.out.println(tyalls.toString());
+		if(tyalls.size()>0){
+			return tyAllMapper.selectByExample(sk).get(0);
+		}
 
-		return tyAllMapper.selectByExample(sk).get(0);
+		return null;
 	}
 
 }
