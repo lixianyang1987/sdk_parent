@@ -12,9 +12,12 @@ import org.springframework.stereotype.Service;
 
 import com.hytx.dao.syncEx.ori.SyncByLogMapper;
 import com.hytx.dao.syncEx.ori.SyncTyAllMapper;
+import com.hytx.dao.syncEx.ori.TCountIncomeMapper;
 import com.hytx.model.baseConf.ChannelApp;
 import com.hytx.model.syncEx.SyncTyAll;
 import com.hytx.model.syncEx.SyncTyAllExample;
+import com.hytx.model.syncEx.TCountIncome;
+import com.hytx.model.syncEx.TCountIncomeExample;
 import com.hytx.service.baseConf.IChannelAppService;
 import com.hytx.util.HttpClientUtil;
 import com.hytx.util.XmlRootUtil;
@@ -28,6 +31,8 @@ public class SyncTyAllServiceImpl implements ISyncTyAllService {
 	private SyncTyAllMapper tyAllMapper;
 	@Autowired
 	private IChannelAppService channelAppService;
+	@Autowired
+	private TCountIncomeMapper countIncomeMapper;
 
 	private ChannelApp channelApp;
 	private Random random = new Random();
@@ -55,12 +60,27 @@ public class SyncTyAllServiceImpl implements ISyncTyAllService {
 
 	@Override
 	public int UpdateTyAll(SyncTyAll synctyall, SyncTyAllExample example) {
-		// TODO Auto-generated method stub
 		
-//		if (synctyall.getMobile().length() == 11) {
-//			root r = XmlRootUtil.getroot(synctyall.getMobile());
-//			synctyall.setProvince(r.getProvince());
-//		}
+		//查询要更新数据
+		List<SyncTyAll> synclist =tyAllMapper.selectByExample(example);
+		if(synclist!=null&&synclist.size()>0){
+			SyncTyAll sta =synclist.get(0);
+			long statime= sta.getCreatetime().getTime();
+			long nowtime=new Date().getTime();
+			//判断订购时间是否超过72小时，如超过72小时按计费成功算，如小于72小时，将统计表中计费该条统计删除
+			if((nowtime-statime)/1000/60/60<72){
+				TCountIncomeExample texample =new TCountIncomeExample();
+				texample.createCriteria().andMobileEqualTo(synctyall.getMobile()).andChannelAppIdEqualTo(synctyall.getChannelAppId());
+				texample.setOrderByClause("createtime desc");
+				List<TCountIncome> countins = countIncomeMapper.selectByExample(texample);
+				if(countins!=null&&countins.size()>0){
+					TCountIncome tcti =countins.get(0);
+					texample=new TCountIncomeExample();
+					texample.createCriteria().andMobileEqualTo(tcti.getMobile()).andChannelAppIdEqualTo(tcti.getChannelAppId()).andCreatetimeEqualTo(tcti.getCreatetime());
+					countIncomeMapper.deleteByExample(texample);
+				}
+			}
+		}
 		return tyAllMapper.updateByExampleSelective(synctyall, example);
 	}
 
@@ -203,5 +223,7 @@ public class SyncTyAllServiceImpl implements ISyncTyAllService {
 
 		return null;
 	}
+	
+
 
 }

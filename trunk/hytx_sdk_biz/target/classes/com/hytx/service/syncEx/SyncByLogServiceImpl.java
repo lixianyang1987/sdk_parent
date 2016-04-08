@@ -28,49 +28,11 @@ public class SyncByLogServiceImpl implements ISyncByLogService {
 	private IChannelAppService channelAppService;
 
 	private ChannelApp channelApp;
-	private Random random = new Random();
 
 	@Override
 	public int addByLog(SyncByLog syncByLog) {
 		// TODO Auto-generated method stub
-		SyncByLog syncByLoga = new SyncByLog();
-		syncByLog.setCreatetime(new Date());
-		channelApp = channelAppService.selectByPrimaryKey(syncByLog
-				.getChannelAppId());
-		Integer reducePercent = channelApp.getReducePercent();
-		syncByLog.setCoopid(channelApp.getChannelId());
-		syncByLog.setReserveTwo("0");
-		SyncByLogExample example = new SyncByLogExample();
-		example.createCriteria().andMobileEqualTo(syncByLog.getMobile())
-				.andReserveTwoEqualTo("0").andMsgEqualTo(syncByLog.getMsg());
-		List<SyncByLog> listbylog = byLogMapper.selectByExample(example);
-		if (listbylog.size() > 0) {
-			syncByLoga = listbylog.get(0);
-		} else {
-			syncByLoga = null;
-		}
-		// 判断是否为退订信息
-		if (syncByLog.getStatus().equals("1")) {
-			syncByLog.setReserveTwo("1");
-			if (syncByLoga == null) {
-				//退订信息，数据库里没有订购的信息，做扣量处理，并入库
-				syncByLog.setReduceStatus(1);
-				return byLogMapper.insertSelective(syncByLog);
-			} else if (syncByLoga.getReduceStatus() == 1) {
-				syncByLog.setReduceStatus(1);
-			}
-			return byLogMapper.updateByExampleSelective(syncByLog, example);
-		} else if (syncByLoga != null) {
-			byLogMapper.updateByExampleSelective(syncByLog, example);
-			return -3;
-		}
-		// 扣量处理
-		if (reducePercent != null && syncByLog.getStatus().equals("0")) {
-			int n = random.nextInt(100000000) % 100;
-			if (n < reducePercent) {
-				syncByLog.setReduceStatus(1);
-			}
-		}
+		syncByLog.setCreatetime(new Date());		
 		return byLogMapper.insertSelective(syncByLog);
 	}
 

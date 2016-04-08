@@ -50,6 +50,7 @@ public class SyncTyAllController {
 		try {
 			logger.info("电信包月短信-订单同步上行信息开始，订单信息为：\n{}", request
 					.getQueryString().trim());
+			SyncByLog byLog = new SyncByLog();
 			SyncTyAll tyall = new SyncTyAll();
 			String tranid = request.getParameter("stream_no") != null ? request
 					.getParameter("stream_no") : ""; // 计费流水号
@@ -63,6 +64,14 @@ public class SyncTyAllController {
 					.getParameter("spnumber") : ""; // 长号
 			String statu = request.getParameter("status") != null ? request
 					.getParameter("status") : "";
+					byLog.setLinkid(tranid);	
+					byLog.setMobile(mobile);
+					byLog.setStatus(statu);
+					byLog.setPort(lnum);
+					byLog.setMsg(feecode);
+					byLog.setReserveTwo(productId);
+					//将同步信息写入流水表
+					syncByLogService.addByLog(byLog);
 			String zl = "";
 			if (statu.equals("3")) {
 				switch (feecode) {
@@ -218,13 +227,6 @@ public class SyncTyAllController {
 		return "ok";
 	}
 	
-	public static void main(String[] args) {
-		try {
-			System.out.println(URLDecoder.decode("%E5%B9%BF%E4%B8%9C", "utf-8"));
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+
 
 }
