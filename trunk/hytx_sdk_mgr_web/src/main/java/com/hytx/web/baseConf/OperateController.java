@@ -46,15 +46,15 @@ public class OperateController {
 		{
 			// put(BaseContance.INTERFACE_TELECOM, "电信动态指令接口 ");
 			// put(BaseContance.INTERFACE_MOBILE_SYSJ, "手游世纪移动接口");
-			put(BaseContance.INTERFACE_TTF_TYKJ, "通天富电信动态指令接口");
-			put(BaseContance.INTERFACE_SZQC_MMQL, "上海力耀网动态指令接口");
-			put(BaseContance.INTERFACE_SZXTY, "深圳星天元动态指令接口");
-			put(BaseContance.INTERFACE_TYKJ, "康元国玉动态指令接口");
-			put(BaseContance.INTERFACE_SK, "刷卡动态指令接口");
-			put(BaseContance.INTERFACE_HHMM, "瀚海MM动态指令接口");
+//			put(BaseContance.INTERFACE_TTF_TYKJ, "通天富电信动态指令接口");
+//			put(BaseContance.INTERFACE_SZQC_MMQL, "上海力耀网动态指令接口");
+//			put(BaseContance.INTERFACE_SZXTY, "深圳星天元动态指令接口");
+//			put(BaseContance.INTERFACE_TYKJ, "康元国玉动态指令接口");
+//			put(BaseContance.INTERFACE_SK, "刷卡动态指令接口");
+//			put(BaseContance.INTERFACE_HHMM, "瀚海MM动态指令接口");
 			put(BaseContance.INTERFACE_DMJD, "动漫基地动态指令接口");
-			put(BaseContance.INTERFACE_NJGY, "南京果园动态指令接口");
-			put(BaseContance.INTERFACE_UNION_YOUJIA, "联通优嘉动态指令接口");
+//			put(BaseContance.INTERFACE_NJGY, "南京果园动态指令接口");
+//			put(BaseContance.INTERFACE_UNION_YOUJIA, "联通优嘉动态指令接口");
 		}
 	};
 
