@@ -52,7 +52,7 @@ public class OperateController {
 			put(BaseContance.INTERFACE_TYKJ, "康元国玉动态指令接口");
 			put(BaseContance.INTERFACE_SK, "刷卡动态指令接口");
 			put(BaseContance.INTERFACE_HHMM, "瀚海MM动态指令接口");
-			put(BaseContance.INTERFACE_FKDS, "疯狂的士动态指令接口");
+			put(BaseContance.INTERFACE_DMJD, "动漫基地动态指令接口");
 			put(BaseContance.INTERFACE_NJGY, "南京果园动态指令接口");
 			put(BaseContance.INTERFACE_UNION_YOUJIA, "联通优嘉动态指令接口");
 		}

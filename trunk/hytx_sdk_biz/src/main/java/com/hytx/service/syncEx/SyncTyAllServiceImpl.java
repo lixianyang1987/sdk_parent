@@ -44,7 +44,9 @@ public class SyncTyAllServiceImpl implements ISyncTyAllService {
 		synctyall.setCreatetime(new Date());
 		channelApp = channelAppService.selectByPrimaryKey(synctyall
 				.getChannelAppId());
+		
 		Integer reducePercent = channelApp.getReducePercent();
+		synctyall.setAppId(channelApp.getAppId()+"");
 		synctyall.setCoopid(channelApp.getChannelId());
 		synctyall.setReduceStatus(0);
 		// 扣量处理

@@ -47,7 +47,7 @@ public interface BaseContance {
 	/* 瀚海MM动态指令接口 */
 	public static String INTERFACE_HHMM = "9";
 	/* 瀚海MM动态指令接口 */
-	public static String INTERFACE_FKDS = "10";
+	public static String INTERFACE_DMJD = "10";
 	/* 南京果园动态指令接口 */
 	public static String INTERFACE_NJGY = "1";
 	/*联通优嘉动态指令接口 */

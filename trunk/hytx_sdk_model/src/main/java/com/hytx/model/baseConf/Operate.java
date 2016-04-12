@@ -1,11 +1,8 @@
 package com.hytx.model.baseConf;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class Operate  implements Serializable {
-	private static final long serialVersionUID = 1L;
-
+public class Operate {
     private Integer id;
 
     private String opName;
@@ -45,6 +42,8 @@ public class Operate  implements Serializable {
     private String ensureContent;
 
     private String ensureNum;
+
+    private String cpparam;
 
     public Integer getId() {
         return id;
@@ -204,5 +203,13 @@ public class Operate  implements Serializable {
 
     public void setEnsureNum(String ensureNum) {
         this.ensureNum = ensureNum;
+    }
+
+    public String getCpparam() {
+        return cpparam;
+    }
+
+    public void setCpparam(String cpparam) {
+        this.cpparam = cpparam;
     }
 }

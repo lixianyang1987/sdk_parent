@@ -42,8 +42,84 @@ public class SyncTyAllController {
 	@Autowired
 	private ISyncByLogService syncByLogService;
 
-	// 电信包月短信
+	// 电信包月短信流水
 	@RequestMapping(value = "dxbysms")
+	@ResponseBody
+	public String bysmsSync(HttpServletRequest request) {
+		String status = "failure";
+		try {
+			logger.info("电信包月短信流水-订单同步上行信息开始，订单信息为：\n{}", request
+					.getQueryString().trim());
+			SyncByLog byLog = new SyncByLog();
+			String tranid = request.getParameter("stream_no") != null ? request
+					.getParameter("stream_no") : ""; // 计费流水号
+			String productId = request.getParameter("productId") != null ? request
+					.getParameter("productId") : ""; // 上行内容
+			String mobile = request.getParameter("mobile") != null ? request
+					.getParameter("mobile") : "";
+			String feecode = request.getParameter("order") != null ? request
+					.getParameter("order").trim().toLowerCase() : ""; // 订购指令
+			String lnum = request.getParameter("spnumber") != null ? request
+					.getParameter("spnumber") : ""; // 长号
+			String statu = request.getParameter("status") != null ? request
+					.getParameter("status") : "";
+			byLog.setLinkid(tranid);
+			byLog.setMobile(mobile);
+			byLog.setStatus(statu);
+			byLog.setPort(lnum);
+			byLog.setMsg(feecode);
+			byLog.setReserveTwo(productId);
+			// 将同步信息写入流水表
+			String zl = "";
+			if (statu.equals("3")) {
+				switch (feecode) {
+				case "td1":
+					zl = "kxyy";
+					break;
+				case "td2":
+					zl = "hlyy";
+					break;
+				case "td3":
+					zl = "dzys";
+					break;
+				case "td4":
+					zl = "pmdy";
+					break;
+				case "td5":
+					zl = "fc";
+					break;
+				case "td6":
+					zl = "zx";
+					break;
+				case "td7":
+					zl = "yltd";
+					break;
+				}
+			}else if (statu.equals("0")) {
+				zl = feecode;
+			}
+			Dict dict = dictService.selectActiviteDictByKey("dxby_" + zl);
+			// 0 为计费金额 1 为 渠道包2为appid
+			String[] str = dict.getVal().split("_");
+			byLog.setAppId(str[2]);
+			byLog.setPayFee(Integer.parseInt(str[0]));
+			byLog.setChannelAppId(Integer.parseInt(str[1]));
+			syncByLogService.addByLog(byLog);
+			if(byLog.getReduceStatus()!=1){
+				syncByLogService.syncToByLog(byLog);
+			}
+			return status;
+
+		} catch (Exception e) {
+			logger.info("电信包月短信流水-error：{}", e.getMessage());
+			status = "failure";
+		}
+		logger.info("电信包月短信流水-订单同步上行状态为：{}", status);
+		return status;
+	}
+
+	// 电信包月短信
+	@RequestMapping(value = "dxbyjfsms")
 	@ResponseBody
 	public String zxjmbysmsSync(HttpServletRequest request) {
 		String status = "failure";
@@ -64,14 +140,14 @@ public class SyncTyAllController {
 					.getParameter("spnumber") : ""; // 长号
 			String statu = request.getParameter("status") != null ? request
 					.getParameter("status") : "";
-					byLog.setLinkid(tranid);	
-					byLog.setMobile(mobile);
-					byLog.setStatus(statu);
-					byLog.setPort(lnum);
-					byLog.setMsg(feecode);
-					byLog.setReserveTwo(productId);
-					//将同步信息写入流水表
-					syncByLogService.addByLog(byLog);
+			byLog.setLinkid(tranid);
+			byLog.setMobile(mobile);
+			byLog.setStatus(statu);
+			byLog.setPort(lnum);
+			byLog.setMsg(feecode);
+			byLog.setReserveTwo(productId);
+			// 将同步信息写入流水表
+			syncByLogService.addByLog(byLog);
 			String zl = "";
 			if (statu.equals("3")) {
 				switch (feecode) {
@@ -100,6 +176,7 @@ public class SyncTyAllController {
 			} else if (statu.equals("0")) {
 				zl = feecode;
 			}
+
 			SyncTyAllExample example = new SyncTyAllExample();
 			example.createCriteria().andMobileEqualTo(mobile).andMsgEqualTo(zl)
 					.andStatusEqualTo("DELIVRD");
@@ -128,6 +205,7 @@ public class SyncTyAllController {
 				tyall.setStatus(statu);
 				// 订购
 				syncTyAllService.addTyAll(tyall);
+				
 
 			} else {
 				logger.info("电信包月短信-error：{}", "重复订单");
@@ -188,7 +266,7 @@ public class SyncTyAllController {
 			// 获取字典配置参数
 			Dict dict = dictService.selectActiviteDictByKey("dxdb_" + strmsg);
 
-			// 0  为 渠道包1 为 appid
+			// 0 为 渠道包1 为 appid
 			String[] str = dict.getVal().split("_");
 
 			int channelappId = Integer.parseInt(str[0]);
@@ -226,7 +304,5 @@ public class SyncTyAllController {
 		syncTyAllService.SyncAll();
 		return "ok";
 	}
-	
-
 
 }

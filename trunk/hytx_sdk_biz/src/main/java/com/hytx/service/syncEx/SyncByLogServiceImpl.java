@@ -28,11 +28,30 @@ public class SyncByLogServiceImpl implements ISyncByLogService {
 	private IChannelAppService channelAppService;
 
 	private ChannelApp channelApp;
+	private Random random = new Random();
 
 	@Override
 	public int addByLog(SyncByLog syncByLog) {
 		// TODO Auto-generated method stub
-		syncByLog.setCreatetime(new Date());		
+		syncByLog.setCreatetime(new Date());	
+		channelApp = channelAppService.selectByPrimaryKey(syncByLog
+				.getChannelAppId());
+		Integer sysStu=Integer.parseInt(channelApp.getExt());
+		if(sysStu==1){
+			Integer reducePercent = channelApp.getReducePercent();
+			syncByLog.setCoopid(channelApp.getChannelId());
+			syncByLog.setReduceStatus(0);
+			// 扣量处理
+			if (reducePercent != null ) {
+				int n = random.nextInt(100000000) % 100;
+				if (n < reducePercent) {
+					syncByLog.setReduceStatus(1);
+				}
+			}
+		}else{
+			syncByLog.setReduceStatus(1);
+		}
+		
 		return byLogMapper.insertSelective(syncByLog);
 	}
 

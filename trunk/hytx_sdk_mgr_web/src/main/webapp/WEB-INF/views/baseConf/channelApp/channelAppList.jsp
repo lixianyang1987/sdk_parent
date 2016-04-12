@@ -38,20 +38,15 @@
 			<th data-options="field:'d',width:60">结算方式</th>
 			<th data-options="field:'g'">扣量百分数</th>
 			<th data-options="field:'e',width:60">同步状态</th>
-			<th data-options="field:'f'">同步URL</th>
-			<!-- <th data-options="field:'k',width:100">用户日限额</th>
 			<th data-options="field:'c',width:80">渠道包KEY</th>
+			<th data-options="field:'k',width:100">用户日限额</th>
 			<th data-options="field:'l',width:100">用户月限额</th>
 			<th data-options="field:'m'">结算百分数</th>
 			<th data-options="field:'cpa'">CPA金额(分)</th>
 			<th data-options="field:'密钥'">密钥</th>
-			<td>${item.dayLimit>0?item.dayLimit:'不限'}<font color="red">（分）</font></td>
-			<td>${item.key}</td>
-				<td>${item.monthLimit>0?item.monthLimit:'不限'}<font color="red">（分）</font></td>
-				<td>${item.feePercent}%</td>
-				<td>${item.cpaPrice}<font color="red">（分）</font></td>
-				<td>${item.signKey}</td>
-			 -->
+			<th data-options="field:'f'">同步URL</th>
+			
+			
 		</tr>
 	</thead>
 	<tbody>
@@ -65,11 +60,16 @@
 					class="link_a">${item.channelName}</a></td>
 				<td><a
 					href="javascript:toTabLink('应用管理','${basePath}/baseConf/app/appList?appName=${item.appName}');"
-					class="link_a">${item.appName}</a></td>
-				
+					class="link_a">${item.appName}</a></td>				
 				<td>${item.smName}</td>
 				<td>${item.reducePercent}%</td>
 				<td>${item.syncStatus==1?'同步':'不同步'}</td>
+				<td>${item.key}</td>				
+				<td>${item.dayLimit>0?item.dayLimit:'不限'}<font color="red">（分）</font></td>
+				<td>${item.monthLimit>0?item.monthLimit:'不限'}<font color="red">（分）</font></td>
+				<td>${item.feePercent}%</td>
+				<td>${item.cpaPrice}<font color="red">（分）</font></td>
+				<td>${item.signKey}</td>
 				<td>${item.syncUrl}</td>
 				
 			</tr>

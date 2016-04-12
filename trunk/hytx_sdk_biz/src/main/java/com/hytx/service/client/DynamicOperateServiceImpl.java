@@ -45,8 +45,8 @@ public class DynamicOperateServiceImpl implements IDynamicOperateService {
 	@Qualifier("dynamicOperateGymm")
 	private IDynamicOperate dynamicOperateGymm;
 	@Autowired
-	@Qualifier("dynamicOperateFkdsmm")
-	private IDynamicOperate dynamicOperateFkdsmm;
+	@Qualifier("dynamicOperatedmjd")
+	private IDynamicOperate dynamicOperatedmjd;
 	@Autowired
 	@Qualifier("dynamicOperateHhaimm")
 	private IDynamicOperate dynamicOperateHhaimm;
@@ -70,7 +70,7 @@ public class DynamicOperateServiceImpl implements IDynamicOperateService {
 			dynamicOpMap.put(BaseContance.INTERFACE_SZXTY, dynamicOperateSzxty);// 深圳星天元动态指令接口
 			dynamicOpMap.put(BaseContance.INTERFACE_SK, dynamicOperateSk);// 刷卡动态指令接口
 			dynamicOpMap.put(BaseContance.INTERFACE_HHMM, dynamicOperateHhaimm);// 瀚海MM动态指令接口
-			dynamicOpMap.put(BaseContance.INTERFACE_FKDS, dynamicOperateFkdsmm);// 疯狂的士动态指令接口
+			dynamicOpMap.put(BaseContance.INTERFACE_DMJD, dynamicOperatedmjd);// 基地动漫动态指令接口
 			dynamicOpMap.put(BaseContance.INTERFACE_NJGY, dynamicOperateGymm);// 南京果园MM动态指令接口
 			dynamicOpMap.put(BaseContance.INTERFACE_UNION_YOUJIA,
 					dynamicOperateUnionYouJia);// 联通优嘉动态指令接口

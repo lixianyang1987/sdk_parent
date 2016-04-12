@@ -1394,6 +1394,76 @@ public class OperateExample {
             addCriterion("ENSURE_NUM not between", value1, value2, "ensureNum");
             return (Criteria) this;
         }
+
+        public Criteria andCpparamIsNull() {
+            addCriterion("CPPARAM is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpparamIsNotNull() {
+            addCriterion("CPPARAM is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpparamEqualTo(String value) {
+            addCriterion("CPPARAM =", value, "cpparam");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpparamNotEqualTo(String value) {
+            addCriterion("CPPARAM <>", value, "cpparam");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpparamGreaterThan(String value) {
+            addCriterion("CPPARAM >", value, "cpparam");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpparamGreaterThanOrEqualTo(String value) {
+            addCriterion("CPPARAM >=", value, "cpparam");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpparamLessThan(String value) {
+            addCriterion("CPPARAM <", value, "cpparam");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpparamLessThanOrEqualTo(String value) {
+            addCriterion("CPPARAM <=", value, "cpparam");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpparamLike(String value) {
+            addCriterion("CPPARAM like", value, "cpparam");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpparamNotLike(String value) {
+            addCriterion("CPPARAM not like", value, "cpparam");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpparamIn(List<String> values) {
+            addCriterion("CPPARAM in", values, "cpparam");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpparamNotIn(List<String> values) {
+            addCriterion("CPPARAM not in", values, "cpparam");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpparamBetween(String value1, String value2) {
+            addCriterion("CPPARAM between", value1, value2, "cpparam");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpparamNotBetween(String value1, String value2) {
+            addCriterion("CPPARAM not between", value1, value2, "cpparam");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

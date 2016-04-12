@@ -69,11 +69,18 @@
 				   		<td>
 				   		   <input type="text" id="suffixNum" name="suffixNum" value="${operate.suffixNum+0}"  maxlength="6" data-options="required:true,validType:['number']" class="easyui-validatebox"/>
 				   		</td>
-				   </tr>   
+				   </tr>
+				    
 				   <tr>
 				      <th></th>
 				      <td ><div class="form_tip2">取值范围是0-20，由系统自动在指令后加上随机代码，用于账单与短信记录数据关联，默认0为固定指令，可根据上游通道模糊规则设置，建议位数不低于10位</div></td>
 				    </tr>
+				    <tr>
+				   		<th><label>模糊指令：</label></th>
+				   		<td>
+				   		   <input type="text" id="cpparam" name="cpparam" value="${operate.cpparam}"  maxlength="30" class="easyui-validatebox"/>
+				   		</td>
+				   	</tr> 
 				   <tr>
 				   		<th><label>权重：</label></th>
 				   		<td>
