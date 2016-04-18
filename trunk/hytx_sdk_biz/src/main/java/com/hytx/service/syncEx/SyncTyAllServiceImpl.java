@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.xmlbeans.impl.util.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,14 +49,18 @@ public class SyncTyAllServiceImpl implements ISyncTyAllService {
 		Integer reducePercent = channelApp.getReducePercent();
 		synctyall.setAppId(channelApp.getAppId()+"");
 		synctyall.setCoopid(channelApp.getChannelId());
-		synctyall.setReduceStatus(0);
-		// 扣量处理
-		if (reducePercent != null && synctyall.getStatus().equals("DELIVRD")) {
-			int n = random.nextInt(100000000) % 100;
-			if (n < reducePercent) {
-				synctyall.setReduceStatus(1);
+		
+		if(synctyall.getReduceStatus()==null||synctyall.getReduceStatus().equals("")){
+			synctyall.setReduceStatus(0);
+			// 扣量处理
+			if (reducePercent != null && synctyall.getStatus().equals("DELIVRD")) {
+				int n = random.nextInt(100000000) % 100;
+				if (n < reducePercent) {
+					synctyall.setReduceStatus(1);
+				}
 			}
-		}
+			
+		}		
 		return tyAllMapper.insertSelective(synctyall);
 
 	}
@@ -150,6 +155,8 @@ public class SyncTyAllServiceImpl implements ISyncTyAllService {
 		};
 		t.start();
 	}
+	
+
 
 	/**
 	 * 用于给下游渠道补发数据
@@ -173,21 +180,31 @@ public class SyncTyAllServiceImpl implements ISyncTyAllService {
 					}
 					StringBuilder sb = new StringBuilder();
 					sb.append("mobile=")
-							.append(synctyall.getMobile())
-							.append("&linkid=")
-							.append(synctyall.getLinkid())
-							.append("&feecode=")
-							.append(synctyall.getPayFee())
-							.append("&status=")
-							.append(synctyall.getStatus())
-							.append("&reporttime=")
-							.append(URLEncoder.encode(dateFormat
-									.format(synctyall.getCreatetime()), "UTF-8"))
-							.append("&appid=").append(synctyall.getAppId())
-							.append("&momsg=").append(synctyall.getMsg())
-							.append("&content=")
-							.append(synctyall.getErrorContent())
-							.append("&spnumber=").append(synctyall.getPort());
+					.append(synctyall.getMobile())
+					.append("&linkid=")
+					.append(synctyall.getLinkid())
+					.append("&feecode=")
+					.append(synctyall.getPayFee())
+					.append("&status=")
+					.append(synctyall.getStatus())
+					.append("&reporttime=")
+					.append(URLEncoder.encode(dateFormat
+							.format(synctyall.getCreatetime()),
+							"UTF-8")).append("&appid=")
+					.append(synctyall.getAppId()).append("&momsg=")
+					.append(synctyall.getMsg())
+					.append("&content=")
+					.append(synctyall.getErrorContent())
+					.append("&orderid=")
+					.append(synctyall.getOrderid())
+					.append("&spnumber=")
+					.append(synctyall.getPort())
+					.append("&paytime=")
+					// 增加电信包月业务计费时间
+					.append(synctyall.getReserveOne())
+					//透传参数
+					.append("&cpparam=")
+					.append(synctyall.getReserveTwo());
 					url = url + "?" + sb.toString().replace("#", "%23");
 					String content = "";
 					try {

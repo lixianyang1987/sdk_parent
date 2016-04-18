@@ -1,10 +1,9 @@
 package com.hytx.model.syncEx;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class SyncByLog extends SyncByLogKey  implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class SyncByLog {
+    private String linkid;
 
     private String mobile;
 
@@ -19,6 +18,8 @@ public class SyncByLog extends SyncByLogKey  implements Serializable {
     private Integer reduceStatus;
 
     private String errorContent;
+
+    private String appId;
 
     private Integer channelAppId;
 
@@ -35,6 +36,18 @@ public class SyncByLog extends SyncByLogKey  implements Serializable {
     private String reserveOne;
 
     private String reserveTwo;
+
+    private Long createseconds;
+
+    private Integer executeStatus;
+
+    public String getLinkid() {
+        return linkid;
+    }
+
+    public void setLinkid(String linkid) {
+        this.linkid = linkid;
+    }
 
     public String getMobile() {
         return mobile;
@@ -90,6 +103,14 @@ public class SyncByLog extends SyncByLogKey  implements Serializable {
 
     public void setErrorContent(String errorContent) {
         this.errorContent = errorContent;
+    }
+
+    public String getAppId() {
+        return appId;
+    }
+
+    public void setAppId(String appId) {
+        this.appId = appId;
     }
 
     public Integer getChannelAppId() {
@@ -154,5 +175,21 @@ public class SyncByLog extends SyncByLogKey  implements Serializable {
 
     public void setReserveTwo(String reserveTwo) {
         this.reserveTwo = reserveTwo;
+    }
+
+    public Long getCreateseconds() {
+        return createseconds;
+    }
+
+    public void setCreateseconds(Long createseconds) {
+        this.createseconds = createseconds;
+    }
+
+    public Integer getExecuteStatus() {
+        return executeStatus;
+    }
+
+    public void setExecuteStatus(Integer executeStatus) {
+        this.executeStatus = executeStatus;
     }
 }

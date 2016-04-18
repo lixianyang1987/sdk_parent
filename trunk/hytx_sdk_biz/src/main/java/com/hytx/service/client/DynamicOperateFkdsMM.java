@@ -77,7 +77,7 @@ public class DynamicOperateFkdsMM implements IDynamicOperate {
 		sb.append("http://cartoon.yiqiao580.com:9800/crack/cartoon/paysms.do?")
 				.append("imsi=").append(baseReqDto.getImsi())
 				.append("&ptid=42001").append("&itemId=").append(itemId)
-				.append("&cpparam=").append(dynaOperate.getCpparam())
+				.append("&cpparam=").append(baseReqDto.getExtraInfo())
 				.append("&itemPrice=").append(feeValue)
 				.append("&itemSafeLevel=2").append("&itemMethod=11")
 				.append("&version=1.0.0").append("&itemExt=");
@@ -109,8 +109,5 @@ public class DynamicOperateFkdsMM implements IDynamicOperate {
 		return null;
 	}
 
-	public static void main(String[] args) throws Exception {
-		String str = "";
-		System.out.println(new String(Base64.decodeBase64(str), "utf-8"));
-	}
+
 }

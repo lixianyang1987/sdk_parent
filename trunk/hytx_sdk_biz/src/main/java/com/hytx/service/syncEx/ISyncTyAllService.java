@@ -15,5 +15,7 @@ public interface ISyncTyAllService {
 	void syncToTyAll(SyncTyAll synctyall);
 	
 	public void SyncAll();
+
+	
 	
 }	

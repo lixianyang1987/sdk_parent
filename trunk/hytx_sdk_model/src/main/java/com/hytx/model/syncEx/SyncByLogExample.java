@@ -105,76 +105,6 @@ public class SyncByLogExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andAppIdIsNull() {
-            addCriterion("APP_ID is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAppIdIsNotNull() {
-            addCriterion("APP_ID is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAppIdEqualTo(String value) {
-            addCriterion("APP_ID =", value, "appId");
-            return (Criteria) this;
-        }
-
-        public Criteria andAppIdNotEqualTo(String value) {
-            addCriterion("APP_ID <>", value, "appId");
-            return (Criteria) this;
-        }
-
-        public Criteria andAppIdGreaterThan(String value) {
-            addCriterion("APP_ID >", value, "appId");
-            return (Criteria) this;
-        }
-
-        public Criteria andAppIdGreaterThanOrEqualTo(String value) {
-            addCriterion("APP_ID >=", value, "appId");
-            return (Criteria) this;
-        }
-
-        public Criteria andAppIdLessThan(String value) {
-            addCriterion("APP_ID <", value, "appId");
-            return (Criteria) this;
-        }
-
-        public Criteria andAppIdLessThanOrEqualTo(String value) {
-            addCriterion("APP_ID <=", value, "appId");
-            return (Criteria) this;
-        }
-
-        public Criteria andAppIdLike(String value) {
-            addCriterion("APP_ID like", value, "appId");
-            return (Criteria) this;
-        }
-
-        public Criteria andAppIdNotLike(String value) {
-            addCriterion("APP_ID not like", value, "appId");
-            return (Criteria) this;
-        }
-
-        public Criteria andAppIdIn(List<String> values) {
-            addCriterion("APP_ID in", values, "appId");
-            return (Criteria) this;
-        }
-
-        public Criteria andAppIdNotIn(List<String> values) {
-            addCriterion("APP_ID not in", values, "appId");
-            return (Criteria) this;
-        }
-
-        public Criteria andAppIdBetween(String value1, String value2) {
-            addCriterion("APP_ID between", value1, value2, "appId");
-            return (Criteria) this;
-        }
-
-        public Criteria andAppIdNotBetween(String value1, String value2) {
-            addCriterion("APP_ID not between", value1, value2, "appId");
-            return (Criteria) this;
-        }
-
         public Criteria andLinkidIsNull() {
             addCriterion("LINKID is null");
             return (Criteria) this;
@@ -715,6 +645,76 @@ public class SyncByLogExample {
             return (Criteria) this;
         }
 
+        public Criteria andAppIdIsNull() {
+            addCriterion("APP_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIdIsNotNull() {
+            addCriterion("APP_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIdEqualTo(String value) {
+            addCriterion("APP_ID =", value, "appId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIdNotEqualTo(String value) {
+            addCriterion("APP_ID <>", value, "appId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIdGreaterThan(String value) {
+            addCriterion("APP_ID >", value, "appId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIdGreaterThanOrEqualTo(String value) {
+            addCriterion("APP_ID >=", value, "appId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIdLessThan(String value) {
+            addCriterion("APP_ID <", value, "appId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIdLessThanOrEqualTo(String value) {
+            addCriterion("APP_ID <=", value, "appId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIdLike(String value) {
+            addCriterion("APP_ID like", value, "appId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIdNotLike(String value) {
+            addCriterion("APP_ID not like", value, "appId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIdIn(List<String> values) {
+            addCriterion("APP_ID in", values, "appId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIdNotIn(List<String> values) {
+            addCriterion("APP_ID not in", values, "appId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIdBetween(String value1, String value2) {
+            addCriterion("APP_ID between", value1, value2, "appId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIdNotBetween(String value1, String value2) {
+            addCriterion("APP_ID not between", value1, value2, "appId");
+            return (Criteria) this;
+        }
+
         public Criteria andChannelAppIdIsNull() {
             addCriterion("CHANNEL_APP_ID is null");
             return (Criteria) this;
@@ -1232,6 +1232,126 @@ public class SyncByLogExample {
 
         public Criteria andReserveTwoNotBetween(String value1, String value2) {
             addCriterion("RESERVE_TWO not between", value1, value2, "reserveTwo");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatesecondsIsNull() {
+            addCriterion("CREATESECONDS is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatesecondsIsNotNull() {
+            addCriterion("CREATESECONDS is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatesecondsEqualTo(Long value) {
+            addCriterion("CREATESECONDS =", value, "createseconds");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatesecondsNotEqualTo(Long value) {
+            addCriterion("CREATESECONDS <>", value, "createseconds");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatesecondsGreaterThan(Long value) {
+            addCriterion("CREATESECONDS >", value, "createseconds");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatesecondsGreaterThanOrEqualTo(Long value) {
+            addCriterion("CREATESECONDS >=", value, "createseconds");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatesecondsLessThan(Long value) {
+            addCriterion("CREATESECONDS <", value, "createseconds");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatesecondsLessThanOrEqualTo(Long value) {
+            addCriterion("CREATESECONDS <=", value, "createseconds");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatesecondsIn(List<Long> values) {
+            addCriterion("CREATESECONDS in", values, "createseconds");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatesecondsNotIn(List<Long> values) {
+            addCriterion("CREATESECONDS not in", values, "createseconds");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatesecondsBetween(Long value1, Long value2) {
+            addCriterion("CREATESECONDS between", value1, value2, "createseconds");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreatesecondsNotBetween(Long value1, Long value2) {
+            addCriterion("CREATESECONDS not between", value1, value2, "createseconds");
+            return (Criteria) this;
+        }
+
+        public Criteria andExecuteStatusIsNull() {
+            addCriterion("EXECUTE_STATUS is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExecuteStatusIsNotNull() {
+            addCriterion("EXECUTE_STATUS is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExecuteStatusEqualTo(Integer value) {
+            addCriterion("EXECUTE_STATUS =", value, "executeStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andExecuteStatusNotEqualTo(Integer value) {
+            addCriterion("EXECUTE_STATUS <>", value, "executeStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andExecuteStatusGreaterThan(Integer value) {
+            addCriterion("EXECUTE_STATUS >", value, "executeStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andExecuteStatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("EXECUTE_STATUS >=", value, "executeStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andExecuteStatusLessThan(Integer value) {
+            addCriterion("EXECUTE_STATUS <", value, "executeStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andExecuteStatusLessThanOrEqualTo(Integer value) {
+            addCriterion("EXECUTE_STATUS <=", value, "executeStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andExecuteStatusIn(List<Integer> values) {
+            addCriterion("EXECUTE_STATUS in", values, "executeStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andExecuteStatusNotIn(List<Integer> values) {
+            addCriterion("EXECUTE_STATUS not in", values, "executeStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andExecuteStatusBetween(Integer value1, Integer value2) {
+            addCriterion("EXECUTE_STATUS between", value1, value2, "executeStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andExecuteStatusNotBetween(Integer value1, Integer value2) {
+            addCriterion("EXECUTE_STATUS not between", value1, value2, "executeStatus");
             return (Criteria) this;
         }
     }
