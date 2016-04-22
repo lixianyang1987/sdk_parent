@@ -5,7 +5,14 @@
      <div id="tb" style="padding:5px;height:auto">
           <form:form  action="" method="post" id="findForm">
 		       <table id="findTable">
-		          <tr> 			          
+		          <tr> 	
+		          <th width="65px">渠道包:</th>
+			          <td width="8px">
+				         <form:select path="channelAppId" id="channelAppId"  cssClass="easyui-validatebox"  panelHeight="AUTO"  style="width:150px;height:26px;">
+	                          <form:option value="-1">=全部=</form:option>
+	                          <form:options items="${channelAppList}"  itemLabel="name"  itemValue="id"/>
+	                     </form:select>
+			          </td>		          
 			          <th width="60px">
 			                                  手机号:
 			          </th>

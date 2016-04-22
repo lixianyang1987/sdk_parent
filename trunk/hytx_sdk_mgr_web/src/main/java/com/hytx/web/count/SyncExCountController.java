@@ -26,6 +26,7 @@ import com.hytx.model.baseConf.App;
 import com.hytx.model.baseConf.AppServer;
 import com.hytx.model.baseConf.Channel;
 import com.hytx.model.baseConf.ChannelApp;
+import com.hytx.model.baseConf.ChannelAppExample;
 import com.hytx.model.baseConf.CpInfo;
 import com.hytx.model.baseConf.SettlementMethod;
 import com.hytx.service.baseConf.IAppService;
@@ -52,6 +53,8 @@ public class SyncExCountController {
 	private IAppService appServer;
 	@Autowired
 	private IChannelService channelService;
+	@Autowired
+	private IChannelAppService channeapplService;
 	@Autowired
 	private ICpInfoService cpInfoService;
 	@Autowired
@@ -286,6 +289,7 @@ public class SyncExCountController {
 		return "/count/sync/countSyncExDetailByDate";
 	}
 
+	// 单渠道详情统计
 	@RequestMapping(value = "countSyncExDetailByDateC/{channelId:\\d+}")
 	public String syncExDetailCountCh(SyncExCountDto findDto,
 			Page<SyncExCountDto> page, Model model,
@@ -293,8 +297,11 @@ public class SyncExCountController {
 		findDto.setChannelId(channelId);
 		findDto.setReduceStatus(1);
 		// 初始化查询条件
-		List<ChannelApp> channelAppList = syncExCountService
-				.findSyncExChannelApp();
+		ChannelAppExample example = new ChannelAppExample();
+		example.createCriteria().andChannelIdEqualTo(channelId);
+		List<ChannelApp> channelAppList = channeapplService
+				.selectChannelAppIdlist(example);
+
 		model.addAttribute("command", findDto);
 		model.addAttribute("findDto", findDto);
 		model.addAttribute("channelAppList", channelAppList);
@@ -310,6 +317,75 @@ public class SyncExCountController {
 				findDto, page);
 		model.addAttribute("list", list);
 		return "/count/sync/countSyncExDetailByDateChannel";
+	}
+
+	/****
+	 * 单渠道接放代码统计
+	 * 
+	 * @param findDto
+	 * @param page
+	 * @param model
+	 * @return
+	 * @author houzz
+	 * @date 2015年12月21日
+	 */
+	@RequestMapping(value = "countSyncExByDateC/{channelId:\\d+}")
+	public String syncExCountC(SyncExCountDto findDto,
+			Page<SyncExCountDto> page, HttpServletRequest request, Model model,
+			@PathVariable("channelId") Integer channelId) {
+		// 初始化查询条件
+		ChannelAppExample example = new ChannelAppExample();
+		example.createCriteria().andChannelIdEqualTo(channelId);
+		List<ChannelApp> channelAppList = channeapplService
+				.selectChannelAppIdlist(example);
+		model.addAttribute("command", findDto);
+		model.addAttribute("findDto", findDto);
+		model.addAttribute("channelAppList", channelAppList);
+		if (StringUtils.isBlank(findDto.getStartDate())) {
+			findDto.setStartDate(DateFormatUtils.format(new Date(),
+					"yyyy-MM-dd"));
+		}
+		if (StringUtils.isBlank(findDto.getEndDate())) {
+			findDto.setEndDate(findDto.getStartDate());
+		}
+		findDto.setChannelId(channelId);
+		findDto.setReduceStatus(1);
+		// 按查询条件查询数据
+		List<SyncExCountDto> list = syncExCountService.countSyncEx(findDto,
+				page);
+
+		if (list != null && !list.isEmpty()) {
+			SyncExCountDto dto = new SyncExCountDto();
+			dto.setChannelAppName("汇总:");
+			int totalUsers = 0;
+			int upCount = 0;
+			int downCount = 0;
+			int sucCount = 0;
+			int reduceCount = 0;
+			int syncedCount = 0;
+			int totalFeeValue = 0;
+			for (SyncExCountDto tmpDto : list) {
+				totalUsers = totalUsers + tmpDto.getTotalUsers();
+				upCount = upCount + tmpDto.getUpCount();
+				downCount = downCount + tmpDto.getDownCount();
+				sucCount = sucCount + tmpDto.getSucCount();
+				reduceCount = reduceCount + tmpDto.getReduceCount();
+				syncedCount = syncedCount + tmpDto.getSyncedCount();
+				totalFeeValue = totalFeeValue + tmpDto.getSucCount()
+						* tmpDto.getFeeValue() / 100;
+			}
+			dto.setTotalFeeValue(totalFeeValue);
+			dto.setTotalUsers(totalUsers);
+			dto.setUpCount(upCount);
+			dto.setDownCount(downCount);
+			dto.setSucCount(sucCount);
+			dto.setReduceCount(reduceCount);
+			dto.setSyncedCount(syncedCount);
+			list.add(dto);
+		}
+
+		model.addAttribute("list", list);
+		return "/count/sync/countSyncExByDateC";
 	}
 
 	public static void main(String[] args) {
