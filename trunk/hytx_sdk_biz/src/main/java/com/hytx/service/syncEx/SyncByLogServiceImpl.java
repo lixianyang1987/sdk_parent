@@ -1,6 +1,7 @@
 package com.hytx.service.syncEx;
 
 import java.net.URLEncoder;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -36,11 +37,18 @@ public class SyncByLogServiceImpl implements ISyncByLogService {
 	@Override
 	public int addByLog(SyncByLog syncByLog, String zl) {
 		// TODO Auto-generated method stub
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		Date date = new Date();
-		syncByLog.setCreatetime(date);
+		try {
+		 date = sdf.parse(syncByLog.getOrderid());
+		
+			syncByLog.setCreatetime(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		long createSeconds = date.getTime();
-		System.out.println(createSeconds);
 		syncByLog.setCreateseconds(createSeconds);
 		channelApp = channelAppService.selectByPrimaryKey(syncByLog
 				.getChannelAppId());
@@ -270,7 +278,7 @@ public class SyncByLogServiceImpl implements ISyncByLogService {
 				// TODO Auto-generated method stub
 				while (true) {
 					try {
-						Thread.sleep(1000 * 60);
+						Thread.sleep(1000 * 60*10);
 						SyncByLogExample example = new SyncByLogExample();
 						example.createCriteria().andExecuteStatusEqualTo(0)
 								.andStatusEqualTo("0");
@@ -282,7 +290,7 @@ public class SyncByLogServiceImpl implements ISyncByLogService {
 								long ms = date.getTime();
 
 								long mm = ms - syncByLog.getCreateseconds();
-								if (mm / 1000 / 60 / 60 > 72) {
+								if (mm / 1000 / 60 / 60 >= 72) {
 									String count = "";
 									try {
 										count = HttpClientUtil

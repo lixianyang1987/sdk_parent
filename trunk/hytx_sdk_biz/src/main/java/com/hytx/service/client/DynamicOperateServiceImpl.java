@@ -30,8 +30,8 @@ public class DynamicOperateServiceImpl implements IDynamicOperateService {
 	@Qualifier("dynamicOperateTtfTykj")
 	private IDynamicOperate dynamicOperateTtfTykj;
 	@Autowired
-	@Qualifier("dynamicOperateSzqcMMQl")
-	private IDynamicOperate dynamicOperateSzqcMMQl;
+	@Qualifier("dynamicOperateSp")
+	private IDynamicOperate dynamicOperateSp;
 	@Autowired
 	@Qualifier("dynamicOperateSzxty")
 	private IDynamicOperate dynamicOperateSzxty;
@@ -42,17 +42,20 @@ public class DynamicOperateServiceImpl implements IDynamicOperateService {
 	@Qualifier("dynamicOperateSk")
 	private IDynamicOperate dynamicOperateSk;
 	@Autowired
-	@Qualifier("dynamicOperateGymm")
-	private IDynamicOperate dynamicOperateGymm;
+	@Qualifier("dynamicOperateWoJia")
+	private IDynamicOperate dynamicOperateWoJia;
 	@Autowired
 	@Qualifier("dynamicOperatedmjd")
 	private IDynamicOperate dynamicOperatedmjd;
 	@Autowired
-	@Qualifier("dynamicOperateHhaimm")
-	private IDynamicOperate dynamicOperateHhaimm;
+	@Qualifier("dynamicOperateWoyd")
+	private IDynamicOperate dynamicOperateWoyd;
 	@Autowired
 	@Qualifier("dynamicOperateUnionYouJia")
 	private IDynamicOperate dynamicOperateUnionYouJia;
+	@Autowired
+	@Qualifier("dynamicOperateWoYy")
+	private IDynamicOperate dynamicOperateWoYy;
 
 	private Map<String, IDynamicOperate> dynamicOpMap;
 
@@ -65,15 +68,14 @@ public class DynamicOperateServiceImpl implements IDynamicOperateService {
 					dynamicOperateMobileSysj);// 移动手游世纪动态指令接口
 			dynamicOpMap.put(BaseContance.INTERFACE_TTF_TYKJ,
 					dynamicOperateTtfTykj);// 通天富天翼空间
-			dynamicOpMap.put(BaseContance.INTERFACE_SZQC_MMQL,
-					dynamicOperateSzqcMMQl);// 深圳启程MM 强联网
+			dynamicOpMap.put(BaseContance.INTERFACE_SP,
+					dynamicOperateSp);// 视频
 			dynamicOpMap.put(BaseContance.INTERFACE_SZXTY, dynamicOperateSzxty);// 深圳星天元动态指令接口
-			dynamicOpMap.put(BaseContance.INTERFACE_SK, dynamicOperateSk);// 刷卡动态指令接口
-			dynamicOpMap.put(BaseContance.INTERFACE_HHMM, dynamicOperateHhaimm);// 瀚海MM动态指令接口
+			dynamicOpMap.put(BaseContance.INTERFACE_WOYY, dynamicOperateWoYy);// wo音乐动态指令接口
+			dynamicOpMap.put(BaseContance.INTERFACE_WYD, dynamicOperateWoyd);// wo阅读动态指令接口
 			dynamicOpMap.put(BaseContance.INTERFACE_DMJD, dynamicOperatedmjd);// 基地动漫动态指令接口
-			dynamicOpMap.put(BaseContance.INTERFACE_NJGY, dynamicOperateGymm);// 南京果园MM动态指令接口
-			dynamicOpMap.put(BaseContance.INTERFACE_UNION_YOUJIA,
-					dynamicOperateUnionYouJia);// 联通优嘉动态指令接口
+			dynamicOpMap.put(BaseContance.INTERFACE_WOJIA, dynamicOperateWoJia);// wo加
+
 
 		}
 	}

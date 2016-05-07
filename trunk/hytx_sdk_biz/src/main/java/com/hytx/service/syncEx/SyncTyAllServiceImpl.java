@@ -42,7 +42,9 @@ public class SyncTyAllServiceImpl implements ISyncTyAllService {
 	@Override
 	public int addTyAll(SyncTyAll synctyall) {
 		// TODO Auto-generated method stub
-		synctyall.setCreatetime(new Date());
+		if(synctyall.getCreatetime()==null){
+			synctyall.setCreatetime(new Date());
+		}		
 		channelApp = channelAppService.selectByPrimaryKey(synctyall
 				.getChannelAppId());
 		

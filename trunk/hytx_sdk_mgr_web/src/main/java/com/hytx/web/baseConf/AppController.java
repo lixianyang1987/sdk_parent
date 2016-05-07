@@ -160,6 +160,7 @@ public class AppController {
 	public Object delUser(String ids) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
+			
 			List<Integer> idList = StringUtil.changeStringIdsToIntegerList(ids);
 			if (!idList.isEmpty()) {
 				int rows = appService.deleteAppByIds(idList);

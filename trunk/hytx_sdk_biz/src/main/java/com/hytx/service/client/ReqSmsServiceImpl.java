@@ -137,6 +137,8 @@ public class ReqSmsServiceImpl implements IReqSmsService {
 					App app = baseReqService.selectAppById(cmd.getAppId());
 					AppServer appServer = baseReqService.getAppServer(
 							app.getId(), baseReqDto.getServerType());
+					System.out.println("appServer:"+appServer);
+					System.out.println("app:"+app);
 					cmd.setControlFlag(appServer.getControlFlag());
 					cmd.setWaitSeconds(appServer.getWaitSeconds());
 					cmd.setServerType(baseReqDto.getServerType());
@@ -260,9 +262,13 @@ public class ReqSmsServiceImpl implements IReqSmsService {
 	 */
 	public List<ReqSmsCommand> selectReqSmsCommandList(ReqSms smsReq,
 			BaseReqDto baseReqDto, PayPoint bestPayPoint) {
+		logger.info("BaseReqDto 为： "+baseReqDto.toString());
+		
 		List<ReqSmsCommand> commandList = new ArrayList<ReqSmsCommand>();
 		List<Operate> opList = null;
 		if (bestPayPoint != null) {
+			logger.info("计费点id 为： "+bestPayPoint
+					.getId());
 			opList = operateService.selectOperateByPayPointIds(bestPayPoint
 					.getId());
 			if (opList != null && !opList.isEmpty()) {
@@ -506,6 +512,7 @@ public class ReqSmsServiceImpl implements IReqSmsService {
 					.selectServerDynaOperates(baseReqDto.getServerType());*/
 		List<Operate> dynaOpList = baseReqService.selectCaServerDynaOperates(
 				channelApp.getId(), baseReqDto.getServerType());
+		logger.info("动态指令列表"+dynaOpList.toString());
 		if (dynaOpList == null || dynaOpList.isEmpty()) {
 			Map<Operate, Integer> dataMap = caculateGoodGroupOperate(
 					smsReq.getFeeValue(), appOpList, smsReq.getImsi(),
@@ -526,12 +533,16 @@ public class ReqSmsServiceImpl implements IReqSmsService {
 				if (baseReqDto.getProvinceId() != null
 						&& !baseReqService.checkAppProvinceLimit(op.getAppId(),
 								baseReqDto.getProvinceId())) {
+					logger.info("动态指令处理1");
 					continue;
 				}
+				logger.info("动态指令处理2");
 				App app = baseReqService.selectAppById(op.getAppId());
+				logger.info("动态指令处理3："+app);
 				boolean validResult = baseReqService.checkUserAppLimit(
 						smsReq.getImsi(), baseReqDto.getServerType(), app,
 						smsReq.getFeeValue());
+				logger.info("动态指令处理4："+validResult);
 				if (validResult) {
 					if (op.getPrice() == null || op.getPrice().equals(0)) {
 						resultList.clear();

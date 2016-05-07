@@ -50,11 +50,11 @@ public class OperateController {
 //			put(BaseContance.INTERFACE_SZQC_MMQL, "上海力耀网动态指令接口");
 //			put(BaseContance.INTERFACE_SZXTY, "深圳星天元动态指令接口");
 //			put(BaseContance.INTERFACE_TYKJ, "康元国玉动态指令接口");
-//			put(BaseContance.INTERFACE_SK, "刷卡动态指令接口");
-//			put(BaseContance.INTERFACE_HHMM, "瀚海MM动态指令接口");
+			put(BaseContance.INTERFACE_SP, "视频动态指令接口");
+			put(BaseContance.INTERFACE_WYD, "我阅读动态指令接口");
 			put(BaseContance.INTERFACE_DMJD, "动漫基地动态指令接口");
-//			put(BaseContance.INTERFACE_NJGY, "南京果园动态指令接口");
-//			put(BaseContance.INTERFACE_UNION_YOUJIA, "联通优嘉动态指令接口");
+			put(BaseContance.INTERFACE_WOJIA, "wo+态指令接口");
+			put(BaseContance.INTERFACE_WOYY, "wo音乐动态指令接口");
 		}
 	};
 

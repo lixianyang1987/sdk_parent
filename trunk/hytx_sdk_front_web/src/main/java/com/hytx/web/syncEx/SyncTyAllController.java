@@ -3,6 +3,8 @@ package com.hytx.web.syncEx;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,11 +20,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hytx.model.baseConf.ChannelApp;
+import com.hytx.model.baseConf.ChannelAppExample;
 import com.hytx.model.baseConf.Dict;
 import com.hytx.model.syncEx.SyncByLog;
 import com.hytx.model.syncEx.SyncByLogExample;
 import com.hytx.model.syncEx.SyncTyAll;
 import com.hytx.model.syncEx.SyncTyAllExample;
+import com.hytx.service.baseConf.IChannelAppService;
 import com.hytx.service.baseConf.IDictService;
 import com.hytx.service.syncEx.DdoreqService;
 import com.hytx.service.syncEx.ISyncByLogService;
@@ -41,6 +46,8 @@ public class SyncTyAllController {
 	private IDictService dictService;
 	@Autowired
 	private ISyncByLogService syncByLogService;
+	@Autowired
+	private IChannelAppService channelAppService;
 
 	// 电信包月短信流水
 	@RequestMapping(value = "dxbysms")
@@ -63,9 +70,14 @@ public class SyncTyAllController {
 					.getParameter("spnumber") : ""; // 长号
 			String statu = request.getParameter("status") != null ? request
 					.getParameter("status") : "";
-			String paytime = request.getParameter("pay_name") != null ? request
-					.getParameter("pay_name") : "";
+			String paytime = request.getParameter("pay_time") != null ? request
+					.getParameter("pay_time") : "";
+			String province = request.getParameter("province") != null ? request
+					.getParameter("province") : "";
 
+			logger.info("电信包月短信流水-订单同步上行信息，订单时间为：\n{}", paytime);
+			logger.info("电信包月短信流水-订单同步上行信息，订单省份为：\n{}", province);
+			byLog.setProvince(province);
 			byLog.setLinkid(tranid);
 			byLog.setMobile(mobile);
 			byLog.setStatus(statu);
@@ -147,6 +159,10 @@ public class SyncTyAllController {
 					.getParameter("status") : "";
 			String reduceStatus = request.getParameter("reduceStatus") != null ? request
 					.getParameter("reduceStatus") : "";
+			String paytime = request.getParameter("pay_time") != null ? request
+					.getParameter("pay_time") : "";
+			String province = request.getParameter("province") != null ? request
+					.getParameter("province") : "";
 
 			Dict dict = dictService.selectActiviteDictByKey("dxby_" + feecode);
 			// 0 为计费金额 1 为 渠道包2为appid
@@ -160,6 +176,9 @@ public class SyncTyAllController {
 			tyall.setReduceStatus(Integer.parseInt(reduceStatus));
 			tyall.setMsg(feecode);
 			tyall.setReserveTwo(productId);
+			tyall.setProvince(province);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			tyall.setCreatetime(sdf.parse(paytime));
 			if (statu.equals("0")) {
 				statu = "DELIVRD";
 			}
@@ -193,7 +212,6 @@ public class SyncTyAllController {
 					.getParameter("linkid") : ""; // 计费流水号
 			String msg = request.getParameter("momsg") != null ? request
 					.getParameter("momsg") : ""; // 上行内容
-
 			String mobile = request.getParameter("mobile") != null ? request
 					.getParameter("mobile") : "";
 			String product_id = request.getParameter("product_id") != null ? request
@@ -250,6 +268,104 @@ public class SyncTyAllController {
 		return status;
 	}
 
+	// 联通短信
+	@RequestMapping(value = "ltsync")
+	@ResponseBody
+	public String wojiasync(HttpServletRequest request) {
+		String status = "failure";
+		try {
+			logger.info("联通计费订单同步上行信息开始，订单信息为：\n{}", request.getQueryString()
+					.trim());
+			SyncTyAll tyall = new SyncTyAll();
+			String tranid = request.getParameter("tradeid") != null ? request
+					.getParameter("tradeid") : ""; // 计费流水号
+			String args = request.getParameter("args") != null ? request
+					.getParameter("args") : ""; // 上行内容
+			String mobile = request.getParameter("mobile") != null ? request
+					.getParameter("mobile") : "";
+			String fee = request.getParameter("fee") != null ? request
+					.getParameter("fee").trim().toLowerCase() : ""; // 订购指令
+			String lnum = request.getParameter("spnumber") != null ? request
+					.getParameter("spnumber") : ""; // 长号
+			String time = request.getParameter("time") != null ? request
+					.getParameter("time") : "";
+			// 0 为计费金额 1 为 渠道包2为appid
+			ChannelAppExample example = new ChannelAppExample();
+			example.createCriteria().andKeyEqualTo(args);
+			ChannelApp ca = channelAppService.selectChannelAppId(example);
+			int channelappId = ca.getId();
+			tyall.setChannelAppId(channelappId); // 下游渠道编号
+			tyall.setPayFee(Integer.parseInt(fee));
+			tyall.setLinkid(tranid);
+			tyall.setMobile(mobile);
+			tyall.setPort(lnum);
+			tyall.setMsg(args);
+
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			tyall.setCreatetime(sdf.parse(time));
+
+			tyall.setStatus("DELIVRD");
+			// 订购
+			syncTyAllService.addTyAll(tyall);
+			// 给下游渠道同步
+			if (tyall.getReduceStatus() != 1) {
+				syncTyAllService.syncToTyAll(tyall);
+			}
+			status = "ok";
+		} catch (Exception e) {
+			logger.info("联通计费-error：{}", e.getMessage());
+			status = "failure";
+		}
+		logger.info("联通计费订单同步上行状态为：{}", status);
+		return status;
+	}
+
+	// 咪咕视频短信
+	@RequestMapping(value = "mgspsync")
+	@ResponseBody
+	public String mgspsync(HttpServletRequest request) {
+		String status = "failure";
+		try {
+			logger.info("咪咕视频订单同步信息开始，订单信息为：\n{}", request.getQueryString()
+					.trim());
+			SyncTyAll tyall = new SyncTyAll();
+			String tranid = request.getParameter("linkid") != null ? request
+					.getParameter("linkid") : ""; // 计费流水号
+			String args = request.getParameter("msg") != null ? request
+					.getParameter("msg") : ""; // 上行内容
+			String mobile = request.getParameter("mobile") != null ? request
+					.getParameter("mobile") : "";
+			String statu = request.getParameter("status") != null ? request
+					.getParameter("status").trim().toLowerCase() : ""; // 订购指令
+			String lnum = request.getParameter("spnumber") != null ? request
+					.getParameter("spnumber") : ""; // 长号
+
+			// 0 为计费金额 1 为 渠道包2为appid
+			Dict dict = dictService.selectActiviteDictByKey("mgsp_" + args);
+			int channelappId = Integer.parseInt(dict.getVal());
+			tyall.setChannelAppId(channelappId); // 下游渠道编号
+			tyall.setPayFee(1000);
+			tyall.setLinkid(tranid);
+			tyall.setMobile(mobile);
+			tyall.setPort(lnum);
+			tyall.setMsg(args);
+			tyall.setCreatetime(new Date());
+			tyall.setStatus(statu);
+			// 订购
+			syncTyAllService.addTyAll(tyall);
+			// 给下游渠道同步
+			if (tyall.getReduceStatus() != 1) {
+				syncTyAllService.syncToTyAll(tyall);
+			}
+			status = "ok";
+		} catch (Exception e) {
+			logger.info("咪咕视频订单同步-error：{}", e.getMessage());
+			status = "failure";
+		}
+		logger.info("咪咕视频订单同步状态为：{}", status);
+		return status;
+	}
+
 	/**
 	 * 用于给下游渠道补发数据
 	 */
@@ -261,7 +377,7 @@ public class SyncTyAllController {
 	}
 
 	/**
-	 * 用于给下游渠道补发数据
+	 * 用于同步流水数据
 	 */
 	@RequestMapping(value = "synclogs")
 	@ResponseBody
@@ -269,7 +385,7 @@ public class SyncTyAllController {
 		syncByLogService.TimerSync();
 		return "ok";
 	}
-	
+
 	/**
 	 * 用于给下游渠道补发数据
 	 */

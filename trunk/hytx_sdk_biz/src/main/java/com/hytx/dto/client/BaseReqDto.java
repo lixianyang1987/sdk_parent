@@ -125,4 +125,35 @@ public class BaseReqDto implements Serializable {
 		this.bsccid = bsccid;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("BaseReqDto [app=");
+		builder.append(app);
+		builder.append(", channelApp=");
+		builder.append(channelApp);
+		builder.append(", serverType=");
+		builder.append(serverType);
+		builder.append(", imsi=");
+		builder.append(imsi);
+		builder.append(", extraInfo=");
+		builder.append(extraInfo);
+		builder.append(", sdkVersion=");
+		builder.append(sdkVersion);
+		builder.append(", provinceId=");
+		builder.append(provinceId);
+		builder.append(", imei=");
+		builder.append(imei);
+		builder.append(", longitude=");
+		builder.append(longitude);
+		builder.append(", latitude=");
+		builder.append(latitude);
+		builder.append(", bsclac=");
+		builder.append(bsclac);
+		builder.append(", bsccid=");
+		builder.append(bsccid);
+		builder.append("]");
+		return builder.toString();
+	}
+
 }

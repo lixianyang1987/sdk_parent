@@ -29,12 +29,16 @@ import com.hytx.model.baseConf.ChannelApp;
 import com.hytx.model.baseConf.ChannelAppExample;
 import com.hytx.model.baseConf.CpInfo;
 import com.hytx.model.baseConf.SettlementMethod;
+import com.hytx.model.syncEx.SyncByLog;
 import com.hytx.service.baseConf.IAppService;
 import com.hytx.service.baseConf.IChannelAppService;
 import com.hytx.service.baseConf.IChannelService;
 import com.hytx.service.baseConf.ICpInfoService;
 import com.hytx.service.baseConf.ISettlementMethodService;
 import com.hytx.service.count.ISyncExCountService;
+import com.hytx.service.count.ISyncLogCountService;
+import com.hytx.service.syncEx.ISyncByLogService;
+import com.hytx.service.syncEx.ISyncbyRetainedService;
 import com.hytx.util.JsonMapper;
 import com.hytx.util.Page;
 
@@ -59,6 +63,8 @@ public class SyncExCountController {
 	private ICpInfoService cpInfoService;
 	@Autowired
 	private ISettlementMethodService settlementMethodService;
+	@Autowired
+	private ISyncLogCountService syncLogCountService;
 
 	/****
 	 * 接放代码统计
@@ -387,6 +393,36 @@ public class SyncExCountController {
 		model.addAttribute("list", list);
 		return "/count/sync/countSyncExByDateC";
 	}
+	
+	
+	// 单渠道流水
+		@RequestMapping(value = "countSyncExDetailByLogC/{channelId:\\d+}")
+		public String syncExDetailLogCh(SyncByLog findDto,
+				Page<SyncByLog> page, Model model,
+				@PathVariable("channelId") Integer channelId) {
+			findDto.setCoopid(channelId);
+			findDto.setReduceStatus(1);
+			// 初始化查询条件
+			
+			
+		
+
+			model.addAttribute("command", findDto);
+			model.addAttribute("findDto", findDto);
+			
+			if (StringUtils.isBlank(findDto.getStartDate())) {
+				findDto.setStartDate(DateFormatUtils.format(new Date(),
+						"yyyy-MM-dd"));
+			}
+			if (StringUtils.isBlank(findDto.getEndDate())) {
+				findDto.setEndDate(findDto.getStartDate());
+			}
+			// 按查询条件查询数据
+			List<SyncByLog> list = syncLogCountService.syncByLogcount(
+					findDto, page);
+			model.addAttribute("list", list);
+			return "/count/sync/countSyncExDetailByDateChannel";
+		}
 
 	public static void main(String[] args) {
 		System.out.println(DateFormatUtils.format(

@@ -113,7 +113,15 @@ public class ChannelAppServiceImpl implements IChannelAppService {
 	}
 	@Override
 	public ChannelApp selectChannelAppId(ChannelAppExample example) {
-		return channelAppMapper.selectByExample(example).get(0);
+		ChannelApp ca = new ChannelApp();
+		List<ChannelApp> list=channelAppMapper.selectByExample(example);
+		if(list!=null&&list.size()>0){
+			ca=list.get(0);
+		}else{
+			ca=null;
+		}
+		
+		return ca;
 	}
 
 	@Override

@@ -117,25 +117,29 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.hytx.model.baseConf.Operate" >
+  <insert id="insert" parameterType="com.hytx.model.baseConf.Operate">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+      select SEQ_OPERATE_ID.nextval from dual
+    </selectKey>
     insert into T_OPERATE (ID, OP_NAME, PRICE, 
       FEE_CODE, OP_CODE, SUFFIX_NUM, 
       SERVER_TYPE, STATUS, WEIGHT, 
       OP_TYPE, CREATE_BY, CREATE_DT, 
       UPDATE_BY, UPDATE_DT, APP_ID, 
       APP_SN, CHANNEL_SN, ENSURE_TYPE, 
-      ENSURE_CONTENT, ENSURE_NUM, CPPARAM
-      )
+      ENSURE_CONTENT, ENSURE_NUM)
     values (#{id,jdbcType=DECIMAL}, #{opName,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
       #{feeCode,jdbcType=VARCHAR}, #{opCode,jdbcType=VARCHAR}, #{suffixNum,jdbcType=DECIMAL}, 
       #{serverType,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, #{weight,jdbcType=DECIMAL}, 
       #{opType,jdbcType=DECIMAL}, #{createBy,jdbcType=VARCHAR}, #{createDt,jdbcType=TIMESTAMP}, 
       #{updateBy,jdbcType=VARCHAR}, #{updateDt,jdbcType=TIMESTAMP}, #{appId,jdbcType=DECIMAL}, 
       #{appSn,jdbcType=VARCHAR}, #{channelSn,jdbcType=VARCHAR}, #{ensureType,jdbcType=DECIMAL}, 
-      #{ensureContent,jdbcType=VARCHAR}, #{ensureNum,jdbcType=VARCHAR}, #{cpparam,jdbcType=VARCHAR}
-      )
+      #{ensureContent,jdbcType=VARCHAR}, #{ensureNum,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hytx.model.baseConf.Operate" >
+   <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+      select SEQ_OPERATE_ID.nextval from dual
+    </selectKey>
     insert into T_OPERATE
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
