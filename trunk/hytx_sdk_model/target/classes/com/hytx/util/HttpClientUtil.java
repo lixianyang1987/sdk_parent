@@ -14,7 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class HttpClientUtil {
-	private static Logger log = LoggerFactory.getLogger(HttpClientUtil.class);
+	private static Logger log = LoggerFactory.getLogger("SYNC_LOG");
 
 	public static String simpleVisitUrl(String url) throws HttpException,
 			IOException {
@@ -28,8 +28,8 @@ public class HttpClientUtil {
 		client.getParams().setContentCharset("UTF-8");
 		HttpConnectionManagerParams params = client.getHttpConnectionManager()
 				.getParams();
-		params.setConnectionTimeout(4000);
-		params.setSoTimeout(12000);
+		params.setConnectionTimeout(5000);
+		params.setSoTimeout(30000);
 		GetMethod method = new GetMethod(url);
 		int status = client.executeMethod(method);
 		log.info("访问网络状态为{}", status);
@@ -61,8 +61,8 @@ public class HttpClientUtil {
 		client.getParams().setContentCharset("UTF-8");
 		HttpConnectionManagerParams params = client.getHttpConnectionManager()
 				.getParams();
-		params.setConnectionTimeout(2000);
-		params.setSoTimeout(10000);
+		params.setConnectionTimeout(5000);
+		params.setSoTimeout(32000);
 		PostMethod method = new PostMethod(url);
 		method.addRequestHeader("Accept", "application/json;charset=UTF-8");
 		method.addRequestHeader("Content-Type", "application/json");
@@ -96,8 +96,8 @@ public class HttpClientUtil {
 		client.getParams().setContentCharset("UTF-8");
 		HttpConnectionManagerParams params = client.getHttpConnectionManager()
 				.getParams();
-		params.setConnectionTimeout(2000);
-		params.setSoTimeout(10000);
+		params.setConnectionTimeout(5000);
+		params.setSoTimeout(32000);
 		PostMethod method = new PostMethod(url);
 		method.addRequestHeader("Content-Type", "application/xml");
 		method.setRequestEntity(new StringRequestEntity(data,
@@ -130,8 +130,8 @@ public class HttpClientUtil {
 		client.getParams().setContentCharset("UTF-8");
 		HttpConnectionManagerParams params = client.getHttpConnectionManager()
 				.getParams();
-		params.setConnectionTimeout(2000);
-		params.setSoTimeout(10000);
+		params.setConnectionTimeout(5000);
+		params.setSoTimeout(32000);
 		PostMethod method = new PostMethod(url);
 		method.setRequestBody(nameValuePairs);
 		int status = client.executeMethod(method);
